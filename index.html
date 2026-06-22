@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Mutuk Rentals - Location de Véhicules Premium à Kinshasa</title>
+    
+    <!-- Scripts & Fonts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#0061a5",
+              "on-primary": "#ffffff",
+              "primary-container": "#0099ff",
+              "on-primary-container": "#002f54",
+              "primary-fixed": "#d2e4ff",
+              "primary-fixed-dim": "#9fcaff",
+              "secondary": "#5d5e61",
+              "tertiary": "#a73a00",
+              "tertiary-container": "#ff6216",
+              "on-tertiary-container": "#561a00",
+              "background": "#f9f9ff",
+              "on-background": "#151c27",
+              "surface": "#f9f9ff",
+              "on-surface": "#151c27",
+              "surface-variant": "#dce2f3",
+              "on-surface-variant": "#3f4753",
+              "surface-container-low": "#f0f3ff",
+              "surface-container": "#e7eefe",
+              "surface-container-high": "#e2e8f8",
+              "inverse-surface": "#2a313d",
+              "outline": "#707884",
+              "outline-variant": "#bfc7d5",
+            },
+            "fontFamily": {
+              "display-lg": ["Metropolis"],
+              "headline-lg": ["Metropolis"],
+              "headline-md": ["Metropolis"],
+              "body-lg": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+              "label-bold": ["Hanken Grotesk"],
+              "label-sm": ["Hanken Grotesk"]
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .bento-item-span-8 { grid-column: span 8; }
+        .bento-item-span-4 { grid-column: span 4; }
+        @media (max-width: 768px) {
+            .bento-item-span-8, .bento-item-span-4 { grid-column: span 12; }
+        }
+        
+        /* Classe active pour la navigation */
+        .nav-link.active {
+            color: #0061a5; /* text-primary */
+            border-bottom: 2px solid #0061a5;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-surface shadow-sm transition-all duration-300">
+        <nav class="flex justify-between items-center h-20 px-6 max-w-[1280px] mx-auto w-full">
+            <a href="#accueil" class="flex items-center gap-4">
+                <div class="flex items-center h-12 w-12 overflow-hidden rounded-lg">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYdONK_qmvYFVNGmM1GGKX1wRmBgcj1XriD2IgtR6UGBXDtRMmilX10MjVDtpsokX9Qt3Li-w6oP3fs8m4edV7FfT_Gs_teRzQxbtnfJHu_4Ofmhz9iYVJeHE4R8KTsq9tDRdY3RQjQaCjAxwGyfd6hb6av5a3OdQkiV5AA_6pZNRE8_p5c-Pm5L7rnzL-gJxmquFdscyboCdt7XeX7M7TdkBk6WrVFyQ468sRIKDwykDa0s8SMTrFPPTB9sbIVOqyDixc_9a1tDg" alt="Mutuk Rentals Logo" class="h-full w-full object-contain">
+                </div>
+                <span class="font-headline-md text-2xl font-extrabold text-primary">Mutuk Rentals</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-8 font-label-bold text-[14px]">
+                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors py-2 active" href="#accueil">Accueil</a>
+                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors py-2" href="#services">Services</a>
+                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors py-2" href="#flotte">Flotte</a>
+                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors py-2" href="#contact">Contact</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden lg:flex flex-col items-end mr-2">
+                    <span class="text-xs font-label-sm text-outline">Support 24/7</span>
+                    <span class="font-label-bold text-primary">+243 997 708 115</span>
+                </div>
+                <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20réserver%20un%20véhicule." target="_blank" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-bold hover:bg-primary-container active:scale-95 transition-all">
+                    Réserver
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section avec Recherche -->
+        <section id="accueil" class="relative min-h-[90vh] flex items-center overflow-hidden pt-20">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-gradient-to-r from-on-background/90 to-transparent z-10"></div>
+                <img class="w-full h-full object-cover" src="image/Cadillac Escalade.jpg">
+            </div>
+            <div class="relative z-20 w-full px-6 max-w-[1280px] mx-auto py-12">
+                <div class="max-w-2xl text-white">
+                    <div class="inline-flex items-center gap-2 bg-tertiary-container text-white px-4 py-1 rounded-full mb-6 text-sm font-bold uppercase tracking-wider">
+                        L'Élite de Kinshasa
+                    </div>
+                    <h1 class="font-display-lg text-5xl md:text-6xl font-bold mb-6 leading-tight">Nos Services Premium de Mobilité</h1>
+                    <p class="font-body-lg text-lg text-surface-variant mb-10">
+                        Découvrez une expérience de mobilité sans compromis, alliant prestige, sécurité et efficacité au cœur de la capitale.
+                    </p>
+                </div>
+                
+                <!-- Quick Booking Search Bar -->
+                <div class="glass-card p-6 rounded-2xl shadow-2xl max-w-4xl mt-8">
+                    <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="flex flex-col">
+                            <label class="text-xs font-bold text-on-surface-variant mb-1 uppercase">Lieu</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
+                                <input id="searchLocation" class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-white focus:ring-1 focus:ring-primary outline-none" placeholder="Kinshasa Gombe" type="text">
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-xs font-bold text-on-surface-variant mb-1 uppercase">Date de Retrait</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">calendar_today</span>
+                                <input id="searchDate" class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-white focus:ring-1 focus:ring-primary outline-none" type="date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-xs font-bold text-on-surface-variant mb-1 uppercase">Catégorie</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">directions_car</span>
+                                <select id="searchCategory" class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-white focus:ring-1 focus:ring-primary outline-none appearance-none">
+                                    <option value="Toutes catégories">Toutes catégories</option>
+                                    <option value="Luxe & Prestige">Luxe & Prestige</option>
+                                    <option value="SUVs 4x4">SUVs 4x4</option>
+                                    <option value="Transport de Groupe">Transport de Groupe</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-container hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">search</span> Chercher
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 px-6 max-w-[1280px] mx-auto scroll-mt-20">
+            <div class="mb-12 text-center">
+                <h2 class="font-display-lg text-3xl font-bold text-primary mb-4">Des Solutions Sur Mesure</h2>
+                <div class="h-1 w-20 bg-tertiary mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="bento-grid">
+                <!-- Location avec Chauffeur -->
+                <div class="bento-item-span-8 relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group h-[400px]">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA19XNowzo_Ygw1289grGwx3Xn90D_TIzw_ht4yx7XXmdVAPdVC6fwCEovHenpFnN-Ypz7gJbX_mn4eujR151fahJta-Z1CP3G7ZlUj78QNSmtkpOM1r6v_0_ojbpfLORbJUc-UuKVfdawFCQgEOXEwihQm1TmHG_x7r5GZ2_xmcmazHpfrlyZkMQnzw9GabzymFFtYr0YhwjYucirC0LOETZCMG4tib7vb7-KRw-gFswkyT4ML6UFdDeiwjqFmqnEZYMSrnPz2Qu8" alt="Chauffeur">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
+                        <div class="glass-card p-6 rounded-xl max-w-lg">
+                            <h3 class="font-headline-md text-2xl font-bold text-primary mb-2">Location avec Chauffeur</h3>
+                            <p class="text-on-surface-variant font-body-md mb-4">Voyagez en toute sérénité avec nos chauffeurs bilingues, formés pour vous offrir discrétion, ponctualité et sécurité optimale.</p>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20avoir%20plus%20d'informations%20sur%20la%20location%20avec%20chauffeur." target="_blank" class="inline-flex items-center text-primary font-bold gap-2 cursor-pointer hover:underline">
+                                Réserver ce service <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transferts Aéroport -->
+                <div class="bento-item-span-4 relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group h-[400px]">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbmT5iT6KDDwNJaGUb9_m_ajvEnpuKv_LqLp47LEjAjwbpnSJVzCKGsaoRAY28JED9mvQswNv9h52vOwP05ZagZDjZbQ3RTHfi2oEDbSfIpCpG3877T9yQFJhlbFfrn93qOc2mCw7DIrJdwq_KjX8ett4_xEhfqddSFt0beLERXZtz3HYWHAYyekiAnH6Ryb9SB8UA5g3i0OQmuBC3X7f8NoW_EcsQyXjO6ExL5CJnNjmGdt7setV2B5zTRpG5UCM7yhjQXsFl-N0" alt="Airport">
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent flex flex-col justify-end p-8">
+                        <div class="bg-white p-6 rounded-xl">
+                            <div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center mb-4">
+                                <span class="material-symbols-outlined text-white">flight_takeoff</span>
+                            </div>
+                            <h3 class="font-headline-md text-xl font-bold text-on-surface mb-2">Transferts Aéroport</h3>
+                            <p class="text-on-surface-variant text-sm mb-4">Accueil VIP à l'Aéroport de N'djili et transfert rapide vers votre destination finale.</p>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20réserver%20un%20transfert%20Aéroport." target="_blank" class="text-primary font-bold text-sm hover:underline">Demander un transfert</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transport Événementiel -->
+                <div class="bento-item-span-4 bg-surface-container rounded-2xl p-8 flex flex-col justify-between shadow-sm border border-outline-variant/30">
+                    <div>
+                        <div class="w-16 h-16 bg-tertiary-container rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-white text-3xl">celebration</span>
+                        </div>
+                        <h3 class="font-headline-md text-2xl font-bold text-on-surface mb-4">Événementiel</h3>
+                        <p class="text-on-surface-variant font-body-md">Mariages, cérémonies officielles ou soirées de gala. La touche de luxe qui sublimera vos moments.</p>
+                    </div>
+                    <ul class="mt-6 space-y-3 mb-6">
+                        <li class="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+                            <span class="material-symbols-outlined text-primary">check_circle</span> Flotte de Prestige
+                        </li>
+                        <li class="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+                            <span class="material-symbols-outlined text-primary">check_circle</span> Service Protocolaire
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20des%20informations%20pour%20un%20transport%20Événementiel." target="_blank" class="w-full text-center bg-white border border-primary text-primary py-2 rounded-lg font-bold hover:bg-primary hover:text-white transition-colors">Nous parler</a>
+                </div>
+
+                <!-- Solutions Entreprises -->
+                <div class="bento-item-span-8 relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group h-[400px]">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEV5yWWe66KlAozNug_Cb12F4sI7sy_nQFPZn8w4tz6QOuOTijf-dqKm-0HrnBzz3HhsyjpRfEw7hZvUbbH031Dx5SzduaZtD4AllDUrf5ksgkdPU79s85DykoK0-Wt8XulHnZfEjO4W5VjApmX-zDTsgkX6AhJPBj5P61Yrgq0PwIXquz3N0u2FN4ctk_HkFz-kofcL15_rjf33zt69hqODrXQl1Jc4qbDZdmu_x8r-CQFX-SvZNfE-g2BH8Reormvk5lJRrK2Ms" alt="Corporate">
+                    <div class="absolute inset-0 bg-on-background/50 group-hover:bg-on-background/30 transition-colors"></div>
+                    <div class="absolute inset-0 p-10 flex flex-col items-start justify-center">
+                        <div class="max-w-md text-white">
+                            <h3 class="font-display-lg text-4xl font-bold mb-4">Solutions Entreprises</h3>
+                            <p class="font-body-lg mb-6 text-gray-200">Optimisez la mobilité de vos collaborateurs avec une gestion de flotte externalisée et des solutions sur mesure.</p>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20obtenir%20un%20devis%20B2B%20pour%20mon%20entreprise." target="_blank" class="inline-block bg-white text-primary px-8 py-3 rounded-lg font-bold hover:shadow-lg hover:-translate-y-1 transition-all">Devis B2B</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Features -->
+        <section class="bg-inverse-surface py-16">
+            <div class="px-6 max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center text-white">
+                    <span class="material-symbols-outlined text-5xl text-primary-fixed mb-4">verified_user</span>
+                    <h4 class="text-xl font-bold mb-2">Sécurité Garantie</h4>
+                    <p class="text-surface-variant text-sm">Véhicules récents et entretenus selon les normes les plus strictes du constructeur.</p>
+                </div>
+                <div class="text-center text-white">
+                    <span class="material-symbols-outlined text-5xl text-primary-fixed mb-4">support_agent</span>
+                    <h4 class="text-xl font-bold mb-2">Assistance 24/7</h4>
+                    <p class="text-surface-variant text-sm">Notre équipe est à votre disposition jour et nuit pour répondre à tous vos besoins logistiques.</p>
+                </div>
+                <div class="text-center text-white">
+                    <span class="material-symbols-outlined text-5xl text-primary-fixed mb-4">payments</span>
+                    <h4 class="text-xl font-bold mb-2">Transparence Totale</h4>
+                    <p class="text-surface-variant text-sm">Des tarifs compétitifs sans frais cachés, pour une gestion budgétaire simplifiée.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flotte Section -->
+        <section id="flotte" class="py-20 px-6 max-w-[1280px] mx-auto scroll-mt-20">
+            <div class="mb-12">
+                <span class="text-primary font-bold tracking-[0.2em] uppercase text-sm">Notre Flotte</span>
+                <h2 class="font-headline-lg text-3xl font-bold text-on-background mt-2">Catégories de Véhicules d'Élite</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[600px]">
+                <!-- Luxe Category -->
+                <div class="md:col-span-7 relative group overflow-hidden rounded-xl bg-surface-variant shadow-sm hover:shadow-xl transition-shadow">
+                    <img alt="Luxe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVCoN1inQJi67G-PtmbJU_qMMlJIYO4PFFoBTGbeogzuOcDdHizI9ZVdRHi1TQKpYijfKLU87ww7qVSawPFc7nIzxPWRqYZ9VEkTeqe4o8seLUdHzA0I60y0UebPm9exY7vDcwPgNiU4Glm-Qw9taL1aRrOuNWLL3fpNL979KZxJIJI9-nTxM0YdylbZE3GBGcds3SbLQgoh0p_z2FNo34XljNubgwZXMNsceRAQBFcAjFh4v1LF2MQGj5LC0zMmTlbfJJOHkHOeo">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8">
+                        <span class="bg-primary/80 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold w-fit mb-4">CHOIX VIP</span>
+                        <h3 class="text-3xl font-bold text-white mb-2">Collection Luxe</h3>
+                        <p class="text-gray-300 font-body-md max-w-md mb-6">Mercedes-Benz Classe G, Range Rover et Rolls Royce pour vos déplacements de haut niveau.</p>
+                        <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20réserver%20un%20véhicule%20de%20la%20collection%20Luxe." target="_blank" class="bg-primary text-white px-8 py-3 w-fit rounded-lg font-bold hover:bg-primary-container transition-all">Réserver</a>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-5 flex flex-col gap-6">
+                    <!-- SUV Category -->
+                    <div class="relative group h-1/2 overflow-hidden rounded-xl bg-surface-variant shadow-sm hover:shadow-xl transition-shadow">
+                        <img alt="SUV" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtG2YAtvTTaR0_RRDXI94VQ6SmwsLGhgTH9qga9t1OuKMsdE__fO_FB9y04OsomJJTlB2MvESI2nIWzNKjyoGSITzaXk0Qsx54klpN4YKFeYnHujH5U4n96OswaFxHEgAoKqUf9GLX9G27rxY_iPQzQmcRQxIjblaOL465NtFBIUtaNqsYDTQDz3Xz_vsN_CeWdwU3Rc4-H1Zl9h8f3nZTuPq48FEHCypvlpaZKBTdC5OeWsCOeE8xC2OAT5-0NJhR9uzOJmMgZM4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-white mb-1">SUVs 4x4</h3>
+                            <p class="text-gray-300 text-sm mb-4">Nissan Patrol, Toyota Prado. Capacité inégalée pour la ville et les terrains congolais.</p>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20réserver%20un%20SUV%204x4." target="_blank" class="text-primary-fixed-dim font-bold text-sm hover:underline">Réserver un SUV</a>
+                        </div>
+                    </div>
+                    <!-- Bus/Group Category -->
+                    <div class="relative group h-1/2 overflow-hidden rounded-xl bg-surface-variant shadow-sm hover:shadow-xl transition-shadow">
+                        <img alt="Transport de groupe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0XuzN1V_cfLLh1VJa88CU66qkbSXuIAyzBGEd4Osjeb98Cpvc1bi_jQuc88xCd4LxXhm7iHIJDMQ3XO5gUkX-mfxhBwWynXcSgGiFT-jZqcMUSsYQvVW5QvNXkUoZRn4X6tSNCywZxGo8yLIYB3wDz2zM3P6mcfGUkb8kX_R3FxHOQnPnrKo3U_Nmy3jiRCgkdNCYpGs16BoeiIPZSDI_2eHGLJBCkML7ZGbfmYqowK1ZbuUGcieOFIrSNCK0j4UpEqnC8WR8Dsk">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-white mb-1">Bus & Van</h3>
+                            <p class="text-gray-300 text-sm mb-4">Sprinter Luxe, Coaster. Idéal pour équipes et familles nombreuses.</p>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20réserver%20un%20Bus/Van%20pour%20un%20groupe." target="_blank" class="text-primary-fixed-dim font-bold text-sm hover:underline">Réserver un Bus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promo Banner -->
+        <section class="px-6 max-w-[1280px] mx-auto mb-20">
+            <div class="bg-primary rounded-3xl p-10 flex flex-col md:flex-row items-center gap-8 text-white relative overflow-hidden shadow-xl">
+                <div class="relative z-10 flex-1">
+                    <span class="bg-tertiary-container text-white px-4 py-1 rounded-full text-xs font-bold mb-4 inline-block">Offre Spéciale</span>
+                    <h2 class="text-3xl font-bold mb-4">20% de Réduction sur Longue Durée</h2>
+                    <p class="text-primary-fixed max-w-xl text-lg">
+                        Vous prévoyez un séjour d'un mois à Kinshasa ? Réservez votre véhicule pour plus de 30 jours et bénéficiez de tarifs préférentiels.
+                    </p>
+                </div>
+                <div class="relative z-10">
+                    <a href="https://wa.me/243997708115?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20réduction%20de%2020%25%20pour%20les%20locations%20longue%20durée." target="_blank" class="inline-block bg-white text-primary px-8 py-4 rounded-lg font-bold hover:shadow-lg hover:-translate-y-1 transition-all">
+                        Profiter de l'offre
+                    </a>
+                </div>
+                <div class="absolute right-0 top-0 w-1/2 h-full opacity-10 pointer-events-none">
+                    <span class="material-symbols-outlined text-[300px] absolute -right-20 -top-20">directions_car</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="bg-surface-container py-20 scroll-mt-20">
+            <div class="px-6 max-w-[1280px] mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display-lg text-3xl font-bold text-on-surface mb-4">Prêt à nous contacter ?</h2>
+                    <p class="text-on-surface-variant max-w-2xl mx-auto">Notre équipe est prête à vous aider avec vos réservations ou répondre à vos questions concernant notre flotte et nos services.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Contact Info -->
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-outline-variant/20 flex flex-col justify-center space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-primary mb-4">Siège Social</h3>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary mt-1">location_on</span>
+                                <p class="text-on-surface">35, Avenue Kalemie,<br>Kinshasa Gombe, RDC</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-primary mb-4">Appel ou Message</h3>
+                            <a href="tel:+243997708115" class="flex items-center gap-3 mb-3 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-primary">call</span>
+                                <p class="font-bold">+243 997 708 115</p>
+                            </a>
+                            <a href="https://wa.me/243997708115?text=Bonjour,%20je%20souhaite%20vous%20contacter." target="_blank" class="flex items-center gap-3 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-primary">chat</span>
+                                <p>WhatsApp disponible 24/7</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form (Redirects to WhatsApp) -->
+                    <div class="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-outline-variant/20">
+                        <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-on-surface-variant">Nom Complet</label>
+                                <input id="formName" class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-3 outline-none" placeholder="Votre nom" type="text" required>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-bold text-on-surface-variant">Adresse Email ou Tel</label>
+                                <input id="formContact" class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-3 outline-none" placeholder="Email ou Numéro" type="text" required>
+                            </div>
+                            <div class="flex flex-col gap-2 md:col-span-2">
+                                <label class="text-sm font-bold text-on-surface-variant">Sujet</label>
+                                <select id="formSubject" class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-3 outline-none">
+                                    <option value="Demande de réservation">Demande de réservation</option>
+                                    <option value="Devis location longue durée">Devis location longue durée</option>
+                                    <option value="Partenariat d'entreprise">Partenariat d'entreprise</option>
+                                    <option value="Information générale">Information générale</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2 md:col-span-2">
+                                <label class="text-sm font-bold text-on-surface-variant">Message</label>
+                                <textarea id="formMessage" class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-3 outline-none resize-none" placeholder="Comment pouvons-nous vous aider ?" rows="4" required></textarea>
+                            </div>
+                            <div class="md:col-span-2 flex justify-end">
+                                <button type="submit" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-primary-container transition-all">
+                                    Envoyer via WhatsApp
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-on-background text-white pt-16 pb-8">
+        <div class="px-6 max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+            <div class="max-w-sm">
+                <span class="text-2xl font-extrabold text-white mb-4 block">Mutuk Rentals</span>
+                <p class="text-outline-variant text-sm mb-6 leading-relaxed">
+                    Solutions de véhicules premium pour l'élite de Kinshasa. Fiabilité, rapidité et professionnalisme à chaque tournant.
+                </p>
+                <div class="flex gap-4">
+                    <a href="https://wa.me/243997708115" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                        <span class="material-symbols-outlined">chat</span>
+                    </a>
+                    <a href="mailto:contact@mutukrentals.com" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                        <span class="material-symbols-outlined">alternate_email</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-12 w-full md:w-auto">
+                <div class="flex flex-col gap-4">
+                    <h4 class="font-bold uppercase tracking-wider text-gray-400 text-sm">Navigation</h4>
+                    <ul class="flex flex-col gap-3">
+                        <li><a href="#accueil" class="text-outline-variant hover:text-white transition-colors text-sm">Accueil</a></li>
+                        <li><a href="#services" class="text-outline-variant hover:text-white transition-colors text-sm">Services</a></li>
+                        <li><a href="#flotte" class="text-outline-variant hover:text-white transition-colors text-sm">Flotte</a></li>
+                        <li><a href="#contact" class="text-outline-variant hover:text-white transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <h4 class="font-bold uppercase tracking-wider text-gray-400 text-sm">Légal</h4>
+                    <ul class="flex flex-col gap-3">
+                        <li><a href="#" class="text-outline-variant hover:text-white transition-colors text-sm">Conditions d'utilisation</a></li>
+                        <li><a href="#" class="text-outline-variant hover:text-white transition-colors text-sm">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/10 px-6 max-w-[1280px] mx-auto pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-outline-variant text-xs">© 2024 Mutuk Rentals. Tous droits réservés.</p>
+            <div class="flex gap-6">
+                <span class="material-symbols-outlined text-outline-variant text-lg">shield</span>
+                <span class="material-symbols-outlined text-outline-variant text-lg">payments</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Header transparency and shadow on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md', 'bg-surface/95', 'backdrop-blur-md');
+                header.classList.remove('bg-surface');
+            } else {
+                header.classList.remove('shadow-md', 'bg-surface/95', 'backdrop-blur-md');
+                header.classList.add('bg-surface');
+            }
+        });
+
+        // 2. ScrollSpy (Active nav link highlight based on scroll position)
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                // Ajuster le déclenchement (-200px pour compenser la navbar fixe)
+                if (pageYOffset >= (sectionTop - 250)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 3. Search Form Action (WhatsApp Redirect)
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const location = document.getElementById('searchLocation').value || "Non spécifié";
+            const date = document.getElementById('searchDate').value || "Non spécifiée";
+            const category = document.getElementById('searchCategory').value;
+            
+            const message = `Bonjour Mutuk Rentals,\nJe souhaite vérifier la disponibilité :\n📍 Lieu : ${location}\n📅 Date : ${date}\n🚗 Catégorie : ${category}`;
+            const whatsappUrl = `https://wa.me/243997708115?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // 4. Contact Form Action (WhatsApp Redirect)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('formName').value;
+            const contact = document.getElementById('formContact').value;
+            const subject = document.getElementById('formSubject').value;
+            const msg = document.getElementById('formMessage').value;
+            
+            const waMessage = `*Nouveau Message du Site Web*\n\n👤 Nom : ${name}\n📞 Contact : ${contact}\n📝 Sujet : ${subject}\n\n💬 Message :\n${msg}`;
+            const whatsappUrl = `https://wa.me/243997708115?text=${encodeURIComponent(waMessage)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
