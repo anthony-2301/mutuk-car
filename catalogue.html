@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Catalogue - Mutuk Rentals</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" },
+            fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] }
+          }
+        }
+      }
+    </script>
+    <style>
+        .material-symbols-outlined { vertical-align: middle; }
+        .filter-btn.active { background-color: #009ae0; color: white; border-color: #009ae0; }
+    </style>
+</head>
+<body class="bg-background text-gray-900 font-body">
+
+    <!-- HEADER SIMPLIFIÉ -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm h-16 md:h-20 border-b border-gray-100">
+        <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto">
+            <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
+                <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue">
+                <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
+            </a>
+            <a href="index.html" class="text-gray-500 font-bold hover:text-mutuk-blue flex items-center gap-1">
+                <span class="material-symbols-outlined">arrow_back</span> Retour à l'accueil
+            </a>
+        </nav>
+    </header>
+
+    <main class="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-[1400px] mx-auto min-h-screen">
+        <div class="mb-8">
+            <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Notre Catalogue</h1>
+            <p class="text-gray-500">Service Chauffeur VIP inclus sur tous nos véhicules.</p>
+        </div>
+
+        <!-- FILTRES -->
+        <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b border-gray-200 pb-6" id="filter-container">
+            <button onclick="filterCars('tout')" class="filter-btn active px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Tous les véhicules</button>
+            <button onclick="filterCars('suv')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">SUV 4x4</button>
+            <button onclick="filterCars('berline')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Berlines</button>
+            <button onclick="filterCars('luxe')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Luxe & VIP</button>
+            <button onclick="filterCars('utilitaire')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Utilitaires & Bus</button>
+        </div>
+
+        <!-- RECHERCHE ACTIVE (s'affiche si on vient de la barre de recherche) -->
+        <div id="search-indicator" class="hidden mb-6 p-4 bg-blue-50 text-mutuk-dark rounded-lg font-bold flex justify-between items-center">
+            <span>Résultats pour la recherche : <span id="search-term" class="text-mutuk-blue"></span></span>
+            <button onclick="clearSearch()" class="text-sm underline">Effacer la recherche</button>
+        </div>
+
+        <!-- GRILLE DE VOITURES -->
+        <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Les voitures seront générées ici par Javascript -->
+        </div>
+        
+        <!-- MESSAGE AUCUN RÉSULTAT -->
+        <div id="no-results" class="hidden text-center py-20">
+            <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
+            <h3 class="text-xl font-bold text-gray-600">Aucun véhicule trouvé</h3>
+            <p class="text-gray-400">Essayez de modifier votre recherche ou vos filtres.</p>
+        </div>
+    </main>
+
+    <script>
+        const WHATSAPP_NUMBER = "243997708115";
+
+        const SANITY_PROJECT_ID = "966f3d7u";
+        const SANITY_DATASET = "production";
+
+        let carDatabase = [];
+
+// Fonction pour récupérer les données depuis Sanity
+async function fetchCarsFromSanity() {
+    const query = encodeURIComponent('*[_type == "car"]{name, cat, luxe, price, "img": img.asset->url, seats, tag}');
+    const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-07/data/query/${SANITY_DATASET}?query=${query}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        carDatabase = data.result;
+        
+        // Initialiser l'affichage une fois les données chargées
+        initCatalog();
+    } catch (error) {
+        console.error("Erreur lors du chargement des véhicules :", error);
+    }
+}
+
+// Chargement initial des véhicules au chargement de la page
+window.addEventListener('load', () => {
+    fetchCarsFromSanity();
+});
+
+function initCatalog() {
+    const params = new URLSearchParams(window.location.search);
+    const searchParam = params.get('recherche');
+    const catParam = params.get('categorie');
+
+    if (searchParam) {
+        currentSearchTerm = searchParam;
+        document.getElementById('search-indicator').classList.remove('hidden');
+        document.getElementById('search-term').innerText = searchParam;
+        filterCars('tout');
+    } 
+    else if (catParam) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        let clicked = false;
+        buttons.forEach(btn => {
+            if (btn.getAttribute('onclick').includes(catParam)) {
+                btn.click();
+                clicked = true;
+            }
+        });
+        if (!clicked) renderCars(carDatabase);
+    } 
+    else {
+        renderCars(carDatabase);
+    }
+}
+
+
+
+        let currentSearchTerm = "";
+
+        // FONCTION D'AFFICHAGE DES VOITURES
+        function renderCars(carsToDisplay) {
+            const grid = document.getElementById('cars-grid');
+            const noResults = document.getElementById('no-results');
+            grid.innerHTML = "";
+
+            if (carsToDisplay.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            carsToDisplay.forEach(car => {
+                let badge = "";
+                if (car.tag) badge = `<span class="absolute top-3 left-3 bg-gray-900 text-white text-xs font-bold px-2 py-1 rounded">${car.tag}</span>`;
+                else if (car.luxe) badge = `<span class="absolute top-3 left-3 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">VIP</span>`;
+
+                const cardHTML = `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 relative bg-gray-100">
+                        <img src="${car.img}" alt="${car.name}" class="w-full h-full object-cover">
+                        ${badge}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="font-display text-lg font-bold text-gray-900 mb-2">${car.name}</h3>
+                        <div class="flex gap-4 text-gray-500 text-sm mb-4">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">person</span> ${car.seats}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto pt-4 border-t border-gray-50">
+                            <div><span class="block text-xl font-extrabold text-mutuk-blue">${car.price}</span></div>
+                            <button onclick="bookCar('${car.name}', '${car.price}')" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">Réserver</button>
+                        </div>
+                    </div>
+                </div>`;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // FONCTION DE FILTRAGE
+        function filterCars(category) {
+            // Mise à jour des boutons actifs
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered = carDatabase;
+
+            // Filtrage par catégorie
+            if (category !== 'tout') {
+                if (category === 'luxe') {
+                    filtered = filtered.filter(car => car.luxe === true);
+                } else {
+                    filtered = filtered.filter(car => car.cat === category);
+                }
+            }
+
+            // Appliquer la recherche textuelle s'il y en a une en cours
+            if (currentSearchTerm !== "") {
+                filtered = filtered.filter(car => car.name.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+            }
+
+            renderCars(filtered);
+        }
+
+        // RESERVATION WHATSAPP
+        function bookCar(carName, price) {
+            const message = `Bonjour Mutuk Rentals, je souhaite réserver depuis le catalogue :\n\n🚘 *${carName}*\n💰 Tarif : ${price}/jour\n\n(Avec Chauffeur VIP)\nQuelles sont vos disponibilités ?`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // EFFACER LA RECHERCHE TEXTUELLE
+        function clearSearch() {
+            currentSearchTerm = "";
+            document.getElementById('search-indicator').classList.add('hidden');
+            
+            // Simule un clic sur le bouton de la catégorie actuellement active, ou sur "Tout"
+            const activeBtn = document.querySelector('.filter-btn.active');
+            if (activeBtn) activeBtn.click();
+            else filterCars('tout');
+            
+            // Nettoie l'URL sans recharger
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // LOGIQUE D'INITIALISATION AU CHARGEMENT DE LA PAGE
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const searchParam = params.get('recherche');
+            const catParam = params.get('categorie');
+
+            if (searchParam) {
+                currentSearchTerm = searchParam;
+                document.getElementById('search-indicator').classList.remove('hidden');
+                document.getElementById('search-term').innerText = searchParam;
+                filterCars('tout'); // On cherche dans tout le catalogue
+            } 
+            else if (catParam) {
+                // Trouver le bouton correspondant à la catégorie et cliquer dessus
+                const buttons = document.querySelectorAll('.filter-btn');
+                let clicked = false;
+                buttons.forEach(btn => {
+                    if (btn.getAttribute('onclick').includes(catParam)) {
+                        btn.click();
+                        clicked = true;
+                    }
+                });
+                if (!clicked) renderCars(carDatabase); // Fallback
+            } 
+            else {
+                // Affichage par défaut (Tout)
+                renderCars(carDatabase);
+            }
+        });
+    </script>
+</body>
+</html>
