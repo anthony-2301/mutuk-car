@@ -3,11 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Catalogue - Mutuk Rentals</title>
+    <title data-i18n="title">Catalogue - Mutuk Rentals</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- SUPABASE LIBRARY -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script id="tailwind-config">
       tailwind.config = {
@@ -26,135 +29,231 @@
 </head>
 <body class="bg-background text-gray-900 font-body">
 
-    <!-- HEADER SIMPLIFIÉ -->
+    <!-- HEADER (AUCUN BOUTON D'AJOUT !) -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm h-16 md:h-20 border-b border-gray-100">
-        <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto">
+        <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full">
             <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
-                <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue">
+                <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue" onerror="this.src='https://placehold.co/100x100/009ae0/FFF?text=MR'">
                 <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
             </a>
-            <a href="index.html" class="text-gray-500 font-bold hover:text-mutuk-blue flex items-center gap-1">
-                <span class="material-symbols-outlined">arrow_back</span> Retour à l'accueil
-            </a>
+            
+            <div class="flex items-center gap-6 font-bold text-[15px]">
+                <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span> <span data-i18n="back_home">Retour à l'accueil</span>
+                </a>
+
+                <!-- SÉLECTEUR DE LANGUE SYNCHRONISÉ -->
+                <div class="relative inline-block text-left group">
+                    <button type="button" class="flex items-center gap-1 text-sm font-bold text-gray-700 hover:text-mutuk-blue px-2 py-2">
+                        <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
+                    </button>
+                    <div class="absolute right-0 mt-0 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block transition-all border border-gray-100 z-50">
+                        <div class="py-1">
+                            <a href="#" onclick="changeLanguage('FR', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">FR</a>
+                            <a href="#" onclick="changeLanguage('EN', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">EN</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
     </header>
 
     <main class="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-[1400px] mx-auto min-h-screen">
-        <div class="mb-8">
-            <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Notre Catalogue</h1>
-            <p class="text-gray-500">Service Chauffeur VIP inclus sur tous nos véhicules.</p>
+        <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-2" data-i18n="catalog_title">Notre Catalogue</h1>
+                <p class="text-gray-500 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus</span></p>
+            </div>
+
+            <!-- BARRE DE RECHERCHE EN TEMPS RÉEL PAR MARQUE & MODÈLE -->
+            <div class="relative min-w-[280px] md:min-w-[320px]">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
+            </div>
         </div>
 
-        <!-- FILTRES -->
-        <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b border-gray-200 pb-6" id="filter-container">
-            <button onclick="filterCars('tout')" class="filter-btn active px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Tous les véhicules</button>
-            <button onclick="filterCars('suv')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">SUV 4x4</button>
-            <button onclick="filterCars('berline')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Berlines</button>
-            <button onclick="filterCars('luxe')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Luxe & VIP</button>
-            <button onclick="filterCars('utilitaire')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors">Utilitaires & Bus</button>
+        <!-- FILTRES PAR CATÉGORIES -->
+        <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b border-gray-200 pb-6">
+            <button onclick="filterCars('tout', this)" class="filter-btn active px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="filter_all">Tous les véhicules</button>
+            <button onclick="filterCars('suv', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_suv">SUV 4x4</button>
+            <button onclick="filterCars('berline', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_sedan">Berlines</button>
+            <button onclick="filterCars('luxe', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_luxe">Luxe & VIP</button>
+            <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_van">Utilitaires & Bus</button>
         </div>
 
-        <!-- RECHERCHE ACTIVE (s'affiche si on vient de la barre de recherche) -->
+        <!-- INDICATEUR DE RECHERCHE ACTIVE -->
         <div id="search-indicator" class="hidden mb-6 p-4 bg-blue-50 text-mutuk-dark rounded-lg font-bold flex justify-between items-center">
-            <span>Résultats pour la recherche : <span id="search-term" class="text-mutuk-blue"></span></span>
-            <button onclick="clearSearch()" class="text-sm underline">Effacer la recherche</button>
+            <span>Résultats pour : <span id="search-term" class="text-mutuk-blue"></span></span>
+            <button onclick="clearSearch()" class="text-sm underline hover:text-mutuk-blue">Effacer</button>
+        </div>
+
+        <!-- SPINNER DE CHARGEMENT -->
+        <div id="loading-spinner" class="text-center py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-mutuk-blue mx-auto mb-4"></div>
+            <p class="text-gray-500 font-bold" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
         <!-- GRILLE DE VOITURES -->
-        <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Les voitures seront générées ici par Javascript -->
-        </div>
+        <div id="cars-grid" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
         
         <!-- MESSAGE AUCUN RÉSULTAT -->
         <div id="no-results" class="hidden text-center py-20">
             <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
-            <h3 class="text-xl font-bold text-gray-600">Aucun véhicule trouvé</h3>
-            <p class="text-gray-400">Essayez de modifier votre recherche ou vos filtres.</p>
+            <h3 class="text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
         </div>
     </main>
 
+    <!-- JAVASCRIPT CATALOGUE -->
     <script>
         const WHATSAPP_NUMBER = "243997708115";
-
-        const SANITY_PROJECT_ID = "966f3d7u";
-        const SANITY_DATASET = "production";
-
-        let carDatabase = [];
-
-// Fonction pour récupérer les données depuis Sanity
-async function fetchCarsFromSanity() {
-    const query = encodeURIComponent('*[_type == "car"]{name, cat, luxe, price, "img": img.asset->url, seats, tag}');
-    const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-07/data/query/${SANITY_DATASET}?query=${query}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        carDatabase = data.result;
+        const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0.NY5ubUi-2S9yMlpyFhAwCDMqUIywKJ9eiSho08mBB2k';
         
-        // Initialiser l'affichage une fois les données chargées
-        initCatalog();
-    } catch (error) {
-        console.error("Erreur lors du chargement des véhicules :", error);
-    }
-}
-
-// Chargement initial des véhicules au chargement de la page
-window.addEventListener('load', () => {
-    fetchCarsFromSanity();
-});
-
-function initCatalog() {
-    const params = new URLSearchParams(window.location.search);
-    const searchParam = params.get('recherche');
-    const catParam = params.get('categorie');
-
-    if (searchParam) {
-        currentSearchTerm = searchParam;
-        document.getElementById('search-indicator').classList.remove('hidden');
-        document.getElementById('search-term').innerText = searchParam;
-        filterCars('tout');
-    } 
-    else if (catParam) {
-        const buttons = document.querySelectorAll('.filter-btn');
-        let clicked = false;
-        buttons.forEach(btn => {
-            if (btn.getAttribute('onclick').includes(catParam)) {
-                btn.click();
-                clicked = true;
-            }
-        });
-        if (!clicked) renderCars(carDatabase);
-    } 
-    else {
-        renderCars(carDatabase);
-    }
-}
-
-
-
+        let supabaseClient;
+        let carDatabase = [];
         let currentSearchTerm = "";
 
-        // FONCTION D'AFFICHAGE DES VOITURES
+        const i18nDict = {
+            FR: {
+                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Réserver", on_request: "Sur Devis"
+            },
+            EN: {
+                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Book", on_request: "On Request"
+            }
+        };
+
+        function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
+
+        function changeLanguage(lang, e) {
+            if(e) e.preventDefault();
+            localStorage.setItem('mutuk_lang', lang);
+            applyLanguage(lang);
+            renderCars(getFilteredCars()); // Re-render pour traduire "Réserver" & "Sur Devis"
+        }
+
+        function applyLanguage(lang) {
+            const dictionary = i18nDict[lang] || i18nDict['FR'];
+            document.getElementById('current-lang').innerText = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dictionary[key]) el.innerText = dictionary[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dictionary[key]) el.placeholder = dictionary[key];
+            });
+        }
+
+        // CHARGEMENT SUPABASE
+        async function fetchCars() {
+            document.getElementById('loading-spinner').classList.remove('hidden');
+            document.getElementById('cars-grid').classList.add('hidden');
+
+            try {
+                const { data, error } = await supabaseClient.from('cars').select('*').order('id', { ascending: false });
+                if (error) throw error;
+
+                carDatabase = data.map(car => ({
+                    id: car.id,
+                    marque: car.marque,
+                    modele: car.modele,
+                    name: `${car.marque} ${car.modele}`,
+                    cat: car.categorie,
+                    luxe: car.categorie === 'luxe',
+                    price: car.prix_jour,
+                    img: car.image_url || 'https://placehold.co/600x400',
+                    tag: car.description && car.description.toLowerCase().includes('blindé') ? 'Blindé' : null
+                }));
+
+                initCatalog();
+
+            } catch (error) {
+                console.error("Erreur Supabase:", error);
+            } finally {
+                document.getElementById('loading-spinner').classList.add('hidden');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            applyLanguage(getLang());
+            try { 
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
+                fetchCars();
+            } catch(e){}
+        });
+
+        function initCatalog() {
+            const params = new URLSearchParams(window.location.search);
+            const searchParam = params.get('recherche');
+            const catParam = params.get('categorie');
+
+            if (searchParam) {
+                currentSearchTerm = searchParam;
+                document.getElementById('catalog-search').value = searchParam;
+                document.getElementById('search-indicator').classList.remove('hidden');
+                document.getElementById('search-term').innerText = searchParam;
+                filterCars('tout'); 
+            } 
+            else if (catParam) {
+                const buttons = document.querySelectorAll('.filter-btn');
+                buttons.forEach(btn => {
+                    if (btn.getAttribute('onclick').includes(catParam)) btn.click();
+                });
+            } 
+            else { renderCars(carDatabase); }
+        }
+
+        function getFilteredCars() {
+            const activeBtn = document.querySelector('.filter-btn.active');
+            let category = 'tout';
+            if (activeBtn && activeBtn.getAttribute('onclick')) {
+                const match = activeBtn.getAttribute('onclick').match(/'(.*?)'/);
+                if(match) category = match[1];
+            }
+
+            let filtered = carDatabase;
+            if (category !== 'tout') {
+                if (category === 'luxe') filtered = filtered.filter(car => car.luxe === true);
+                else filtered = filtered.filter(car => car.cat === category);
+            }
+
+            if (currentSearchTerm !== "") {
+                filtered = filtered.filter(car => 
+                    car.marque.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
+                    car.modele.toLowerCase().includes(currentSearchTerm.toLowerCase())
+                );
+            }
+
+            return filtered;
+        }
+
         function renderCars(carsToDisplay) {
             const grid = document.getElementById('cars-grid');
             const noResults = document.getElementById('no-results');
             grid.innerHTML = "";
 
             if (carsToDisplay.length === 0) {
-                grid.style.display = 'none';
-                noResults.style.display = 'block';
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
                 return;
             }
 
+            grid.classList.remove('hidden');
             grid.style.display = 'grid';
-            noResults.style.display = 'none';
+            noResults.classList.add('hidden');
+
+            const lang = getLang();
+            const btnText = i18nDict[lang]['btn_book'];
+            const onRequestText = i18nDict[lang]['on_request'];
 
             carsToDisplay.forEach(car => {
                 let badge = "";
                 if (car.tag) badge = `<span class="absolute top-3 left-3 bg-gray-900 text-white text-xs font-bold px-2 py-1 rounded">${car.tag}</span>`;
                 else if (car.luxe) badge = `<span class="absolute top-3 left-3 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">VIP</span>`;
 
-                const cardHTML = `
+                const priceDisplay = car.price.toLowerCase().includes('devis') ? onRequestText : `${car.price}$`;
+
+                grid.innerHTML += `
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
                     <div class="h-48 relative bg-gray-100">
                         <img src="${car.img}" alt="${car.name}" class="w-full h-full object-cover">
@@ -163,92 +262,44 @@ function initCatalog() {
                     <div class="p-4 flex-1 flex flex-col">
                         <h3 class="font-display text-lg font-bold text-gray-900 mb-2">${car.name}</h3>
                         <div class="flex gap-4 text-gray-500 text-sm mb-4">
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">person</span> ${car.seats}</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">directions_car</span> ${car.cat.toUpperCase()}</span>
                         </div>
                         <div class="flex justify-between items-center mt-auto pt-4 border-t border-gray-50">
-                            <div><span class="block text-xl font-extrabold text-mutuk-blue">${car.price}</span></div>
-                            <button onclick="bookCar('${car.name}', '${car.price}')" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">Réserver</button>
+                            <div><span class="block text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
+                            <button onclick="bookCar('${car.name}', '${priceDisplay}')" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
                         </div>
                     </div>
                 </div>`;
-                grid.innerHTML += cardHTML;
             });
         }
 
-        // FONCTION DE FILTRAGE
-        function filterCars(category) {
-            // Mise à jour des boutons actifs
+        function handleCatalogSearch() {
+            currentSearchTerm = document.getElementById('catalog-search').value.trim();
+            if(currentSearchTerm !== "") {
+                document.getElementById('search-indicator').classList.remove('hidden');
+                document.getElementById('search-term').innerText = currentSearchTerm;
+            } else {
+                document.getElementById('search-indicator').classList.add('hidden');
+            }
+            renderCars(getFilteredCars());
+        }
+
+        function filterCars(category, btnElement) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            let filtered = carDatabase;
-
-            // Filtrage par catégorie
-            if (category !== 'tout') {
-                if (category === 'luxe') {
-                    filtered = filtered.filter(car => car.luxe === true);
-                } else {
-                    filtered = filtered.filter(car => car.cat === category);
-                }
-            }
-
-            // Appliquer la recherche textuelle s'il y en a une en cours
-            if (currentSearchTerm !== "") {
-                filtered = filtered.filter(car => car.name.toLowerCase().includes(currentSearchTerm.toLowerCase()));
-            }
-
-            renderCars(filtered);
+            if(btnElement) btnElement.classList.add('active');
+            renderCars(getFilteredCars());
         }
 
-        // RESERVATION WHATSAPP
-        function bookCar(carName, price) {
-            const message = `Bonjour Mutuk Rentals, je souhaite réserver depuis le catalogue :\n\n🚘 *${carName}*\n💰 Tarif : ${price}/jour\n\n(Avec Chauffeur VIP)\nQuelles sont vos disponibilités ?`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // EFFACER LA RECHERCHE TEXTUELLE
         function clearSearch() {
             currentSearchTerm = "";
+            document.getElementById('catalog-search').value = "";
             document.getElementById('search-indicator').classList.add('hidden');
-            
-            // Simule un clic sur le bouton de la catégorie actuellement active, ou sur "Tout"
-            const activeBtn = document.querySelector('.filter-btn.active');
-            if (activeBtn) activeBtn.click();
-            else filterCars('tout');
-            
-            // Nettoie l'URL sans recharger
-            window.history.replaceState({}, document.title, window.location.pathname);
+            renderCars(getFilteredCars());
         }
 
-        // LOGIQUE D'INITIALISATION AU CHARGEMENT DE LA PAGE
-        window.addEventListener('load', () => {
-            const params = new URLSearchParams(window.location.search);
-            const searchParam = params.get('recherche');
-            const catParam = params.get('categorie');
-
-            if (searchParam) {
-                currentSearchTerm = searchParam;
-                document.getElementById('search-indicator').classList.remove('hidden');
-                document.getElementById('search-term').innerText = searchParam;
-                filterCars('tout'); // On cherche dans tout le catalogue
-            } 
-            else if (catParam) {
-                // Trouver le bouton correspondant à la catégorie et cliquer dessus
-                const buttons = document.querySelectorAll('.filter-btn');
-                let clicked = false;
-                buttons.forEach(btn => {
-                    if (btn.getAttribute('onclick').includes(catParam)) {
-                        btn.click();
-                        clicked = true;
-                    }
-                });
-                if (!clicked) renderCars(carDatabase); // Fallback
-            } 
-            else {
-                // Affichage par défaut (Tout)
-                renderCars(carDatabase);
-            }
-        });
+        function bookCar(carName, price) {
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Bonjour Mutuk Rentals, je souhaite réserver : ${carName} (${price})`)}`, '_blank');
+        }
     </script>
 </body>
 </html>
