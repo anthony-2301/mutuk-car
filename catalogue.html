@@ -29,7 +29,7 @@
 </head>
 <body class="bg-background text-gray-900 font-body">
 
-    <!-- HEADER (AUCUN BOUTON D'AJOUT !) -->
+    <!-- HEADER -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm h-16 md:h-20 border-b border-gray-100">
         <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full">
             <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
@@ -65,14 +65,12 @@
                 <p class="text-gray-500 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus</span></p>
             </div>
 
-            <!-- BARRE DE RECHERCHE EN TEMPS RÉEL PAR MARQUE & MODÈLE -->
             <div class="relative min-w-[280px] md:min-w-[320px]">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                 <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
             </div>
         </div>
 
-        <!-- FILTRES PAR CATÉGORIES -->
         <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b border-gray-200 pb-6">
             <button onclick="filterCars('tout', this)" class="filter-btn active px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="filter_all">Tous les véhicules</button>
             <button onclick="filterCars('suv', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_suv">SUV 4x4</button>
@@ -81,27 +79,78 @@
             <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_van">Utilitaires & Bus</button>
         </div>
 
-        <!-- INDICATEUR DE RECHERCHE ACTIVE -->
         <div id="search-indicator" class="hidden mb-6 p-4 bg-blue-50 text-mutuk-dark rounded-lg font-bold flex justify-between items-center">
             <span>Résultats pour : <span id="search-term" class="text-mutuk-blue"></span></span>
             <button onclick="clearSearch()" class="text-sm underline hover:text-mutuk-blue">Effacer</button>
         </div>
 
-        <!-- SPINNER DE CHARGEMENT -->
         <div id="loading-spinner" class="text-center py-20">
             <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-mutuk-blue mx-auto mb-4"></div>
             <p class="text-gray-500 font-bold" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
-        <!-- GRILLE DE VOITURES -->
         <div id="cars-grid" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
         
-        <!-- MESSAGE AUCUN RÉSULTAT -->
         <div id="no-results" class="hidden text-center py-20">
             <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
             <h3 class="text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
         </div>
     </main>
+
+    <!-- MODAL DÉTAILS VOITURES & GALERIE 5 PHOTOS -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20"><span class="material-symbols-outlined">close</span></button>
+            
+            <div class="p-6 md:p-8">
+                <div class="mb-6">
+                    <div class="h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-3 shadow-inner">
+                        <img id="detail-main-img" src="" class="w-full h-full object-cover">
+                    </div>
+                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-2"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b pb-4 mb-6">
+                    <div>
+                        <h2 id="detail-title" class="font-display text-2xl md:text-3xl font-extrabold text-gray-900"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-1 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-blue-50 text-mutuk-blue rounded-full"></span>
+                    </div>
+                    <div class="mt-3 md:mt-0">
+                        <span id="detail-price" class="text-3xl font-extrabold text-mutuk-blue block"></span>
+                        <span class="text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">event_seat</span>
+                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="seats">Places</span>
+                        <span id="detail-seats" class="font-extrabold text-gray-800 text-sm"></span>
+                    </div>
+                    <div class="text-center border-x border-gray-200">
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">settings</span>
+                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="gearbox">Boîte</span>
+                        <span id="detail-boite" class="font-extrabold text-gray-800 text-sm"></span>
+                    </div>
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">local_gas_station</span>
+                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="fuel">Carburant</span>
+                        <span id="detail-fuel" class="font-extrabold text-gray-800 text-sm"></span>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h4 class="font-bold text-gray-900 mb-2" data-i18n="description">Description & Options</h4>
+                    <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
+                </div>
+
+                <button id="detail-book-btn" class="w-full bg-[#25D366] text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.01] transition shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012zm7.135-6.85c-.244-.122-1.442-.713-1.666-.795-.224-.082-.387-.122-.55.122-.163.245-.632.795-.774.958-.143.163-.286.183-.53.06-2.07-.98-3.238-1.95-4.493-3.96-.143-.225.137-.21.503-.92.082-.163.04-.306-.02-.43-.06-.122-.55-1.325-.754-1.815-.198-.475-.4-.41-.55-.418-.143-.008-.306-.008-.47-.008-.162 0-.427.06-.65.305-.224.245-.856.837-.856 2.04 0 1.203.876 2.366.998 2.53.122.164 1.725 2.632 4.175 3.69 1.404.606 1.95.736 2.658.625.594-.092 1.44-.587 1.643-1.155.203-.567.203-1.05.143-1.155-.06-.102-.224-.163-.468-.286z"/></svg>
+                    <span data-i18n="book_whatsapp">Réserver ce véhicule sur WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- JAVASCRIPT CATALOGUE -->
     <script>
@@ -115,10 +164,12 @@
 
         const i18nDict = {
             FR: {
-                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Réserver", on_request: "Sur Devis"
+                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Détails & Réserver", on_request: "Sur Devis", per_day: "par jour",
+                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver ce véhicule sur WhatsApp"
             },
             EN: {
-                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Book", on_request: "On Request"
+                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Details & Book", on_request: "On Request", per_day: "per day",
+                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book this vehicle on WhatsApp"
             }
         };
 
@@ -128,7 +179,7 @@
             if(e) e.preventDefault();
             localStorage.setItem('mutuk_lang', lang);
             applyLanguage(lang);
-            renderCars(getFilteredCars()); // Re-render pour traduire "Réserver" & "Sur Devis"
+            renderCars(getFilteredCars());
         }
 
         function applyLanguage(lang) {
@@ -144,7 +195,15 @@
             });
         }
 
-        // CHARGEMENT SUPABASE
+        function formatPrice(p) {
+            if (!p) return getTranslation('on_request');
+            const str = p.toString().trim();
+            if (str.toLowerCase().includes('devis')) return getTranslation('on_request');
+            return str.endsWith('$') ? str : `${str}$`;
+        }
+
+        function getTranslation(key) { return i18nDict[getLang()][key] || key; }
+
         async function fetchCars() {
             document.getElementById('loading-spinner').classList.remove('hidden');
             document.getElementById('cars-grid').classList.add('hidden');
@@ -152,21 +211,8 @@
             try {
                 const { data, error } = await supabaseClient.from('cars').select('*').order('id', { ascending: false });
                 if (error) throw error;
-
-                carDatabase = data.map(car => ({
-                    id: car.id,
-                    marque: car.marque,
-                    modele: car.modele,
-                    name: `${car.marque} ${car.modele}`,
-                    cat: car.categorie,
-                    luxe: car.categorie === 'luxe',
-                    price: car.prix_jour,
-                    img: car.image_url || 'https://placehold.co/600x400',
-                    tag: car.description && car.description.toLowerCase().includes('blindé') ? 'Blindé' : null
-                }));
-
+                carDatabase = data || [];
                 initCatalog();
-
             } catch (error) {
                 console.error("Erreur Supabase:", error);
             } finally {
@@ -213,8 +259,8 @@
 
             let filtered = carDatabase;
             if (category !== 'tout') {
-                if (category === 'luxe') filtered = filtered.filter(car => car.luxe === true);
-                else filtered = filtered.filter(car => car.cat === category);
+                if (category === 'luxe') filtered = filtered.filter(car => car.categorie === 'luxe');
+                else filtered = filtered.filter(car => car.categorie === category);
             }
 
             if (currentSearchTerm !== "") {
@@ -244,29 +290,29 @@
 
             const lang = getLang();
             const btnText = i18nDict[lang]['btn_book'];
-            const onRequestText = i18nDict[lang]['on_request'];
 
-            carsToDisplay.forEach(car => {
-                let badge = "";
-                if (car.tag) badge = `<span class="absolute top-3 left-3 bg-gray-900 text-white text-xs font-bold px-2 py-1 rounded">${car.tag}</span>`;
-                else if (car.luxe) badge = `<span class="absolute top-3 left-3 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">VIP</span>`;
-
-                const priceDisplay = car.price.toLowerCase().includes('devis') ? onRequestText : `${car.price}$`;
+            carsToDisplay.forEach((car, index) => {
+                const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
+                const priceDisplay = formatPrice(car.prix_jour);
+                const boiteDisplay = (lang === 'EN' && car.boite === 'Automatique') ? 'Automatic' : (car.boite || 'Auto');
 
                 grid.innerHTML += `
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="h-48 relative bg-gray-100">
-                        <img src="${car.img}" alt="${car.name}" class="w-full h-full object-cover">
-                        ${badge}
+                    <div class="h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
+                        <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
+                        <span class="absolute top-2 left-2 bg-gray-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
                     </div>
                     <div class="p-4 flex-1 flex flex-col">
-                        <h3 class="font-display text-lg font-bold text-gray-900 mb-2">${car.name}</h3>
-                        <div class="flex gap-4 text-gray-500 text-sm mb-4">
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">directions_car</span> ${car.cat.toUpperCase()}</span>
+                        <h3 class="font-display text-lg font-bold text-gray-900 cursor-pointer" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
+                        
+                        <div class="flex items-center gap-3 text-xs font-bold text-gray-500 my-3">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
                         </div>
-                        <div class="flex justify-between items-center mt-auto pt-4 border-t border-gray-50">
+
+                        <div class="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
                             <div><span class="block text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
-                            <button onclick="bookCar('${car.name}', '${priceDisplay}')" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
+                            <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
                         </div>
                     </div>
                 </div>`;
@@ -297,8 +343,42 @@
             renderCars(getFilteredCars());
         }
 
-        function bookCar(carName, price) {
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Bonjour Mutuk Rentals, je souhaite réserver : ${carName} (${price})`)}`, '_blank');
+        function openCarDetailsModal(index) {
+            const cars = getFilteredCars();
+            const car = cars[index];
+            if (!car) return;
+
+            const lang = getLang();
+            const images = (car.images && car.images.length > 0) ? car.images : [car.image_url || 'https://placehold.co/600x400'];
+
+            document.getElementById('detail-title').innerText = `${car.marque} ${car.modele}`;
+            document.getElementById('detail-price').innerText = formatPrice(car.prix_jour);
+            document.getElementById('detail-category-badge').innerText = car.categorie.toUpperCase();
+            document.getElementById('detail-seats').innerText = car.places || 5;
+            document.getElementById('detail-boite').innerText = (lang === 'EN' && car.boite === 'Automatique') ? 'Automatic' : (car.boite || 'Automatique');
+            document.getElementById('detail-fuel').innerText = car.carburant || 'Essence';
+            document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP d'exception disponible à Kinshasa.";
+
+            const mainImg = document.getElementById('detail-main-img');
+            mainImg.src = images[0];
+
+            const thumbsContainer = document.getElementById('detail-thumbs');
+            thumbsContainer.innerHTML = "";
+            images.slice(0, 5).forEach((imgSrc) => {
+                thumbsContainer.innerHTML += `
+                    <img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-16 w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">
+                `;
+            });
+
+            document.getElementById('detail-book-btn').onclick = function() {
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Bonjour Mutuk Rentals, je souhaite réserver : ${car.marque} ${car.modele} (${formatPrice(car.prix_jour)})`)}`, '_blank');
+            };
+
+            document.getElementById('car-details-modal').classList.remove('hidden');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('car-details-modal').classList.add('hidden');
         }
     </script>
 </body>

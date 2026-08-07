@@ -25,41 +25,32 @@
 </head>
 <body class="bg-background font-body min-h-screen">
 
-    <!-- ECRAN DE CONNEXION (SANS BALISE FORM -> ZÉRO RAFRAÎCHISSEMENT POSSIBLE) -->
+    <!-- ECRAN CONNEXION -->
     <div id="login-screen" class="flex min-h-screen items-center justify-center p-4">
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
             <div class="text-center mb-6">
                 <img src="image/logo.jpeg" class="h-16 mx-auto rounded-full mb-3" onerror="this.src='https://placehold.co/100x100?text=MR'">
                 <h1 class="font-display font-extrabold text-2xl text-gray-900">Espace Administration</h1>
-                <p class="text-gray-500 text-sm">Connectez-vous avec vos identifiants </p>
+                <p class="text-gray-500 text-sm">Identifiants Supabase requis</p>
             </div>
-            
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
-                    <input type="email" id="login-email" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="votre-email@exemple.com" required>
+                    <input type="email" id="login-email" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="admin@mutukrentals.com" required>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Mot de passe</label>
                     <input type="password" id="login-password" onkeyup="if(event.key==='Enter') handleLoginManual()" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="••••••••" required>
                 </div>
-                
                 <div id="login-error" class="text-red-500 text-xs font-bold hidden p-3 bg-red-50 rounded-lg text-center"></div>
-                
-                <button type="button" id="login-btn" onclick="handleLoginManual()" class="w-full bg-mutuk-blue text-white font-bold py-3 rounded-lg hover:bg-mutuk-dark transition cursor-pointer">
-                    Se connecter
-                </button>
+                <button type="button" id="login-btn" onclick="handleLoginManual()" class="w-full bg-mutuk-blue text-white font-bold py-3 rounded-lg hover:bg-mutuk-dark transition cursor-pointer">Se connecter</button>
             </div>
-
-            <div class="text-center mt-6">
-                <a href="index.html" class="text-sm text-gray-400 hover:underline">&larr; Retour au site public</a>
-            </div>
+            <div class="text-center mt-6"><a href="index.html" class="text-sm text-gray-400 hover:underline">&larr; Retour au site public</a></div>
         </div>
     </div>
 
-    <!-- TABLEAU DE BORD ADMIN -->
+    <!-- DASHBOARD ADMIN -->
     <div id="dashboard-screen" class="hidden min-h-screen flex flex-col">
-        <!-- HEADER ADMIN -->
         <header class="bg-white border-b border-gray-200 h-16 flex items-center px-6 justify-between">
             <div class="flex items-center gap-3">
                 <img src="image/logo.jpeg" class="h-10 rounded-full" onerror="this.src='https://placehold.co/100x100?text=MR'">
@@ -72,22 +63,19 @@
             </div>
         </header>
 
-        <!-- CONTENU DASHBOARD -->
         <main class="flex-1 p-4 md:p-8 max-w-[1400px] mx-auto w-full">
-            
             <!-- VUE LISTE -->
             <div id="list-view">
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h2 class="font-display font-bold text-2xl text-gray-900">Gestion de la Flotte</h2>
-                        <p class="text-gray-500 text-sm">Gérez les véhicules affichés sur le site</p>
+                        <p class="text-gray-500 text-sm">Gérez vos véhicules et photos</p>
                     </div>
                     <button type="button" onclick="showForm()" class="bg-mutuk-blue text-white px-4 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-mutuk-dark">
                         <span class="material-symbols-outlined">add</span> Ajouter un véhicule
                     </button>
                 </div>
 
-                <!-- TABLEAU DES VÉHICULES -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm whitespace-nowrap">
@@ -96,19 +84,18 @@
                                     <th class="p-4">Photo</th>
                                     <th class="p-4">Marque & Modèle</th>
                                     <th class="p-4">Catégorie</th>
+                                    <th class="p-4">Specs</th>
                                     <th class="p-4">Prix / Jour</th>
                                     <th class="p-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-table-body" class="divide-y divide-gray-100">
-                                <!-- Injecté par JS -->
-                            </tbody>
+                            <tbody id="admin-table-body" class="divide-y divide-gray-100"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- VUE FORMULAIRE (AJOUT / MODIFICATION) -->
+            <!-- VUE FORMULAIRE -->
             <div id="form-view" class="hidden max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b">
                     <button type="button" onclick="showList()" class="text-gray-400 hover:text-mutuk-blue"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -140,20 +127,46 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prix (ex: 350$ ou Sur devis)</label>
-                            <input type="text" id="car-price" placeholder="ex: 350$" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prix par jour ($ ou Sur devis)</label>
+                            <input type="text" id="car-price" placeholder="ex: 350" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required>
+                        </div>
+                    </div>
+
+                    <!-- NOUVELLES CARACTÉRISTIQUES -->
+                    <div class="grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Places</label>
+                            <input type="number" id="car-seats" value="5" min="1" max="50" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Boîte de vitesse</label>
+                            <select id="car-boite" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue">
+                                <option value="Automatique">Automatique</option>
+                                <option value="Manuelle">Manuelle</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Carburant</label>
+                            <select id="car-fuel" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue">
+                                <option value="Essence">Essence</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybride">Hybride</option>
+                                <option value="Électrique">Électrique</option>
+                            </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Tags</label>
-                        <textarea id="car-desc" placeholder="ex: Blindé, 7 places..." class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" rows="3"></textarea>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Options</label>
+                        <textarea id="car-desc" placeholder="ex: Blindé, toit panoramique, cuir..." class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" rows="3"></textarea>
                     </div>
 
+                    <!-- SÉLECTION DE 5 PHOTOS -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Photo du véhicule</label>
-                        <input type="file" id="car-image" accept="image/*" class="w-full border p-2 rounded-lg text-sm bg-gray-50">
-                        <img id="image-preview" class="mt-3 h-28 rounded object-cover border hidden">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Photos (Jusqu'à 5 photos)</label>
+                        <input type="file" id="car-images" accept="image/*" multiple class="w-full border p-2 rounded-lg text-sm bg-gray-50">
+                        <p class="text-[11px] text-gray-400 mt-1">Sélectionnez jusqu'à 5 photos en même temps.</p>
+                        <div id="previews-container" class="flex gap-2 mt-3 overflow-x-auto"></div>
                     </div>
 
                     <div class="flex justify-end gap-3 pt-4 border-t">
@@ -162,34 +175,27 @@
                     </div>
                 </form>
             </div>
-
         </main>
     </div>
 
-    <!-- JAVASCRIPT ADMIN ROBUSTE -->
     <script>
         const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0.NY5ubUi-2S9yMlpyFhAwCDMqUIywKJ9eiSho08mBB2k';
         
         let supabaseClient = null;
         let carsData = [];
+        let existingImages = [];
 
-        // Initialisation sécurisée du client
         function getSupabase() {
-            if (!supabaseClient && window.supabase && window.supabase.createClient) {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
+            if (!supabaseClient && window.supabase) supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             return supabaseClient;
         }
 
-        // Vérification de la session au démarrage
         document.addEventListener('DOMContentLoaded', async () => {
             const client = getSupabase();
             if (client) {
                 const { data: { session } } = await client.auth.getSession();
-                if (session) {
-                    showDashboard(session.user.email);
-                }
+                if (session) showDashboard(session.user.email);
             }
         });
 
@@ -200,90 +206,51 @@
             fetchAdminCars();
         }
 
-        // CONNEXION SANS RAFRAÎCHISSEMENT POSSIBLE
         async function handleLoginManual() {
-            const emailInput = document.getElementById('login-email');
-            const passwordInput = document.getElementById('login-password');
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
             const errEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
 
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-
-            if (!email || !password) {
-                errEl.innerText = "Veuillez remplir l'email et le mot de passe.";
-                errEl.classList.remove('hidden');
-                return;
-            }
+            if (!email || !password) { errEl.innerText = "Veuillez remplir les champs."; errEl.classList.remove('hidden'); return; }
 
             const client = getSupabase();
-            if (!client) {
-                errEl.innerText = "Erreur: La connexion à Supabase n'est pas encore prête. Réessayez dans 2 secondes.";
-                errEl.classList.remove('hidden');
-                return;
-            }
-
-            btn.innerText = "Connexion en cours...";
-            btn.disabled = true;
-            errEl.classList.add('hidden');
+            btn.innerText = "Connexion..."; btn.disabled = true; errEl.classList.add('hidden');
 
             try {
-                const { data, error } = await client.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                if (error) {
-                    errEl.innerText = "Erreur: " + error.message;
-                    errEl.classList.remove('hidden');
-                    btn.innerText = "Se connecter";
-                    btn.disabled = false;
-                } else if (data && data.session) {
-                    showDashboard(data.session.user.email);
-                }
-            } catch (catchErr) {
-                console.error("Login Exception:", catchErr);
-                errEl.innerText = "Une erreur s'est produite: " + catchErr.message;
-                errEl.classList.remove('hidden');
-                btn.innerText = "Se connecter";
-                btn.disabled = false;
+                const { data, error } = await client.auth.signInWithPassword({ email, password });
+                if (error) { errEl.innerText = error.message; errEl.classList.remove('hidden'); btn.innerText = "Se connecter"; btn.disabled = false; } 
+                else if (data && data.session) showDashboard(data.session.user.email);
+            } catch (e) {
+                errEl.innerText = e.message; errEl.classList.remove('hidden'); btn.innerText = "Se connecter"; btn.disabled = false;
             }
         }
 
-        // DECONNEXION
         async function handleLogout() {
             const client = getSupabase();
             if (client) await client.auth.signOut();
             document.getElementById('dashboard-screen').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('login-password').value = "";
         }
 
-        // RECUPERER LES VOITURES
         async function fetchAdminCars() {
             const client = getSupabase();
-            if (!client) return;
-
-            const { data, error } = await client.from('cars').select('*').order('id', { ascending: false });
-            if (error) {
-                console.error("Error fetching cars:", error);
-                return;
-            }
+            const { data } = await client.from('cars').select('*').order('id', { ascending: false });
             carsData = data || [];
             renderAdminTable();
         }
 
-        // RENDU TABLEAU
         function renderAdminTable() {
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = "";
-
             carsData.forEach(car => {
+                const cover = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/100');
                 tbody.innerHTML += `
                 <tr class="hover:bg-gray-50">
-                    <td class="p-4"><img src="${car.image_url}" class="w-12 h-10 object-cover rounded border"></td>
+                    <td class="p-4"><img src="${cover}" class="w-12 h-10 object-cover rounded border"></td>
                     <td class="p-4 font-bold text-gray-900">${car.marque} ${car.modele}</td>
                     <td class="p-4 uppercase text-xs font-bold text-gray-500">${car.categorie}</td>
+                    <td class="p-4 text-xs font-bold text-gray-600">${car.places || 5} pl. | ${car.boite || 'Auto'} | ${car.carburant || 'Essence'}</td>
                     <td class="p-4 font-bold text-mutuk-blue">${car.prix_jour}</td>
                     <td class="p-4 text-right">
                         <button type="button" onclick='editCar(${JSON.stringify(car).replace(/'/g, "\\'")})' class="p-2 text-mutuk-dark hover:bg-blue-50 rounded mr-1"><span class="material-symbols-outlined text-lg">edit</span></button>
@@ -293,7 +260,6 @@
             });
         }
 
-        // FORMULAIRE ADMIN
         function showForm() {
             document.getElementById('list-view').classList.add('hidden');
             document.getElementById('form-view').classList.remove('hidden');
@@ -301,9 +267,11 @@
             document.getElementById('car-brand').value = "";
             document.getElementById('car-model').value = "";
             document.getElementById('car-price').value = "";
+            document.getElementById('car-seats').value = "5";
             document.getElementById('car-desc').value = "";
-            document.getElementById('car-image').value = "";
-            document.getElementById('image-preview').classList.add('hidden');
+            document.getElementById('car-images').value = "";
+            document.getElementById('previews-container').innerHTML = "";
+            existingImages = [];
             document.getElementById('form-title').innerText = "Ajouter un véhicule";
         }
 
@@ -320,45 +288,58 @@
             document.getElementById('car-model').value = car.modele;
             document.getElementById('car-category').value = car.categorie;
             document.getElementById('car-price').value = car.prix_jour;
+            document.getElementById('car-seats').value = car.places || "5";
+            document.getElementById('car-boite').value = car.boite || "Automatique";
+            document.getElementById('car-fuel').value = car.carburant || "Essence";
             document.getElementById('car-desc').value = car.description || "";
             
-            const preview = document.getElementById('image-preview');
-            preview.src = car.image_url;
-            preview.classList.remove('hidden');
+            existingImages = car.images && car.images.length > 0 ? car.images : (car.image_url ? [car.image_url] : []);
+            const container = document.getElementById('previews-container');
+            container.innerHTML = "";
+            existingImages.forEach(src => {
+                container.innerHTML += `<img src="${src}" class="h-16 w-20 object-cover rounded border">`;
+            });
         }
 
-        // ENREGISTRER (CREATE / UPDATE)
+        // SAUVEGARDE JUSQU'À 5 PHOTOS
         async function handleSaveCar(e) {
             e.preventDefault();
             const btn = document.getElementById('save-btn');
-            btn.innerText = "Sauvegarde en cours..."; btn.disabled = true;
+            btn.innerText = "Upload des images..."; btn.disabled = true;
 
             const client = getSupabase();
             const id = document.getElementById('car-id').value;
-            const fileInput = document.getElementById('car-image');
-            let imageUrl = id ? document.getElementById('image-preview').src : null;
+            const fileInput = document.getElementById('car-images');
+            let uploadedUrls = [...existingImages];
 
             try {
                 if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
-                    
-                    const { error: uploadErr } = await client.storage.from('cars-images').upload(fileName, file);
-                    if (uploadErr) throw uploadErr;
-
-                    const { data } = client.storage.from('cars-images').getPublicUrl(fileName);
-                    imageUrl = data.publicUrl;
-                } else if (!id) {
-                    throw new Error("Veuillez sélectionner une image pour le nouveau véhicule.");
+                    const files = Array.from(fileInput.files).slice(0, 5); // 5 max
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const fileName = `${Date.now()}_${i}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
+                        const { error: uploadErr } = await client.storage.from('cars-images').upload(fileName, file);
+                        if (!uploadErr) {
+                            const { data } = client.storage.from('cars-images').getPublicUrl(fileName);
+                            if(i === 0 && fileInput.files.length > 0) uploadedUrls = [data.publicUrl]; // remplace si nouveau
+                            else uploadedUrls.push(data.publicUrl);
+                        }
+                    }
                 }
+
+                if (uploadedUrls.length === 0) throw new Error("Ajoutez au moins une photo.");
 
                 const payload = {
                     marque: document.getElementById('car-brand').value,
                     modele: document.getElementById('car-model').value,
                     categorie: document.getElementById('car-category').value,
                     prix_jour: document.getElementById('car-price').value,
+                    places: document.getElementById('car-seats').value,
+                    boite: document.getElementById('car-boite').value,
+                    carburant: document.getElementById('car-fuel').value,
                     description: document.getElementById('car-desc').value,
-                    image_url: imageUrl
+                    image_url: uploadedUrls[0], // Photo principale
+                    images: uploadedUrls // Tableau des 5 photos
                 };
 
                 if (id) payload.id = id;
@@ -366,7 +347,7 @@
                 const { error: dbErr } = await client.from('cars').upsert([payload]);
                 if (dbErr) throw dbErr;
 
-                alert("Véhicule enregistré avec succès !");
+                alert("Véhicule sauvegardé !");
                 showList();
                 fetchAdminCars();
 
@@ -377,13 +358,11 @@
             }
         }
 
-        // SUPPRIMER
         async function deleteCar(id) {
-            if (!confirm("Voulez-vous vraiment supprimer ce véhicule ?")) return;
+            if (!confirm("Supprimer ce véhicule ?")) return;
             const client = getSupabase();
-            const { error } = await client.from('cars').delete().eq('id', id);
-            if (error) alert("Erreur lors de la suppression");
-            else fetchAdminCars();
+            await client.from('cars').delete().eq('id', id);
+            fetchAdminCars();
         }
     </script>
 </body>
