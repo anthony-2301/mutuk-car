@@ -37,20 +37,20 @@
                 <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
             </a>
             
-            <div class="flex items-center gap-6 font-bold text-[15px]">
+            <div class="flex items-center gap-4 md:gap-6 font-bold text-[13px] md:text-[15px]">
                 <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 transition-colors">
-                    <span class="material-symbols-outlined">arrow_back</span> <span data-i18n="back_home">Retour à l'accueil</span>
+                    <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> <span data-i18n="back_home" class="hidden sm:inline">Retour à l'accueil</span>
                 </a>
 
                 <!-- SÉLECTEUR DE LANGUE SYNCHRONISÉ -->
                 <div class="relative inline-block text-left group">
-                    <button type="button" class="flex items-center gap-1 text-sm font-bold text-gray-700 hover:text-mutuk-blue px-2 py-2">
+                    <button type="button" class="flex items-center gap-1 font-bold text-gray-700 hover:text-mutuk-blue px-1 py-2">
                         <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
                     </button>
-                    <div class="absolute right-0 mt-0 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block transition-all border border-gray-100 z-50">
+                    <div class="absolute right-0 mt-0 w-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block transition-all border border-gray-100 z-50">
                         <div class="py-1">
-                            <a href="#" onclick="changeLanguage('FR', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">FR</a>
-                            <a href="#" onclick="changeLanguage('EN', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">EN</a>
+                            <a href="#" onclick="changeLanguage('FR', event)" class="block px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-100">FR</a>
+                            <a href="#" onclick="changeLanguage('EN', event)" class="block px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-100">EN</a>
                         </div>
                     </div>
                 </div>
@@ -58,95 +58,106 @@
         </nav>
     </header>
 
-    <main class="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-[1400px] mx-auto min-h-screen">
-        <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <main class="pt-20 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
+        <div class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
-                <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-2" data-i18n="catalog_title">Notre Catalogue</h1>
-                <p class="text-gray-500 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus</span></p>
+                <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2" data-i18n="catalog_title">Notre Catalogue</h1>
+                <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus</span></p>
             </div>
 
-            <div class="relative min-w-[280px] md:min-w-[320px]">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-                <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
+            <!-- RECHERCHE TEMPS RÉEL -->
+            <div class="relative w-full md:w-auto md:min-w-[320px]">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+                <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-9 pr-3 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-xs md:text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
             </div>
         </div>
 
-        <div class="flex flex-wrap gap-2 md:gap-4 mb-8 border-b border-gray-200 pb-6">
-            <button onclick="filterCars('tout', this)" class="filter-btn active px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="filter_all">Tous les véhicules</button>
-            <button onclick="filterCars('suv', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_suv">SUV 4x4</button>
-            <button onclick="filterCars('berline', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_sedan">Berlines</button>
-            <button onclick="filterCars('luxe', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_luxe">Luxe & VIP</button>
-            <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 transition-colors" data-i18n="cat_van">Utilitaires & Bus</button>
+        <!-- FILTRES DE CATÉGORIES -->
+        <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-6 border-b border-gray-200 pb-4">
+            <button onclick="filterCars('tout', this)" class="filter-btn active px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="filter_all">Tous les véhicules</button>
+            <button onclick="filterCars('suv', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_suv">SUV 4x4</button>
+            <button onclick="filterCars('berline', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_sedan">Berlines</button>
+            <button onclick="filterCars('luxe', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_luxe">Luxe & VIP</button>
+            <button onclick="filterCars('utilitaire', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_van">Utilitaires & Bus</button>
         </div>
 
-        <div id="search-indicator" class="hidden mb-6 p-4 bg-blue-50 text-mutuk-dark rounded-lg font-bold flex justify-between items-center">
+        <!-- INDICATEUR RECHERCHE -->
+        <div id="search-indicator" class="hidden mb-4 p-3 bg-blue-50 text-mutuk-dark rounded-lg text-xs md:text-sm font-bold flex justify-between items-center">
             <span>Résultats pour : <span id="search-term" class="text-mutuk-blue"></span></span>
-            <button onclick="clearSearch()" class="text-sm underline hover:text-mutuk-blue">Effacer</button>
+            <button onclick="clearSearch()" class="underline hover:text-mutuk-blue">Effacer</button>
         </div>
 
-        <div id="loading-spinner" class="text-center py-20">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-mutuk-blue mx-auto mb-4"></div>
-            <p class="text-gray-500 font-bold" data-i18n="loading">Connexion au garage Mutuk...</p>
+        <!-- SPINNER CHARGEMENT -->
+        <div id="loading-spinner" class="text-center py-16">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-mutuk-blue mx-auto mb-3"></div>
+            <p class="text-gray-500 font-bold text-sm" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
-        <div id="cars-grid" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        <!-- GRILLE DE VOITURES (2 PAR 2 SUR MOBILE, 3 SUR TABLETTE, 4 SUR GRAND ÉCRAN) -->
+        <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"></div>
         
-        <div id="no-results" class="hidden text-center py-20">
-            <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
-            <h3 class="text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
+        <!-- AUCUN RÉSULTAT -->
+        <div id="no-results" class="hidden text-center py-16">
+            <span class="material-symbols-outlined text-5xl text-gray-300 mb-2">search_off</span>
+            <h3 class="text-base md:text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
         </div>
     </main>
 
-    <!-- MODAL DÉTAILS VOITURES & GALERIE 5 PHOTOS -->
-    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
-            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20"><span class="material-symbols-outlined">close</span></button>
+    <!-- MODAL DÉTAILS VOITURES (5 PHOTOS & SPECS) -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative">
+            <button onclick="closeDetailsModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-1.5 z-20"><span class="material-symbols-outlined text-lg">close</span></button>
             
-            <div class="p-6 md:p-8">
-                <div class="mb-6">
-                    <div class="h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-3 shadow-inner">
+            <div class="p-4 md:p-8">
+                <!-- PHOTO PRINCIPALE ET THUMBNAILS -->
+                <div class="mb-4 md:mb-6">
+                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner">
                         <img id="detail-main-img" src="" class="w-full h-full object-cover">
                     </div>
-                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-2"></div>
+                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
                 </div>
 
-                <div class="flex flex-col md:flex-row md:items-center justify-between border-b pb-4 mb-6">
+                <!-- EN-TÊTE DÉTAILS -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
                     <div>
-                        <h2 id="detail-title" class="font-display text-2xl md:text-3xl font-extrabold text-gray-900"></h2>
-                        <span id="detail-category-badge" class="inline-block mt-1 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-blue-50 text-mutuk-blue rounded-full"></span>
+                        <h2 id="detail-title" class="font-display text-xl md:text-3xl font-extrabold text-gray-900"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-1 text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 bg-blue-50 text-mutuk-blue rounded-full"></span>
                     </div>
-                    <div class="mt-3 md:mt-0">
-                        <span id="detail-price" class="text-3xl font-extrabold text-mutuk-blue block"></span>
-                        <span class="text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
+                    <div>
+                        <span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span>
+                        <span class="text-[10px] md:text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <!-- SPECS -->
+                <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">event_seat</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="seats">Places</span>
-                        <span id="detail-seats" class="font-extrabold text-gray-800 text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span>
+                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="seats">Places</span>
+                        <span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                     <div class="text-center border-x border-gray-200">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">settings</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="gearbox">Boîte</span>
-                        <span id="detail-boite" class="font-extrabold text-gray-800 text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span>
+                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="gearbox">Boîte</span>
+                        <span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">local_gas_station</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="fuel">Carburant</span>
-                        <span id="detail-fuel" class="font-extrabold text-gray-800 text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span>
+                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="fuel">Carburant</span>
+                        <span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                 </div>
 
-                <div class="mb-8">
-                    <h4 class="font-bold text-gray-900 mb-2" data-i18n="description">Description & Options</h4>
-                    <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
+                <!-- DESCRIPTION -->
+                <div class="mb-6">
+                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1" data-i18n="description">Description & Options</h4>
+                    <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
                 </div>
 
-                <button id="detail-book-btn" class="w-full bg-[#25D366] text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.01] transition shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012zm7.135-6.85c-.244-.122-1.442-.713-1.666-.795-.224-.082-.387-.122-.55.122-.163.245-.632.795-.774.958-.143.163-.286.183-.53.06-2.07-.98-3.238-1.95-4.493-3.96-.143-.225.137-.21.503-.92.082-.163.04-.306-.02-.43-.06-.122-.55-1.325-.754-1.815-.198-.475-.4-.41-.55-.418-.143-.008-.306-.008-.47-.008-.162 0-.427.06-.65.305-.224.245-.856.837-.856 2.04 0 1.203.876 2.366.998 2.53.122.164 1.725 2.632 4.175 3.69 1.404.606 1.95.736 2.658.625.594-.092 1.44-.587 1.643-1.155.203-.567.203-1.05.143-1.155-.06-.102-.224-.163-.468-.286z"/></svg>
-                    <span data-i18n="book_whatsapp">Réserver ce véhicule sur WhatsApp</span>
+                <!-- BOUTON WHATSAPP -->
+                <button id="detail-book-btn" class="w-full bg-[#25D366] text-white font-extrabold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.01] transition shadow-md text-xs md:text-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012zm7.135-6.85c-.244-.122-1.442-.713-1.666-.795-.224-.082-.387-.122-.55.122-.163.245-.632.795-.774.958-.143.163-.286.183-.53.06-2.07-.98-3.238-1.95-4.493-3.96-.143-.225.137-.21.503-.92.082-.163.04-.306-.02-.43-.06-.122-.55-1.325-.754-1.815-.198-.475-.4-.41-.55-.418-.143-.008-.306-.008-.47-.008-.162 0-.427.06-.65.305-.224.245-.856.837-.856 2.04 0 1.203.876 2.366.998 2.53.122.164 1.725 2.632 4.175 3.69 1.404.606 1.95.736 2.658.625.594-.092 1.44-.587 1.643-1.155.203-.567.203-1.05.143-1.155-.06-.102-.224-.163-.468-.286z"/></svg>
+                    <span data-i18n="book_whatsapp">Réserver sur WhatsApp</span>
                 </button>
             </div>
         </div>
@@ -165,11 +176,11 @@
         const i18nDict = {
             FR: {
                 title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Détails & Réserver", on_request: "Sur Devis", per_day: "par jour",
-                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver ce véhicule sur WhatsApp"
+                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver sur WhatsApp"
             },
             EN: {
                 title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Details & Book", on_request: "On Request", per_day: "per day",
-                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book this vehicle on WhatsApp"
+                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book on WhatsApp"
             }
         };
 
@@ -273,6 +284,7 @@
             return filtered;
         }
 
+        // RENDU DE LA GRILLE 2 PAR 2 COMPACTE
         function renderCars(carsToDisplay) {
             const grid = document.getElementById('cars-grid');
             const noResults = document.getElementById('no-results');
@@ -294,25 +306,26 @@
             carsToDisplay.forEach((car, index) => {
                 const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
                 const priceDisplay = formatPrice(car.prix_jour);
-                const boiteDisplay = (lang === 'EN' && car.boite === 'Automatique') ? 'Automatic' : (car.boite || 'Auto');
+                const boiteDisplay = (lang === 'EN' && car.boite === 'Automatique') ? 'Auto' : (car.boite ? car.boite.substring(0, 4) : 'Auto');
 
                 grid.innerHTML += `
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
+                <div class="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-32 sm:h-40 md:h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
                         <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
-                        <span class="absolute top-2 left-2 bg-gray-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
+                        <span class="absolute top-1.5 left-1.5 bg-gray-900/80 text-white text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
                     </div>
-                    <div class="p-4 flex-1 flex flex-col">
-                        <h3 class="font-display text-lg font-bold text-gray-900 cursor-pointer" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
+                    <div class="p-2.5 sm:p-3 md:p-4 flex-1 flex flex-col">
+                        <h3 class="font-display text-xs sm:text-base md:text-lg font-bold text-gray-900 cursor-pointer truncate" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
                         
-                        <div class="flex items-center gap-3 text-xs font-bold text-gray-500 my-3">
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
-                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
+                        <!-- BADGES DU CARACTÉRISTIQUES -->
+                        <div class="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-bold text-gray-500 my-1.5 md:my-3">
+                            <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
+                            <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
                         </div>
 
-                        <div class="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
-                            <div><span class="block text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
-                            <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto pt-2 border-t border-gray-50 gap-1">
+                            <div><span class="block text-sm sm:text-lg md:text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
+                            <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg text-[10px] sm:text-xs hover:bg-mutuk-blue hover:text-white transition-colors text-center w-full sm:w-auto">${btnText}</button>
                         </div>
                     </div>
                 </div>`;
@@ -366,7 +379,7 @@
             thumbsContainer.innerHTML = "";
             images.slice(0, 5).forEach((imgSrc) => {
                 thumbsContainer.innerHTML += `
-                    <img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-16 w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">
+                    <img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-14 w-16 md:h-16 md:w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">
                 `;
             });
 
