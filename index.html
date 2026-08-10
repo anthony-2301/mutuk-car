@@ -139,7 +139,7 @@
                         <div class="col-span-2 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_brand">Marque / Modèle</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
-                            <input type="text" id="search-car" placeholder="Toyota, Escalade..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                            <input type="text" id="search-car" placeholder="Recherche...." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_location">Lieu</label>
@@ -339,7 +339,13 @@
                     <input type="time" id="booking-time" value="08:00" required class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-1"/>
                 </div>
 
-                <p class="text-[10px] text-slate-500 italic mt-1">* Note: La location inclut notre chauffeur. Le carburant est à votre charge. Horaires : 7H à 22H.</p>
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600">Lieu de depart *</label>
+                    <input required type="text" id="booking-adress-name" placeholder="Entrez votre lieu de départ" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                </div>
+
+
+                <p class="text-[10px] text-slate-500 italic mt-1">* Note: La location inclut notre chauffeur. Le carburant est à votre charge. Horaires : 8H à 22H.</p>
 
                 <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2">
                     Confirmer la demande
@@ -553,8 +559,9 @@
             const date = document.getElementById('booking-date').value;
             const days = document.getElementById('booking-days').value;
             const time = document.getElementById('booking-time').value;
+            const adress = document.getElementById('booking-adresse').value;
 
-            const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de confirmer la disponibilité.`;
+            const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n *Lieu de départ :* ${adress}\n\nMerci de confirmer la disponibilité.`;
 
             openWhatsApp(message);
             closeBookingModal();
