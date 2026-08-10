@@ -25,23 +25,16 @@
 </head>
 <body class="bg-background font-body min-h-screen">
 
-    <!-- ECRAN CONNEXION -->
+    <!-- LOGIN SCREEN -->
     <div id="login-screen" class="flex min-h-screen items-center justify-center p-4">
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
             <div class="text-center mb-6">
                 <img src="image/logo.jpeg" class="h-16 mx-auto rounded-full mb-3" onerror="this.src='https://placehold.co/100x100?text=MR'">
                 <h1 class="font-display font-extrabold text-2xl text-gray-900">Espace Administration</h1>
-                <p class="text-gray-500 text-sm">Identifiants Supabase requis</p>
             </div>
             <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label>
-                    <input type="email" id="login-email" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="admin@mutukrentals.com" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Mot de passe</label>
-                    <input type="password" id="login-password" onkeyup="if(event.key==='Enter') handleLoginManual()" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="••••••••" required>
-                </div>
+                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email</label><input type="email" id="login-email" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="admin@mutukrentals.com" required></div>
+                <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Mot de passe</label><input type="password" id="login-password" onkeyup="if(event.key==='Enter') handleLoginManual()" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue text-gray-900" placeholder="••••••••" required></div>
                 <div id="login-error" class="text-red-500 text-xs font-bold hidden p-3 bg-red-50 rounded-lg text-center"></div>
                 <button type="button" id="login-btn" onclick="handleLoginManual()" class="w-full bg-mutuk-blue text-white font-bold py-3 rounded-lg hover:bg-mutuk-dark transition cursor-pointer">Se connecter</button>
             </div>
@@ -49,7 +42,7 @@
         </div>
     </div>
 
-    <!-- DASHBOARD ADMIN -->
+    <!-- DASHBOARD -->
     <div id="dashboard-screen" class="hidden min-h-screen flex flex-col">
         <header class="bg-white border-b border-gray-200 h-16 flex items-center px-6 justify-between">
             <div class="flex items-center gap-3">
@@ -67,27 +60,15 @@
             <!-- VUE LISTE -->
             <div id="list-view">
                 <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="font-display font-bold text-2xl text-gray-900">Gestion de la Flotte</h2>
-                        <p class="text-gray-500 text-sm">Gérez vos véhicules et photos</p>
-                    </div>
-                    <button type="button" onclick="showForm()" class="bg-mutuk-blue text-white px-4 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-mutuk-dark">
-                        <span class="material-symbols-outlined">add</span> Ajouter un véhicule
-                    </button>
+                    <div><h2 class="font-display font-bold text-2xl text-gray-900">Gestion de la Flotte</h2><p class="text-gray-500 text-sm">Gérez vos véhicules et photos</p></div>
+                    <button type="button" onclick="showForm()" class="bg-mutuk-blue text-white px-4 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-mutuk-dark"><span class="material-symbols-outlined">add</span> Ajouter un véhicule</button>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm whitespace-nowrap">
                             <thead class="bg-gray-50 text-gray-500 font-bold uppercase border-b">
-                                <tr>
-                                    <th class="p-4">Photo</th>
-                                    <th class="p-4">Marque & Modèle</th>
-                                    <th class="p-4">Catégorie</th>
-                                    <th class="p-4">Specs</th>
-                                    <th class="p-4">Prix / Jour</th>
-                                    <th class="p-4 text-right">Actions</th>
-                                </tr>
+                                <tr><th class="p-4">Photo</th><th class="p-4">Marque & Modèle</th><th class="p-4">Catégorie</th><th class="p-4">Specs</th><th class="p-4">Prix</th><th class="p-4 text-right">Actions</th></tr>
                             </thead>
                             <tbody id="admin-table-body" class="divide-y divide-gray-100"></tbody>
                         </table>
@@ -95,7 +76,7 @@
                 </div>
             </div>
 
-            <!-- VUE FORMULAIRE -->
+            <!-- VUE FORMULAIRE COMPLET -->
             <div id="form-view" class="hidden max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b">
                     <button type="button" onclick="showList()" class="text-gray-400 hover:text-mutuk-blue"><span class="material-symbols-outlined">arrow_back</span></button>
@@ -106,67 +87,44 @@
                     <input type="hidden" id="car-id">
 
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Marque</label>
-                            <input type="text" id="car-brand" placeholder="ex: Toyota" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Modèle</label>
-                            <input type="text" id="car-model" placeholder="ex: Land Cruiser Prado" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required>
-                        </div>
+                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Marque</label><input type="text" id="car-brand" placeholder="ex: Toyota" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Modèle</label><input type="text" id="car-model" placeholder="ex: Land Cruiser Prado" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Catégorie</label>
                             <select id="car-category" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue">
-                                <option value="suv">SUV 4x4</option>
-                                <option value="berline">Berlines</option>
-                                <option value="luxe">Luxe & VIP</option>
-                                <option value="utilitaire">Utilitaires & Bus</option>
+                                <option value="suv">SUV 4x4</option><option value="berline">Berlines</option><option value="luxe">Luxe & VIP</option><option value="utilitaire">Utilitaires & Bus</option>
                             </select>
                         </div>
+                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prix par jour ($ ou Sur devis)</label><input type="text" id="car-price" placeholder="ex: 350" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <div><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Places</label><input type="number" id="car-seats" value="5" min="1" max="50" class="w-full border p-2 rounded-lg outline-none" required></div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prix par jour ($ ou Sur devis)</label>
-                            <input type="text" id="car-price" placeholder="ex: 350" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Boîte</label>
+                            <select id="car-boite" class="w-full border p-2 rounded-lg outline-none"><option value="Automatique">Automatique</option><option value="Manuelle">Manuelle</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Carburant</label>
+                            <select id="car-fuel" class="w-full border p-2 rounded-lg outline-none"><option value="Essence">Essence</option><option value="Diesel">Diesel</option><option value="Hybride">Hybride</option><option value="Électrique">Électrique</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Climatisation</label>
+                            <select id="car-clim" class="w-full border p-2 rounded-lg outline-none"><option value="Oui">Oui</option><option value="Non">Non</option></select>
                         </div>
                     </div>
 
-                    <!-- NOUVELLES CARACTÉRISTIQUES -->
-                    <div class="grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Places</label>
-                            <input type="number" id="car-seats" value="5" min="1" max="50" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Boîte de vitesse</label>
-                            <select id="car-boite" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue">
-                                <option value="Automatique">Automatique</option>
-                                <option value="Manuelle">Manuelle</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Carburant</label>
-                            <select id="car-fuel" class="w-full border p-2 rounded-lg outline-none focus:border-mutuk-blue">
-                                <option value="Essence">Essence</option>
-                                <option value="Diesel">Diesel</option>
-                                <option value="Hybride">Hybride</option>
-                                <option value="Électrique">Électrique</option>
-                            </select>
-                        </div>
-                    </div>
+                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Options</label><textarea id="car-desc" placeholder="ex: Blindé, toit panoramique, cuir..." class="w-full border p-3 rounded-lg outline-none" rows="3"></textarea></div>
 
+                    <!-- 10 PHOTOS MAX -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Options</label>
-                        <textarea id="car-desc" placeholder="ex: Blindé, toit panoramique, cuir..." class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" rows="3"></textarea>
-                    </div>
-
-                    <!-- SÉLECTION DE 5 PHOTOS -->
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Photos (Jusqu'à 5 photos)</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Photos (Jusqu'à 10 photos)</label>
                         <input type="file" id="car-images" accept="image/*" multiple class="w-full border p-2 rounded-lg text-sm bg-gray-50">
-                        <p class="text-[11px] text-gray-400 mt-1">Sélectionnez jusqu'à 5 photos en même temps.</p>
-                        <div id="previews-container" class="flex gap-2 mt-3 overflow-x-auto"></div>
+                        <p class="text-[11px] text-gray-400 mt-1">Sélectionnez jusqu'à 10 photos en une fois.</p>
+                        <div id="previews-container" class="flex gap-2 mt-3 overflow-x-auto pb-2"></div>
                     </div>
 
                     <div class="flex justify-end gap-3 pt-4 border-t">
@@ -212,7 +170,7 @@
             const errEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
 
-            if (!email || !password) { errEl.innerText = "Veuillez remplir les champs."; errEl.classList.remove('hidden'); return; }
+            if (!email || !password) { errEl.innerText = "Champs requis."; errEl.classList.remove('hidden'); return; }
 
             const client = getSupabase();
             btn.innerText = "Connexion..."; btn.disabled = true; errEl.classList.add('hidden');
@@ -250,7 +208,7 @@
                     <td class="p-4"><img src="${cover}" class="w-12 h-10 object-cover rounded border"></td>
                     <td class="p-4 font-bold text-gray-900">${car.marque} ${car.modele}</td>
                     <td class="p-4 uppercase text-xs font-bold text-gray-500">${car.categorie}</td>
-                    <td class="p-4 text-xs font-bold text-gray-600">${car.places || 5} pl. | ${car.boite || 'Auto'} | ${car.carburant || 'Essence'}</td>
+                    <td class="p-4 text-xs font-bold text-gray-600">${car.places || 5} pl. | ${car.boite || 'Auto'} | Clim: ${car.climatisation || 'Oui'}</td>
                     <td class="p-4 font-bold text-mutuk-blue">${car.prix_jour}</td>
                     <td class="p-4 text-right">
                         <button type="button" onclick='editCar(${JSON.stringify(car).replace(/'/g, "\\'")})' class="p-2 text-mutuk-dark hover:bg-blue-50 rounded mr-1"><span class="material-symbols-outlined text-lg">edit</span></button>
@@ -291,6 +249,7 @@
             document.getElementById('car-seats').value = car.places || "5";
             document.getElementById('car-boite').value = car.boite || "Automatique";
             document.getElementById('car-fuel').value = car.carburant || "Essence";
+            document.getElementById('car-clim').value = car.climatisation || "Oui";
             document.getElementById('car-desc').value = car.description || "";
             
             existingImages = car.images && car.images.length > 0 ? car.images : (car.image_url ? [car.image_url] : []);
@@ -301,7 +260,7 @@
             });
         }
 
-        // SAUVEGARDE JUSQU'À 5 PHOTOS
+        // UPLOAD JUSQU'À 10 PHOTOS
         async function handleSaveCar(e) {
             e.preventDefault();
             const btn = document.getElementById('save-btn');
@@ -314,14 +273,14 @@
 
             try {
                 if (fileInput.files.length > 0) {
-                    const files = Array.from(fileInput.files).slice(0, 5); // 5 max
+                    const files = Array.from(fileInput.files).slice(0, 10); // 10 MAX
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
                         const fileName = `${Date.now()}_${i}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
                         const { error: uploadErr } = await client.storage.from('cars-images').upload(fileName, file);
                         if (!uploadErr) {
                             const { data } = client.storage.from('cars-images').getPublicUrl(fileName);
-                            if(i === 0 && fileInput.files.length > 0) uploadedUrls = [data.publicUrl]; // remplace si nouveau
+                            if(i === 0 && fileInput.files.length > 0) uploadedUrls = [data.publicUrl];
                             else uploadedUrls.push(data.publicUrl);
                         }
                     }
@@ -337,9 +296,10 @@
                     places: document.getElementById('car-seats').value,
                     boite: document.getElementById('car-boite').value,
                     carburant: document.getElementById('car-fuel').value,
+                    climatisation: document.getElementById('car-clim').value,
                     description: document.getElementById('car-desc').value,
-                    image_url: uploadedUrls[0], // Photo principale
-                    images: uploadedUrls // Tableau des 5 photos
+                    image_url: uploadedUrls[0],
+                    images: uploadedUrls
                 };
 
                 if (id) payload.id = id;
@@ -347,7 +307,7 @@
                 const { error: dbErr } = await client.from('cars').upsert([payload]);
                 if (dbErr) throw dbErr;
 
-                alert("Véhicule sauvegardé !");
+                alert("Véhicule enregistré avec succès !");
                 showList();
                 fetchAdminCars();
 
