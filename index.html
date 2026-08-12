@@ -9,28 +9,28 @@
     <meta name="description" content="Mutuk Rentals : Service de location de véhicules VIP, berlines et SUV 4x4 avec chauffeur accrédité à Gombe, Kinshasa (RDC). Réservez votre véhicule de prestige 24/7.">
     <meta name="keywords" content="location voiture Kinshasa, location SUV Gombe, Mutuk Rentals, chauffeur VIP Kinshasa, location berline RDC">
     
-    <!-- FAVICON -->
+    <!-- FAVICON & PWA METADATA -->
     <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#009ae0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MutukRentals">
+    <link rel="apple-touch-icon" href="image/logo.jpeg">
     
     <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <!-- INTL-TEL-INPUT (TÉLÉPHONE) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
     <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
-    <!-- Lien vers le Manifest -->
-<link rel="manifest" href="manifest.json">
-<!-- Couleur de la barre d'outils sur mobile -->
-<meta name="theme-color" content="#000000">
-
-
-    <!-- SCHEMA.ORG STRUCTURED DATA (SEO GOOGLE) -->
+    <!-- SCHEMA.ORG STRUCTURED DATA -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -81,6 +81,9 @@
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
         .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        
+        /* Personnalisation IntlTelInput */
+        .iti { width: 100%; }
     </style>
 </head>
 <body class="bg-background text-gray-900 font-body overflow-hidden">
@@ -135,13 +138,21 @@
             </div>
         </nav>
 
+        <!-- MENU MOBILE -->
         <div id="mobileMenu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex-col z-40 lg:hidden">
             <a href="#accueil" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_home">Accueil</a>
             <a href="#categories" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_categories">Catégories</a>
             <a href="#flotte" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_fleet">La Flotte</a>
             <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_services">Nos Services</a>
             <a href="#contact" class="mobile-link block px-6 py-4 font-bold text-gray-700 border-b border-gray-50" data-i18n="menu_contact">Contact</a>
-            <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-mutuk-blue bg-blue-50 flex items-center gap-2">
+            
+            <!-- PETIT BOUTON D'INSTALLATION PWA MENU MOBILE (Affiché si non installé) -->
+            <button id="pwa-mobile-btn" onclick="triggerPwaInstall()" class="hidden mobile-link w-full text-left px-6 py-4 font-bold text-mutuk-blue bg-blue-50/80 flex items-center gap-2 border-b border-gray-50">
+                <span class="material-symbols-outlined text-lg">download</span>
+                <span>Télécharger l'application</span>
+            </button>
+
+            <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-gray-500 bg-gray-50 flex items-center gap-2">
                 <span class="material-symbols-outlined">admin_panel_settings</span> Espace Admin
             </a>
         </div>
@@ -319,7 +330,6 @@
                     <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
                 </div>
 
-                <!-- BOUTON DE RÉSERVATION : Ouvre le formulaire express -->
                 <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg text-base">
                     <span class="material-symbols-outlined">event_available</span>
                     <span data-i18n="btn_book">Réserver</span>
@@ -328,7 +338,7 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS (CORRIGÉ & ACTIF SUR INDEX) -->
+    <!-- MODAL RÉSERVATION EXPRESS -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
             <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -351,9 +361,9 @@
 
                 <div>
                     <label class="text-xs font-semibold uppercase text-slate-600">Téléphone / WhatsApp *</label>
-                        <div class="mt-1">
-                    <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
-                        </div>
+                    <div class="mt-1">
+                        <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -381,23 +391,25 @@
         </div>
     </div>
 
-
-    <!-- BANNIÈRE D'INSTALLATION PWA -->
-<div id="pwa-install-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-[999] flex items-center gap-4 transition-all duration-500 translate-y-10 opacity-0">
-    <div class="w-12 h-12 bg-mutuk-blue/10 rounded-xl flex items-center justify-center shrink-0">
-        <img src="image/logo.jpeg" alt="Mutuk" class="w-10 h-10 object-cover rounded-lg">
+    <!-- BANNIÈRE PWA D'INSTALLATION PERMANENTE -->
+    <div id="pwa-install-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 z-[200] flex items-center justify-between gap-3 transition-all duration-300">
+        <div class="flex items-center gap-3">
+            <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-12 h-12 rounded-xl object-cover border border-mutuk-blue/30 shadow-sm" onerror="this.src='https://placehold.co/100?text=MR'">
+            <div>
+                <h4 class="font-display font-bold text-sm text-gray-900 leading-tight">Installer Mutuk Rentals</h4>
+                <p class="text-gray-500 text-xs mt-0.5">Accès plus rapide et réservation en 1 clic !</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="triggerPwaInstall()" class="bg-mutuk-blue text-white text-xs font-bold px-3.5 py-2 rounded-xl hover:bg-mutuk-dark transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">download</span>
+                Installer
+            </button>
+            <button onclick="dismissPwaBanner()" class="text-gray-400 hover:text-gray-600 p-1">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
     </div>
-    <div class="flex-1">
-        <h4 class="font-display font-bold text-gray-900 text-sm">Installer Mutuk Rentals</h4>
-        <p class="text-xs text-gray-500">Accédez à la flotte plus vite depuis votre écran d'accueil !</p>
-    </div>
-    <div class="flex items-center gap-2">
-        <button id="pwa-install-btn" class="bg-mutuk-blue text-white text-xs font-bold px-3 py-2 rounded-lg hover:bg-mutuk-dark transition">Installer</button>
-        <button id="pwa-close-btn" class="text-gray-400 hover:text-gray-600 p-1">
-            <span class="material-symbols-outlined text-lg">close</span>
-        </button>
-    </div>
-</div>
 
     <!-- FOOTER -->
     <footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8 text-center md:text-left">
@@ -427,63 +439,6 @@
         let supabaseClient;
         let globalCarData = [];
         let selectedCarForBooking = null;
-        let deferredPrompt;
-const installBanner = document.getElementById('pwa-install-banner');
-const installBtn = document.getElementById('pwa-install-btn');
-const closeBtn = document.getElementById('pwa-close-btn');
-
-// Écoute l'événement natif du navigateur autorisant l'installation
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Empêche Chrome d'afficher sa mini-barre native par défaut
-    e.preventDefault();
-    deferredPrompt = e;
-
-    // Vérifie si l'utilisateur n'avait pas déjà fermé la bannière durant cette session
-    if (!localStorage.getItem('pwa_installed_dismissed')) {
-        installBanner.classList.remove('hidden');
-        // Petit effet d'apparition fluide
-        setTimeout(() => {
-            installBanner.classList.remove('translate-y-10', 'opacity-0');
-        }, 100);
-    }
-});
-
-// Action au clic sur le bouton "Installer"
-installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    
-    // Affiche la boîte de dialogue d'installation native
-    deferredPrompt.prompt();
-    
-    // Attend le choix de l'utilisateur
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-        console.log('Utilisateur a accepté l\'installation PWA');
-    }
-    
-    deferredPrompt = null;
-    hideInstallBanner();
-});
-
-// Action pour fermer/ignorer la bannière
-closeBtn.addEventListener('click', () => {
-    hideInstallBanner();
-    // Enregistre dans le stockage local pour éviter de harceler l'utilisateur sur chaque page
-    localStorage.setItem('pwa_installed_dismissed', 'true');
-});
-
-function hideInstallBanner() {
-    installBanner.classList.add('translate-y-10', 'opacity-0');
-    setTimeout(() => {
-        installBanner.classList.add('hidden');
-    }, 500);
-}
-
-// Masque la bannière si l'application est déjà lancée en mode PWA (autonome)
-window.addEventListener('appinstalled', () => {
-    hideInstallBanner();
-    console.log('PWA installée avec succès');
-});
 
         const i18nDict = {
             FR: {
@@ -508,12 +463,18 @@ window.addEventListener('appinstalled', () => {
             }
         };
 
-        const input = document.querySelector("#booking-client-phone");
-        const iti = window.intlTelInput(input, {
-    initialCountry: "cd", // Pays par défaut
-    separateDialCode: true, // Sépare l'indicatif du numéro
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" // Gère le formatage automatique
-});
+        // INTL-TEL-INPUT SETUP
+        let iti;
+        document.addEventListener("DOMContentLoaded", () => {
+            const input = document.querySelector("#booking-client-phone");
+            if(input && window.intlTelInput) {
+                iti = window.intlTelInput(input, {
+                    initialCountry: "cd",
+                    separateDialCode: true,
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+                });
+            }
+        });
 
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
 
@@ -649,7 +610,6 @@ window.addEventListener('appinstalled', () => {
             document.getElementById('car-details-modal').classList.add('hidden');
         }
 
-        // TRANSITION DU MODAL DETAILS VERS LE MODAL DE RESERVATION (FONCTIONNEL)
         function openBookingFormFromDetails() {
             closeDetailsModal();
             if (!selectedCarForBooking) return;
@@ -667,27 +627,73 @@ window.addEventListener('appinstalled', () => {
             e.preventDefault();
             const carName = document.getElementById('booking-car-name').value;
             const clientName = document.getElementById('booking-client-name').value;
-            const clientPhone = document.getElementById('booking-client-phone').value;
+            const phoneVal = iti ? iti.getNumber() : document.getElementById('booking-client-phone').value;
             const date = document.getElementById('booking-date').value;
             const days = document.getElementById('booking-days').value;
             const time = document.getElementById('booking-time').value;
 
-            const message = `*RÉSERVATION EXPRESS (KINSHASA)*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+            const message = `*RÉSERVATION EXPRESS (KINSHASA)*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${phoneVal}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
 
             openWhatsApp(message);
             closeBookingModal();
         }
 
-    </script>
+        // ==========================================
+        // LOGIQUE PWA (INSTALLATION & BANNIÈRE)
+        // ==========================================
+        let deferredPrompt = null;
 
-    <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((reg) => console.log('Service Worker enregistré !', reg))
-        .catch((err) => console.log('Erreur Service Worker :', err));
-    });
-  }
-</script>
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Afficher le bouton dans le menu mobile
+            const mobileBtn = document.getElementById('pwa-mobile-btn');
+            if (mobileBtn) mobileBtn.classList.remove('hidden');
+
+            // Afficher la bannière si l'utilisateur ne l'a pas fermée pour cette session
+            if (!sessionStorage.getItem('pwa_banner_dismissed')) {
+                const banner = document.getElementById('pwa-install-banner');
+                if (banner) banner.classList.remove('hidden');
+            }
+        });
+
+        async function triggerPwaInstall() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('App installée par l\'utilisateur');
+            }
+            deferredPrompt = null;
+            hidePwaUI();
+        }
+
+        function dismissPwaBanner() {
+            sessionStorage.setItem('pwa_banner_dismissed', 'true');
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.classList.add('hidden');
+        }
+
+        function hidePwaUI() {
+            const banner = document.getElementById('pwa-install-banner');
+            const mobileBtn = document.getElementById('pwa-mobile-btn');
+            if (banner) banner.classList.add('hidden');
+            if (mobileBtn) mobileBtn.classList.add('hidden');
+        }
+
+        window.addEventListener('appinstalled', () => {
+            hidePwaUI();
+        });
+
+        // SERVICE WORKER REGISTRATION
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((reg) => console.log('Service Worker enregistré !', reg))
+                    .catch((err) => console.log('Erreur SW :', err));
+            });
+        }
+    </script>
 </body>
 </html>
