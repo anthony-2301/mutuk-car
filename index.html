@@ -3,14 +3,54 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title data-i18n="title">Mutuk Rentals - Location Premium</title>
     
+    <!-- SEO & METADATA -->
+    <title data-i18n="title">Mutuk Rentals - Location de Véhicules VIP à Kinshasa Gombe</title>
+    <meta name="description" content="Mutuk Rentals : Service de location de véhicules VIP, berlines et SUV 4x4 avec chauffeur accrédité à Gombe, Kinshasa (RDC). Réservez votre véhicule de prestige 24/7.">
+    <meta name="keywords" content="location voiture Kinshasa, location SUV Gombe, Mutuk Rentals, chauffeur VIP Kinshasa, location berline RDC">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
+    
+    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
     <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- SCHEMA.ORG STRUCTURED DATA (SEO GOOGLE) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoRental",
+      "name": "Mutuk Rentals",
+      "image": "image/logo.jpeg",
+      "telephone": "+243997708115",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Gombe",
+        "addressLocality": "Kinshasa",
+        "addressCountry": "CD"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -4.3033,
+        "longitude": 15.3015
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "07:00",
+        "closes": "22:00"
+      }
+    }
+    </script>
 
     <script id="tailwind-config">
       tailwind.config = {
@@ -26,26 +66,11 @@
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* ANIMATION PRELOADER EN CSS PUR */
         #preloader { transition: opacity 0.5s ease-out; z-index: 9999; }
-        
-        .logo-pulse {
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse-ring {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.08); opacity: 0.85; }
-        }
-
-        .loading-bar {
-            animation: fillBar 1.5s ease-in-out forwards;
-        }
-        @keyframes fillBar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
+        .logo-pulse { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse-ring { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: 0.85; } }
+        .loading-bar { animation: fillBar 1.5s ease-in-out forwards; }
+        @keyframes fillBar { 0% { width: 0%; } 100% { width: 100%; } }
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
         .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
@@ -56,9 +81,8 @@
     <!-- PRELOADER ANIMÉ -->
     <div id="preloader" class="fixed inset-0 bg-white flex flex-col items-center justify-center">
         <div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-mutuk-blue flex items-center justify-center logo-pulse bg-white p-2 overflow-hidden shadow-lg">
-            <img src="image/logo.jpeg" alt="Mutuk Rentals" class="w-full h-full object-cover rounded-full" onerror="this.src='https://placehold.co/150x150/009ae0/FFF?text=MR'">
+            <img src="image/logo.jpeg" alt="Mutuk Rentals Logo" class="w-full h-full object-cover rounded-full" onerror="this.src='https://placehold.co/150x150/009ae0/FFF?text=MR'">
         </div>
-        <!-- Barre de chargement -->
         <div class="mt-8 w-40 md:w-48 h-1.5 bg-gray-100 rounded-full overflow-hidden shadow-inner">
             <div class="h-full bg-mutuk-blue loading-bar rounded-full"></div>
         </div>
@@ -121,30 +145,30 @@
         <section id="accueil" class="relative min-h-[90vh] flex flex-col justify-center pt-16 md:pt-20">
             <div class="absolute inset-0 z-0">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background z-10"></div>
-                <img class="w-full h-full object-cover object-center" src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069" alt="SUV">
+                <img class="w-full h-full object-cover object-center" src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069" alt="Location véhicule VIP Kinshasa Gombe">
             </div>
             
             <div class="relative z-20 w-full px-4 md:px-8 max-w-[1200px] mx-auto mt-6 md:mt-0">
                 <div class="text-white mb-6 md:mb-8 text-center md:text-left">
-                    <h1 class="font-display text-3xl md:text-6xl font-extrabold mb-3 leading-tight" data-i18n="hero_title">L'élite de la mobilité.</h1>
-                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-xl mx-auto md:mx-0" data-i18n="hero_subtitle">Trouvez le véhicule parfait et consultez notre catalogue.</p>
+                    <h1 class="font-display text-3xl md:text-6xl font-extrabold mb-3 leading-tight" data-i18n="hero_title">L'élite de la mobilité à Kinshasa.</h1>
+                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-xl mx-auto md:mx-0" data-i18n="hero_subtitle">Trouvez le véhicule parfait disponible à Gombe, Kinshasa.</p>
                 </div>
                 
                 <div class="booking-widget rounded-xl md:rounded-2xl shadow-2xl p-3 md:p-6 border border-mutuk-blue/20">
                     <div class="mb-3 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-200 pb-2" data-i18n="vip_included">
-                        <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus
+                        <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus à Kinshasa
                     </div>
 
                     <form id="mainSearchForm" class="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-3">
                         <div class="col-span-2 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_brand">Marque / Modèle</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
-                            <input type="text" id="search-car" placeholder="Recherche..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                            <input type="text" id="search-car" placeholder="Toyota, Escalade..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_location">Lieu</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">location_on</span>
-                            <input type="text" id="search-location" placeholder="Kinshasa" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                            <input type="text" id="search-location" value="Gombe, Kinshasa" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_start">Départ</label>
@@ -168,24 +192,24 @@
         <section id="categories" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
             <div class="text-center md:text-left mb-6 md:mb-8">
                 <h2 class="font-display text-2xl md:text-4xl font-extrabold text-gray-900 mb-2" data-i18n="cat_title">Parcourir par catégorie</h2>
-                <p class="text-gray-500 text-sm md:text-base" data-i18n="cat_subtitle">Choisissez une catégorie pour consulter notre catalogue.</p>
+                <p class="text-gray-500 text-sm md:text-base" data-i18n="cat_subtitle">Choisissez une catégorie pour consulter notre catalogue à Kinshasa.</p>
             </div>
             
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                 <div onclick="goToCatalog('suv')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="SUV">
+                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="SUV 4x4 Kinshasa">
                     <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_suv">SUV 4x4</span></div>
                 </div>
                 <div onclick="goToCatalog('berline')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Berline">
+                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Berlines de luxe">
                     <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_sedan">Berlines</span></div>
                 </div>
                 <div onclick="goToCatalog('luxe')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Luxe">
+                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Véhicules VIP">
                     <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_luxe">Luxe & VIP</span></div>
                 </div>
                 <div onclick="goToCatalog('utilitaire')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Utilitaire">
+                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Utilitaires et bus">
                     <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_van">Utilitaires</span></div>
                 </div>
             </div>
@@ -211,7 +235,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Corporate B2B')">
-                    <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1974" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="B2B">
+                    <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1974" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Location entreprise Kinshasa">
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-transparent flex flex-col justify-center p-8">
                         <h3 class="text-3xl font-display font-extrabold text-white mb-3">Corporate B2B</h3>
                         <p class="text-gray-200 mb-6 max-w-sm" data-i18n="srv_b2b_desc">Gestion de flotte, facturation centralisée et chauffeurs.</p>
@@ -219,7 +243,7 @@
                     </div>
                 </div>
                 <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Mariages')">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariages">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Voiture de mariage Kinshasa">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent flex flex-col justify-end p-8">
                         <h3 class="text-3xl font-display font-extrabold text-white mb-3" data-i18n="srv_wedding">Mariages & Cérémonies</h3>
                         <p class="text-gray-300 mb-6 max-w-sm" data-i18n="srv_wedding_desc">Des cortèges inoubliables avec nos modèles décorés.</p>
@@ -297,7 +321,7 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE -->
+    <!-- MODAL RÉSERVATION EXPRESS (CORRIGÉ & ACTIF SUR INDEX) -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
             <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -320,7 +344,9 @@
 
                 <div>
                     <label class="text-xs font-semibold uppercase text-slate-600">Téléphone / WhatsApp *</label>
-                    <input required type="tel" id="booking-client-phone" placeholder="+243 ..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                        <div class="mt-1">
+                    <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                        </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -348,9 +374,17 @@
         </div>
     </div>
 
+    <!-- FOOTER -->
     <footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8 text-center md:text-left">
         <div class="px-4 md:px-8 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div><span class="font-display text-2xl font-extrabold text-mutuk-dark block">Mutuk<span class="text-mutuk-blue">Rentals</span></span><p class="text-gray-500 text-sm mt-2">Gombe, Kinshasa - RDC</p></div>
+            <div>
+                <span class="font-display text-2xl font-extrabold text-mutuk-dark block">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
+                <p class="text-gray-500 text-sm mt-2">Avenue Kalemie, Gombe, Kinshasa - RDC</p>
+            </div>
+            <div class="flex gap-6 text-gray-400 text-sm">
+                <a href="#" class="hover:text-mutuk-blue font-bold">Mentions légales</a>
+                <a href="#" class="hover:text-mutuk-blue font-bold">Confidentialité</a>
+            </div>
         </div>
     </footer>
 
@@ -371,20 +405,20 @@
 
         const i18nDict = {
             FR: {
-                title: "Mutuk Rentals - Location Premium", menu_home: "Accueil", menu_categories: "Catégories", menu_fleet: "La Flotte", menu_services: "Nos Services", menu_contact: "Contact",
-                hero_title: "L'élite de la mobilité.", hero_subtitle: "Trouvez le véhicule parfait et consultez notre catalogue.", search_btn: "Rechercher",
-                search_label_brand: "Marque / Modèle", search_label_location: "Lieu", search_label_start: "Départ", search_label_end: "Retour", vip_included: "Service Chauffeur VIP Accrédité inclus",
-                cat_title: "Parcourir par catégorie", cat_subtitle: "Choisissez une catégorie pour consulter notre catalogue.", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires",
+                title: "Mutuk Rentals - Location de Véhicules VIP à Kinshasa Gombe", menu_home: "Accueil", menu_categories: "Catégories", menu_fleet: "La Flotte", menu_services: "Nos Services", menu_contact: "Contact",
+                hero_title: "L'élite de la mobilité à Kinshasa.", hero_subtitle: "Trouvez le véhicule parfait disponible à Gombe, Kinshasa.", search_btn: "Rechercher",
+                search_label_brand: "Marque / Modèle", search_label_location: "Lieu", search_label_start: "Départ", search_label_end: "Retour", vip_included: "Service Chauffeur VIP Accrédité inclus à Kinshasa",
+                cat_title: "Parcourir par catégorie", cat_subtitle: "Choisissez une catégorie pour consulter notre catalogue à Kinshasa.", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires",
                 fleet_title: "À la une", fleet_link: "Tout le catalogue", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour",
                 seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver ce véhicule sur WhatsApp",
                 srv_subtitle: "Sur-mesure", srv_title: "Nos Services Exclusifs", srv_b2b_desc: "Gestion de flotte, facturation centralisée et chauffeurs.", srv_b2b_btn: "Demander un devis", srv_wedding: "Mariages & Cérémonies", srv_wedding_desc: "Des cortèges inoubliables.", srv_wedding_btn: "Voir les forfaits",
                 contact_title: "Besoin d'assistance ?", contact_desc: "Notre conciergerie est disponible 24h/24 et 7j/7."
             },
             EN: {
-                title: "Mutuk Rentals - Premium Rentals", menu_home: "Home", menu_categories: "Categories", menu_fleet: "Our Fleet", menu_services: "Services", menu_contact: "Contact",
-                hero_title: "The elite of mobility.", hero_subtitle: "Find the perfect vehicle and browse our catalog.", search_btn: "Search",
-                search_label_brand: "Make / Model", search_label_location: "Location", search_label_start: "Pickup", search_label_end: "Return", vip_included: "Certified VIP Chauffeur Service included",
-                cat_title: "Browse by category", cat_subtitle: "Choose a category to browse our catalog.", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans",
+                title: "Mutuk Rentals - VIP Car Rental in Kinshasa Gombe", menu_home: "Home", menu_categories: "Categories", menu_fleet: "Our Fleet", menu_services: "Services", menu_contact: "Contact",
+                hero_title: "The elite of mobility in Kinshasa.", hero_subtitle: "Find the perfect vehicle available in Gombe, Kinshasa.", search_btn: "Search",
+                search_label_brand: "Make / Model", search_label_location: "Location", search_label_start: "Pickup", search_label_end: "Return", vip_included: "Certified VIP Chauffeur Service included in Kinshasa",
+                cat_title: "Browse by category", cat_subtitle: "Choose a category to browse our Kinshasa catalog.", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans",
                 fleet_title: "Featured", fleet_link: "Full catalog", btn_book: "Book", on_request: "On Request", per_day: "per day",
                 seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book this vehicle on WhatsApp",
                 srv_subtitle: "Tailor-made", srv_title: "Our Exclusive Services", srv_b2b_desc: "Fleet management, centralized billing and drivers.", srv_b2b_btn: "Request a quote", srv_wedding: "Weddings & Ceremonies", srv_wedding_desc: "Unforgettable motorcades.", srv_wedding_btn: "View packages",
@@ -392,13 +426,23 @@
             }
         };
 
+        const input = document.querySelector("#booking-client-phone");
+const iti = window.intlTelInput(input, {
+    initialCountry: "cd", // Pays par défaut (RDC)
+    separateDialCode: true, // Sépare l'indicatif du numéro (style WhatsApp)
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" // Gère le formatage automatique
+});
+
+// Pour récupérer le numéro complet (Indicatif + Numéro) lors de la validation :
+// const fullNumber = iti.getNumber();
+
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
 
         function changeLanguage(lang, e) {
             if(e) e.preventDefault();
             localStorage.setItem('mutuk_lang', lang);
             applyLanguage(lang);
-            loadCarouselData(); // Refresh UI
+            loadCarouselData();
         }
 
         function applyLanguage(lang) {
@@ -443,7 +487,6 @@
 
         function openWhatsApp(msg) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'); }
 
-        // FORMATTAGE DES PRIX AVEC SYMBOLE $
         function formatPrice(p) {
             if (!p) return getTranslation('on_request');
             const str = p.toString().trim();
@@ -451,7 +494,6 @@
             return str.endsWith('$') ? str : `${str}$`;
         }
 
-        // CARROUSEL AVEC BADGES AUTOMATIQUES (Places, Boîte, $ )
         async function loadCarouselData() {
             try {
                 const { data } = await supabaseClient.from('cars').select('*').limit(6).order('id', { ascending: false });
@@ -471,13 +513,12 @@
                     grid.innerHTML += `
                     <div class="min-w-[280px] md:min-w-[340px] snap-start bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition">
                         <div class="h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
-                            <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
+                            <img src="${coverImg}" alt="${car.marque} à Kinshasa" class="w-full h-full object-cover">
                             <span class="absolute top-2 left-2 bg-gray-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
                         </div>
                         <div class="p-4 flex-1 flex flex-col">
                             <h3 class="font-display text-lg font-bold text-gray-900 cursor-pointer" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
                             
-                            <!-- BADGES SPÉCIFICATIONS -->
                             <div class="flex items-center gap-3 text-xs font-bold text-gray-500 my-3">
                                 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
                                 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
@@ -485,7 +526,7 @@
 
                             <div class="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
                                 <div><span class="block text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
-                                <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">Détails & Réserver</button>
+                                <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
                             </div>
                         </div>
                     </div>`;
@@ -495,7 +536,6 @@
             } catch(e) {}
         }
 
-        // MODAL DÉTAILS VÉHICULE & GALERIE 5 PHOTOS
         function openCarDetailsModal(index) {
             const car = globalCarData[index];
             if (!car) return;
@@ -510,13 +550,11 @@
             document.getElementById('detail-seats').innerText = car.places || 5;
             document.getElementById('detail-boite').innerText = (lang === 'EN' && car.boite === 'Automatique') ? 'Automatic' : (car.boite || 'Automatique');
             document.getElementById('detail-fuel').innerText = car.carburant || 'Essence';
-            document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP d'exception disponible à Kinshasa.";
+            document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP disponible à Gombe, Kinshasa.";
 
-            // Photo principale
             const mainImg = document.getElementById('detail-main-img');
             mainImg.src = images[0];
 
-            // Thumbnails (Jusqu'à 5 photos)
             const thumbsContainer = document.getElementById('detail-thumbs');
             thumbsContainer.innerHTML = "";
             images.slice(0, 5).forEach((imgSrc) => {
@@ -532,6 +570,7 @@
             document.getElementById('car-details-modal').classList.add('hidden');
         }
 
+        // TRANSITION DU MODAL DETAILS VERS LE MODAL DE RESERVATION (FONCTIONNEL)
         function openBookingFormFromDetails() {
             closeDetailsModal();
             if (!selectedCarForBooking) return;
@@ -554,7 +593,7 @@
             const days = document.getElementById('booking-days').value;
             const time = document.getElementById('booking-time').value;
 
-            const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de confirmer la disponibilité.`;
+            const message = `*RÉSERVATION EXPRESS (KINSHASA)*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
 
             openWhatsApp(message);
             closeBookingModal();

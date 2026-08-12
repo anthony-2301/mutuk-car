@@ -3,8 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title data-i18n="title">Catalogue - Mutuk Rentals</title>
     
+    <!-- SEO & METADATA -->
+    <title data-i18n="title">Catalogue - Mutuk Rentals Kinshasa</title>
+    <meta name="description" content="Catalogue complet des véhicules de luxe, SUV 4x4 et berlines disponibles à la location à Gombe, Kinshasa.">
+    <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -42,6 +46,7 @@
                     <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> <span data-i18n="back_home" class="hidden sm:inline">Retour à l'accueil</span>
                 </a>
 
+                <!-- LANGUE -->
                 <div class="relative inline-block text-left group">
                     <button type="button" class="flex items-center gap-1 font-bold text-gray-700 hover:text-mutuk-blue px-1 py-2">
                         <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
@@ -60,8 +65,8 @@
     <main class="pt-20 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
         <div class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
-                <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2" data-i18n="catalog_title">Notre Catalogue</h1>
-                <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus</span></p>
+                <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2" data-i18n="catalog_title">Notre Catalogue à Kinshasa</h1>
+                <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus à Gombe</span></p>
             </div>
 
             <div class="relative w-full md:w-auto md:min-w-[320px]">
@@ -145,7 +150,7 @@
 
                 <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
                     <span class="material-symbols-outlined">event_available</span>
-                    <span>Réserver</span>
+                    <span data-i18n="btn_book">Réserver</span>
                 </button>
             </div>
         </div>
@@ -220,11 +225,11 @@
 
         const i18nDict = {
             FR: {
-                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Détails & Réserver", on_request: "Sur Devis", per_day: "par jour",
+                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour",
                 seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver sur WhatsApp"
             },
             EN: {
-                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Details & Book", on_request: "On Request", per_day: "per day",
+                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Book", on_request: "On Request", per_day: "per day",
                 seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book on WhatsApp"
             }
         };
@@ -458,7 +463,7 @@
 
             const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
 
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+            openWhatsApp(message);
             closeBookingModal();
         }
     </script>
