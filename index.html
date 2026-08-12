@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
     <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -163,7 +163,7 @@
                         <div class="col-span-2 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_brand">Marque / Modèle</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
-                            <input type="text" id="search-car" placeholder="Toyota, Escalade..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                            <input type="text" id="search-car" placeholder="Recherche..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
                             <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_location">Lieu</label>
@@ -427,14 +427,11 @@
         };
 
         const input = document.querySelector("#booking-client-phone");
-const iti = window.intlTelInput(input, {
-    initialCountry: "cd", // Pays par défaut (RDC)
-    separateDialCode: true, // Sépare l'indicatif du numéro (style WhatsApp)
+        const iti = window.intlTelInput(input, {
+    initialCountry: "cd", // Pays par défaut
+    separateDialCode: true, // Sépare l'indicatif du numéro
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" // Gère le formatage automatique
 });
-
-// Pour récupérer le numéro complet (Indicatif + Numéro) lors de la validation :
-// const fullNumber = iti.getNumber();
 
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
 

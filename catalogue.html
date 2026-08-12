@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
     <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -179,9 +182,10 @@
 
                 <div>
                     <label class="text-xs font-semibold uppercase text-slate-600">Téléphone / WhatsApp *</label>
-                    <input required type="tel" id="booking-client-phone" placeholder="+243 ..." class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                        <div class="mt-1">
+                    <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                        </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-semibold uppercase text-slate-600">Date souhaitée *</label>
@@ -233,6 +237,14 @@
                 seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book on WhatsApp"
             }
         };
+
+        const input = document.querySelector("#booking-client-phone");
+        const iti = window.intlTelInput(input, {
+    initialCountry: "cd", // Pays par défaut
+    separateDialCode: true, // Sépare l'indicatif du numéro
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" // Gère le formatage automatique
+});
+
 
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
 
