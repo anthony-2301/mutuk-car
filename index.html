@@ -81,8 +81,6 @@
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
         .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
-        
-        /* Personnalisation IntlTelInput */
         .iti { width: 100%; }
     </style>
 </head>
@@ -114,7 +112,13 @@
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#contact" data-i18n="menu_contact">Contact</a>
             </div>
             
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 md:gap-4">
+                <!-- BOUTON PWA INSTALLATION MENU BUREAU -->
+                <button id="pwa-nav-btn" onclick="triggerPwaInstall()" class="hidden md:flex items-center gap-1.5 bg-blue-50 text-mutuk-blue border border-mutuk-blue/30 px-3 py-1.5 rounded-full font-bold text-xs hover:bg-mutuk-blue hover:text-white transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-base">download</span>
+                    <span data-i18n="install_app">Installer L'App</span>
+                </button>
+
                 <!-- LANGUE -->
                 <div class="relative inline-block text-left group">
                     <button type="button" class="flex items-center gap-1 text-sm font-bold text-gray-700 hover:text-mutuk-blue px-2 py-2">
@@ -146,10 +150,10 @@
             <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_services">Nos Services</a>
             <a href="#contact" class="mobile-link block px-6 py-4 font-bold text-gray-700 border-b border-gray-50" data-i18n="menu_contact">Contact</a>
             
-            <!-- PETIT BOUTON D'INSTALLATION PWA MENU MOBILE (Affiché si non installé) -->
-            <button id="pwa-mobile-btn" onclick="triggerPwaInstall()" class="hidden mobile-link w-full text-left px-6 py-4 font-bold text-mutuk-blue bg-blue-50/80 flex items-center gap-2 border-b border-gray-50">
+            <!-- BOUTON D'INSTALLATION PWA MENU MOBILE -->
+            <button id="pwa-mobile-btn" onclick="triggerPwaInstall()" class="mobile-link w-full text-left px-6 py-4 font-bold text-mutuk-blue bg-blue-50/80 flex items-center gap-2 border-b border-gray-50">
                 <span class="material-symbols-outlined text-lg">download</span>
-                <span>Télécharger l'application</span>
+                <span data-i18n="install_app">Installer L'Application PWA</span>
             </button>
 
             <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-gray-500 bg-gray-50 flex items-center gap-2">
@@ -392,22 +396,36 @@
     </div>
 
     <!-- BANNIÈRE PWA D'INSTALLATION PERMANENTE -->
-    <div id="pwa-install-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 z-[200] flex items-center justify-between gap-3 transition-all duration-300">
+    <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-white/95 backdrop-blur-md border border-mutuk-blue/20 shadow-2xl rounded-2xl p-4 z-[200] flex items-center justify-between gap-3 transition-all duration-300">
         <div class="flex items-center gap-3">
-            <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-12 h-12 rounded-xl object-cover border border-mutuk-blue/30 shadow-sm" onerror="this.src='https://placehold.co/100?text=MR'">
+            <div class="relative flex-shrink-0">
+                <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-12 h-12 rounded-xl object-cover border border-mutuk-blue/30 shadow-sm" onerror="this.src='https://placehold.co/100?text=MR'">
+                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full animate-ping"></span>
+                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
             <div>
-                <h4 class="font-display font-bold text-sm text-gray-900 leading-tight">Installer Mutuk Rentals</h4>
-                <p class="text-gray-500 text-xs mt-0.5">Accès plus rapide et réservation en 1 clic !</p>
+                <h4 class="font-display font-extrabold text-sm text-gray-900 leading-tight">Installer Mutuk Rentals</h4>
+                <p class="text-gray-500 text-xs mt-0.5 font-medium">Application rapide & réservation 24/7</p>
             </div>
         </div>
-        <div class="flex items-center gap-2">
-            <button onclick="triggerPwaInstall()" class="bg-mutuk-blue text-white text-xs font-bold px-3.5 py-2 rounded-xl hover:bg-mutuk-dark transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">download</span>
-                Installer
+        <button onclick="triggerPwaInstall()" class="bg-mutuk-blue text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl hover:bg-mutuk-dark transition-all shadow-md shadow-mutuk-blue/20 active:scale-95 whitespace-nowrap flex items-center gap-1.5 flex-shrink-0">
+            <span class="material-symbols-outlined text-base">download</span>
+            <span>Installer</span>
+        </button>
+    </div>
+
+    <!-- MODAL GUIDE INSTALLATION IOS (SAFARI) -->
+    <div id="ios-pwa-modal" class="hidden fixed inset-0 bg-black/70 z-[300] flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl">
+            <button onclick="closeIosPwaModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700">
+                <span class="material-symbols-outlined">close</span>
             </button>
-            <button onclick="dismissPwaBanner()" class="text-gray-400 hover:text-gray-600 p-1">
-                <span class="material-symbols-outlined text-lg">close</span>
-            </button>
+            <span class="material-symbols-outlined text-mutuk-blue text-5xl mb-2">phone_iphone</span>
+            <h3 class="font-display font-extrabold text-lg mb-2">Installer sur iOS</h3>
+            <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                Sur Safari, appuyez sur le bouton de partage <span class="material-symbols-outlined text-sm inline">share</span> en bas de votre écran, puis sélectionnez <strong>"Sur l'écran d'accueil"</strong> <span class="material-symbols-outlined text-sm inline">add_box</span>.
+            </p>
+            <button onclick="closeIosPwaModal()" class="w-full bg-mutuk-blue text-white font-bold py-2.5 rounded-xl text-xs">J'ai compris</button>
         </div>
     </div>
 
@@ -449,7 +467,7 @@
                 fleet_title: "À la une", fleet_link: "Tout le catalogue", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour",
                 seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver ce véhicule sur WhatsApp",
                 srv_subtitle: "Sur-mesure", srv_title: "Nos Services Exclusifs", srv_b2b_desc: "Gestion de flotte, facturation centralisée et chauffeurs.", srv_b2b_btn: "Demander un devis", srv_wedding: "Mariages & Cérémonies", srv_wedding_desc: "Des cortèges inoubliables.", srv_wedding_btn: "Voir les forfaits",
-                contact_title: "Besoin d'assistance ?", contact_desc: "Notre conciergerie est disponible 24h/24 et 7j/7."
+                contact_title: "Besoin d'assistance ?", contact_desc: "Notre conciergerie est disponible 24h/24 et 7j/7.", install_app: "Installer L'App"
             },
             EN: {
                 title: "Mutuk Rentals - VIP Car Rental in Kinshasa Gombe", menu_home: "Home", menu_categories: "Categories", menu_fleet: "Our Fleet", menu_services: "Services", menu_contact: "Contact",
@@ -459,7 +477,7 @@
                 fleet_title: "Featured", fleet_link: "Full catalog", btn_book: "Book", on_request: "On Request", per_day: "per day",
                 seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book this vehicle on WhatsApp",
                 srv_subtitle: "Tailor-made", srv_title: "Our Exclusive Services", srv_b2b_desc: "Fleet management, centralized billing and drivers.", srv_b2b_btn: "Request a quote", srv_wedding: "Weddings & Ceremonies", srv_wedding_desc: "Unforgettable motorcades.", srv_wedding_btn: "View packages",
-                contact_title: "Need assistance?", contact_desc: "Our concierge service is available 24/7."
+                contact_title: "Need assistance?", contact_desc: "Our concierge service is available 24/7.", install_app: "Install App"
             }
         };
 
@@ -639,47 +657,71 @@
         }
 
         // ==========================================
-        // LOGIQUE PWA (INSTALLATION & BANNIÈRE)
+        // LOGIQUE PWA CONSTANTE & ROBUSTE
         // ==========================================
         let deferredPrompt = null;
+
+        function isPwaStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
+
+        function updatePwaUI() {
+            // Ne rien afficher si le site est DÉJÀ exécuté comme application PWA installée
+            if (isPwaStandalone()) {
+                hidePwaUI();
+                return;
+            }
+
+            // Toujours afficher les boutons/bannière si l'application n'est pas ouverte en PWA
+            const banner = document.getElementById('pwa-install-banner');
+            const mobileBtn = document.getElementById('pwa-mobile-btn');
+            const navBtn = document.getElementById('pwa-nav-btn');
+
+            if (banner) banner.classList.remove('hidden');
+            if (mobileBtn) mobileBtn.classList.remove('hidden');
+            if (navBtn) navBtn.classList.remove('hidden');
+        }
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
+            updatePwaUI();
+        });
 
-            // Afficher le bouton dans le menu mobile
-            const mobileBtn = document.getElementById('pwa-mobile-btn');
-            if (mobileBtn) mobileBtn.classList.remove('hidden');
-
-            // Afficher la bannière si l'utilisateur ne l'a pas fermée pour cette session
-            if (!sessionStorage.getItem('pwa_banner_dismissed')) {
-                const banner = document.getElementById('pwa-install-banner');
-                if (banner) banner.classList.remove('hidden');
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePwaUI();
         });
 
         async function triggerPwaInstall() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('App installée par l\'utilisateur');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    hidePwaUI();
+                }
+                deferredPrompt = null;
+            } else {
+                // Détection iOS Safari (qui n'utilise pas beforeinstallprompt)
+                const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIos) {
+                    document.getElementById('ios-pwa-modal').classList.remove('hidden');
+                } else {
+                    alert("Pour installer l'application, appuyez sur le menu de votre navigateur et sélectionnez 'Ajouter à l'écran d'accueil'.");
+                }
             }
-            deferredPrompt = null;
-            hidePwaUI();
         }
 
-        function dismissPwaBanner() {
-            sessionStorage.setItem('pwa_banner_dismissed', 'true');
-            const banner = document.getElementById('pwa-install-banner');
-            if (banner) banner.classList.add('hidden');
+        function closeIosPwaModal() {
+            document.getElementById('ios-pwa-modal').classList.add('hidden');
         }
 
         function hidePwaUI() {
             const banner = document.getElementById('pwa-install-banner');
             const mobileBtn = document.getElementById('pwa-mobile-btn');
+            const navBtn = document.getElementById('pwa-nav-btn');
             if (banner) banner.classList.add('hidden');
             if (mobileBtn) mobileBtn.classList.add('hidden');
+            if (navBtn) navBtn.classList.add('hidden');
         }
 
         window.addEventListener('appinstalled', () => {
