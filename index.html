@@ -381,6 +381,24 @@
         </div>
     </div>
 
+
+    <!-- BANNIÈRE D'INSTALLATION PWA -->
+<div id="pwa-install-banner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-[999] flex items-center gap-4 transition-all duration-500 translate-y-10 opacity-0">
+    <div class="w-12 h-12 bg-mutuk-blue/10 rounded-xl flex items-center justify-center shrink-0">
+        <img src="image/logo.jpeg" alt="Mutuk" class="w-10 h-10 object-cover rounded-lg">
+    </div>
+    <div class="flex-1">
+        <h4 class="font-display font-bold text-gray-900 text-sm">Installer Mutuk Rentals</h4>
+        <p class="text-xs text-gray-500">Accédez à la flotte plus vite depuis votre écran d'accueil !</p>
+    </div>
+    <div class="flex items-center gap-2">
+        <button id="pwa-install-btn" class="bg-mutuk-blue text-white text-xs font-bold px-3 py-2 rounded-lg hover:bg-mutuk-dark transition">Installer</button>
+        <button id="pwa-close-btn" class="text-gray-400 hover:text-gray-600 p-1">
+            <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+    </div>
+</div>
+
     <!-- FOOTER -->
     <footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8 text-center md:text-left">
         <div class="px-4 md:px-8 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
@@ -409,6 +427,63 @@
         let supabaseClient;
         let globalCarData = [];
         let selectedCarForBooking = null;
+        let deferredPrompt;
+const installBanner = document.getElementById('pwa-install-banner');
+const installBtn = document.getElementById('pwa-install-btn');
+const closeBtn = document.getElementById('pwa-close-btn');
+
+// Écoute l'événement natif du navigateur autorisant l'installation
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Empêche Chrome d'afficher sa mini-barre native par défaut
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // Vérifie si l'utilisateur n'avait pas déjà fermé la bannière durant cette session
+    if (!localStorage.getItem('pwa_installed_dismissed')) {
+        installBanner.classList.remove('hidden');
+        // Petit effet d'apparition fluide
+        setTimeout(() => {
+            installBanner.classList.remove('translate-y-10', 'opacity-0');
+        }, 100);
+    }
+});
+
+// Action au clic sur le bouton "Installer"
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    
+    // Affiche la boîte de dialogue d'installation native
+    deferredPrompt.prompt();
+    
+    // Attend le choix de l'utilisateur
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+        console.log('Utilisateur a accepté l\'installation PWA');
+    }
+    
+    deferredPrompt = null;
+    hideInstallBanner();
+});
+
+// Action pour fermer/ignorer la bannière
+closeBtn.addEventListener('click', () => {
+    hideInstallBanner();
+    // Enregistre dans le stockage local pour éviter de harceler l'utilisateur sur chaque page
+    localStorage.setItem('pwa_installed_dismissed', 'true');
+});
+
+function hideInstallBanner() {
+    installBanner.classList.add('translate-y-10', 'opacity-0');
+    setTimeout(() => {
+        installBanner.classList.add('hidden');
+    }, 500);
+}
+
+// Masque la bannière si l'application est déjà lancée en mode PWA (autonome)
+window.addEventListener('appinstalled', () => {
+    hideInstallBanner();
+    console.log('PWA installée avec succès');
+});
 
         const i18nDict = {
             FR: {
@@ -602,6 +677,7 @@
             openWhatsApp(message);
             closeBookingModal();
         }
+
     </script>
 
     <script>
@@ -613,6 +689,5 @@
     });
   }
 </script>
-
 </body>
 </html>
