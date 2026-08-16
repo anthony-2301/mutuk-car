@@ -9,10 +9,12 @@
     <meta name="description" content="Catalogue complet des véhicules de luxe, SUV 4x4 et berlines disponibles à la location à Gombe, Kinshasa.">
     <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
 
+    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <!-- INTL-TEL-INPUT -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
@@ -32,6 +34,7 @@
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .filter-btn.active { background-color: #009ae0; color: white; border-color: #009ae0; }
+        .iti { width: 100%; }
     </style>
 </head>
 <body class="bg-background text-gray-900 font-body">
@@ -78,6 +81,7 @@
             </div>
         </div>
 
+        <!-- FILTRES -->
         <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-6 border-b border-gray-200 pb-4">
             <button onclick="filterCars('tout', this)" class="filter-btn active px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="filter_all">Tous les véhicules</button>
             <button onclick="filterCars('suv', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_suv">SUV 4x4</button>
@@ -96,6 +100,7 @@
             <p class="text-gray-500 font-bold text-sm" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
+        <!-- GRILLE DE VOITURES (2 PAR 2) -->
         <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"></div>
         
         <div id="no-results" class="hidden text-center py-16">
@@ -159,7 +164,7 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE -->
+    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE (SÉCURISÉ & DYNAMIQUE) -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
             <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -182,10 +187,11 @@
 
                 <div>
                     <label class="text-xs font-semibold uppercase text-slate-600">Téléphone / WhatsApp *</label>
-                        <div class="mt-1">
-                    <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
-                        </div>
+                    <div class="mt-1">
+                        <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                    </div>
                 </div>
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-semibold uppercase text-slate-600">Date souhaitée *</label>
@@ -204,14 +210,14 @@
 
                 <p class="text-[10px] text-slate-500 italic mt-1">* Note: La location inclut notre chauffeur. Le carburant est à votre charge. Horaires : 7H à 22H.</p>
 
-                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2">
+                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
                     Confirmer la demande
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- JAVASCRIPT CATALOGUE -->
+    <!-- JAVASCRIPT CATALOGUE PROPRE ET CORRIGÉ -->
     <script>
         const WHATSAPP_NUMBER = "243997708115";
         const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
@@ -226,6 +232,7 @@
         let carDatabase = [];
         let currentSearchTerm = "";
         let selectedCarForBooking = null;
+        let phoneInputIti = null;
 
         const i18nDict = {
             FR: {
@@ -237,14 +244,6 @@
                 seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book on WhatsApp"
             }
         };
-
-        const input = document.querySelector("#booking-client-phone");
-        const iti = window.intlTelInput(input, {
-    initialCountry: "cd", // Pays par défaut
-    separateDialCode: true, // Sépare l'indicatif du numéro
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" // Gère le formatage automatique
-});
-
 
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
 
@@ -293,6 +292,7 @@
             }
         }
 
+        // INITIALISATION SÉCURISÉE
         window.addEventListener('load', () => {
             applyLanguage(getLang());
             try { 
@@ -451,32 +451,70 @@
             document.getElementById('car-details-modal').classList.add('hidden');
         }
 
+        // OUVERTURE DU MODAL DE RESERVATION (SÉCURISÉE)
         function openBookingFormFromDetails() {
             closeDetailsModal();
             if (!selectedCarForBooking) return;
             
             document.getElementById('booking-car-name').value = `${selectedCarForBooking.marque} ${selectedCarForBooking.modele}`;
             document.getElementById('booking-date').valueAsDate = new Date();
-            document.getElementById('booking-modal').classList.remove('hidden');
+            
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('hidden');
+
+            // Initialiser IntlTelInput proprement quand le champ est visible
+            const phoneInput = document.getElementById("booking-client-phone");
+            if (phoneInput && window.intlTelInput && !phoneInputIti) {
+                try {
+                    phoneInputIti = window.intlTelInput(phoneInput, {
+                        initialCountry: "cd",
+                        separateDialCode: true,
+                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+                    });
+                } catch(err) { console.error(err); }
+            }
         }
 
         function closeBookingModal() {
             document.getElementById('booking-modal').classList.add('hidden');
         }
 
+        // SOUMISSION ET REDIRECTION WHATSAPP
         function handleBookingFormSubmit(e) {
             e.preventDefault();
-            const carName = document.getElementById('booking-car-name').value;
-            const clientName = document.getElementById('booking-client-name').value;
-            const clientPhone = document.getElementById('booking-client-phone').value;
-            const date = document.getElementById('booking-date').value;
-            const days = document.getElementById('booking-days').value;
-            const time = document.getElementById('booking-time').value;
+            
+            try {
+                const carName = document.getElementById('booking-car-name').value;
+                const clientName = document.getElementById('booking-client-name').value;
+                
+                // Récupération propre du numéro avec l'indicatif pays
+                let clientPhone = "";
+                if (phoneInputIti && typeof phoneInputIti.getNumber === 'function') {
+                    clientPhone = phoneInputIti.getNumber();
+                }
+                if (!clientPhone) {
+                    clientPhone = document.getElementById('booking-client-phone').value;
+                }
 
-            const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+                const date = document.getElementById('booking-date').value;
+                const days = document.getElementById('booking-days').value;
+                const time = document.getElementById('booking-time').value;
 
-            openWhatsApp(message);
-            closeBookingModal();
+                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+                // Redirection WhatsApp Garantie
+                const opened = window.open(whatsappUrl, '_blank');
+                if (!opened) {
+                    window.location.href = whatsappUrl; // Redirection directe de secours si le navigateur bloque le pop-up
+                }
+
+                closeBookingModal();
+            } catch (err) {
+                console.error("Erreur de soumission :", err);
+                alert("Erreur lors de la redirection WhatsApp. Veuillez réécarter.");
+            }
         }
     </script>
 </body>
