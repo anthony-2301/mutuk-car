@@ -217,7 +217,7 @@
         </div>
     </div>
 
-    <form action="https://formsubmit.co/calebmupenda30@gmail.com" method="POST">
+    <form action="https://formsubmit.co/Contact@mutukrentals.com" method="POST">
         <input type="text" name="test" value="Activation">
         <button type="submit">Activer FormSubmit</button>
     </form>
@@ -489,38 +489,54 @@
         async function handleBookingFormSubmit(e) {
             e.preventDefault();
             
-            try {
-                const carName = document.getElementById('booking-car-name').value;
-                const clientName = document.getElementById('booking-client-name').value;
-                
-                // Récupération propre du numéro avec l'indicatif pays
-                let clientPhone = "";
-                if (phoneInputIti && typeof phoneInputIti.getNumber === 'function') {
-                    clientPhone = phoneInputIti.getNumber();
-                }
-                if (!clientPhone) {
-                    clientPhone = document.getElementById('booking-client-phone').value;
-                }
+            const carName = document.getElementById('booking-car-name').value;
+            const clientName = document.getElementById('booking-client-name').value;
+            const phoneVal = iti ? iti.getNumber() : document.getElementById('booking-client-phone').value;
+            const date = document.getElementById('booking-date').value;
+            const days = document.getElementById('booking-days').value;
+            const time = document.getElementById('booking-time').value;
 
-                const date = document.getElementById('booking-date').value;
-                const days = document.getElementById('booking-days').value;
-                const time = document.getElementById('booking-time').value;
+            // 1. MINI-FORMULAIRE POUR WHATSAPP
+            const whatsappMessage = 
+`📋 *MUTUK RENTALS - BON DE RÉSERVATION*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚘 *Véhicule :* ${carName}
+👤 *Client :* ${clientName}
+📞 *Téléphone :* ${phoneVal}
+📅 *Date de départ :* ${date}
+⏰ *Heure de départ :* ${time}
+⏳ *Durée :* ${days} jour(s)
+📍 *Lieu :* Gombe, Kinshasa
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Merci de me confirmer la disponibilité._`;
 
-                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+            // 2. ENVOI DE L'EMAIL À Contact@mutukrentals.com
+            fetch("https://formsubmit.co/ajax/calebmupenda30@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
+                    _captcha: "false", // Désactive les vérifications captcha
+                    _template: "table", // Envoie un e-mail sous forme de joli tableau HTML
+                    "Véhicule Sélectionné": carName,
+                    "Nom Complet": clientName,
+                    "Téléphone / WhatsApp": phoneVal,
+                    "Date souhaitée": date,
+                    "Heure de départ": time,
+                    "Durée (Jours)": days,
+                    "Lieu de prise en charge": "Gombe, Kinshasa"
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
+            .catch(err => console.error("Erreur Envoi Email :", err));
 
-                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-                // Redirection WhatsApp Garantie
-                const opened = window.open(whatsappUrl, '_blank');
-                if (!opened) {
-                    window.location.href = whatsappUrl; // Redirection directe de secours si le navigateur bloque le pop-up
-                }
-
-                closeBookingModal();
-            } catch (err) {
-                console.error("Erreur de soumission :", err);
-                alert("Erreur lors de la redirection WhatsApp. Veuillez réécarter.");
-            }
+            // 3. REDIRECTION WHATSAPP & FERMETURE DU MODAL
+            openWhatsApp(whatsappMessage);
+            closeBookingModal();
         }
     </script>
 </body>
