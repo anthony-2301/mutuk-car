@@ -164,7 +164,7 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE (SÉCURISÉ & DYNAMIQUE) -->
+    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE ET LIEU DE DÉPART -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
             <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -192,6 +192,11 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600">Lieu de prise en charge (Départ) *</label>
+                    <input required type="text" id="booking-location" placeholder="Ex: Hôtel Fleuve Congo, Gombe, Kinshasa" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                </div>
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-semibold uppercase text-slate-600">Date souhaitée *</label>
@@ -216,12 +221,6 @@
             </form>
         </div>
     </div>
-
-    <form action="https://formsubmit.co/Contact@mutukrentals.com" method="POST">
-        <input type="text" name="test" value="Activation">
-        <button type="submit">Activer FormSubmit</button>
-    </form>
-
 
     <!-- JAVASCRIPT CATALOGUE PROPRE ET CORRIGÉ -->
     <script>
@@ -457,7 +456,7 @@
             document.getElementById('car-details-modal').classList.add('hidden');
         }
 
-        // OUVERTURE DU MODAL DE RESERVATION (SÉCURISÉE)
+        // OUVERTURE DU MODAL DE RESERVATION
         function openBookingFormFromDetails() {
             closeDetailsModal();
             if (!selectedCarForBooking) return;
@@ -468,7 +467,6 @@
             const modal = document.getElementById('booking-modal');
             modal.classList.remove('hidden');
 
-            // Initialiser IntlTelInput proprement quand le champ est visible
             const phoneInput = document.getElementById("booking-client-phone");
             if (phoneInput && window.intlTelInput && !phoneInputIti) {
                 try {
@@ -485,15 +483,15 @@
             document.getElementById('booking-modal').classList.add('hidden');
         }
 
-        // SOUMISSION HYBRIDE (WHATSAPP + EMAIL AUTOMATIQUE À calebmupenda30@gmail.com)
+        // SOUMISSION HYBRIDE (WHATSAPP + EMAIL AUTOMATIQUE À Contact@mutukrentals.com)
         async function handleBookingFormSubmit(e) {
             e.preventDefault();
             
             try {
                 const carName = document.getElementById('booking-car-name').value;
                 const clientName = document.getElementById('booking-client-name').value;
+                const location = document.getElementById('booking-location').value;
                 
-                // Récupération propre du numéro avec l'indicatif pays
                 let clientPhone = "";
                 if (phoneInputIti && typeof phoneInputIti.getNumber === 'function') {
                     clientPhone = phoneInputIti.getNumber();
@@ -506,44 +504,44 @@
                 const days = document.getElementById('booking-days').value;
                 const time = document.getElementById('booking-time').value;
 
-                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${location}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
 
                 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-                // Redirection WhatsApp Garantie
+                // Redirection WhatsApp
                 const opened = window.open(whatsappUrl, '_blank');
                 if (!opened) {
-                    window.location.href = whatsappUrl; // Redirection directe de secours si le navigateur bloque le pop-up
+                    window.location.href = whatsappUrl;
                 }
 
- // 2. ENVOI DE L'EMAIL À Contact@mutukrentals.com
-            fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
-                method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
-                    _captcha: "false", // Désactive les vérifications captcha
-                    _template: "table", // Envoie un e-mail sous forme de joli tableau HTML
-                    "Véhicule Sélectionné": carName,
-                    "Nom Complet": clientName,
-                    "Téléphone / WhatsApp": phoneVal,
-                    "Date souhaitée": date,
-                    "Heure de départ": time,
-                    "Durée (Jours)": days,
-                    "Lieu de prise en charge": "Gombe, Kinshasa"
+                // Envoi de l'e-mail automatique à Contact@mutukrentals.com
+                fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
+                        _captcha: "false",
+                        _template: "table",
+                        "Véhicule Sélectionné": carName,
+                        "Nom Complet": clientName,
+                        "Téléphone / WhatsApp": clientPhone,
+                        "Lieu de prise en charge (Départ)": location,
+                        "Date souhaitée": date,
+                        "Heure de départ": time,
+                        "Durée (Jours)": days
+                    })
                 })
-            })
-            .then(res => res.json())
-            .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
-            .catch(err => console.error("Erreur Envoi Email :", err));
+                .then(res => res.json())
+                .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
+                .catch(err => console.error("Erreur Envoi Email :", err));
                 
                 closeBookingModal();
             } catch (err) {
                 console.error("Erreur de soumission :", err);
-                alert("Erreur lors de la redirection WhatsApp. Veuillez réécarter.");
+                alert("Erreur lors de la réservation. Veuillez réessayer.");
             }
         }
     </script>

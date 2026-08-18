@@ -113,7 +113,6 @@
             </div>
             
             <div class="flex items-center gap-3 md:gap-4">
-                <!-- BOUTON PWA INSTALLATION MENU BUREAU -->
                 <button id="pwa-nav-btn" onclick="triggerPwaInstall()" class="hidden md:flex items-center gap-1.5 bg-blue-50 text-mutuk-blue border border-mutuk-blue/30 px-3 py-1.5 rounded-full font-bold text-xs hover:bg-mutuk-blue hover:text-white transition-all shadow-sm">
                     <span class="material-symbols-outlined text-base">download</span>
                     <span data-i18n="install_app">Installer L'App</span>
@@ -150,7 +149,6 @@
             <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_services">Nos Services</a>
             <a href="#contact" class="mobile-link block px-6 py-4 font-bold text-gray-700 border-b border-gray-50" data-i18n="menu_contact">Contact</a>
             
-            <!-- BOUTON D'INSTALLATION PWA MENU MOBILE -->
             <button id="pwa-mobile-btn" onclick="triggerPwaInstall()" class="mobile-link w-full text-left px-6 py-4 font-bold text-mutuk-blue bg-blue-50/80 flex items-center gap-2 border-b border-gray-50">
                 <span class="material-symbols-outlined text-lg">download</span>
                 <span data-i18n="install_app">Installer L'Application PWA</span>
@@ -334,7 +332,6 @@
                     <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
                 </div>
 
-                <!-- BOUTON DE RÉSERVATION : Ouvre le formulaire express -->
                 <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg text-base">
                     <span class="material-symbols-outlined">event_available</span>
                     <span data-i18n="btn_book">Réserver</span>
@@ -343,7 +340,7 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS -->
+    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE ET LIEU DE DÉPART -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
             <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
@@ -371,6 +368,11 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600">Lieu de prise en charge (Départ) *</label>
+                    <input required type="text" id="booking-location" placeholder="Ex: Hôtel Fleuve Congo, Gombe, Kinshasa" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                </div>
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-semibold uppercase text-slate-600">Date souhaitée *</label>
@@ -389,7 +391,7 @@
 
                 <p class="text-[10px] text-slate-500 italic mt-1">* Note: La location inclut notre chauffeur. Le carburant est à votre charge. Horaires : 8H à 22H.</p>
 
-                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2">
+                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
                     Confirmer la demande
                 </button>
             </form>
@@ -443,11 +445,6 @@
             </div>
         </div>
     </footer>
-
-    <form action="https://formsubmit.co/Contact@mutukrentals.com" method="POST">
-        <input type="text" name="test" value="Activation">
-        <button type="submit">Activer FormSubmit</button>
-    </form>
 
     <!-- JAVASCRIPT GLOBAL -->
     <script>
@@ -647,135 +644,66 @@
             document.getElementById('booking-modal').classList.add('hidden');
         }
 
-        // SOUMISSION HYBRIDE (WHATSAPP + EMAIL AUTOMATIQUE À calebmupenda30@gmail.com)
+        // SOUMISSION HYBRIDE (WHATSAPP + EMAIL AUTOMATIQUE À Contact@mutukrentals.com)
         async function handleBookingFormSubmit(e) {
             e.preventDefault();
             
-            const carName = document.getElementById('booking-car-name').value;
-            const clientName = document.getElementById('booking-client-name').value;
-            const phoneVal = iti ? iti.getNumber() : document.getElementById('booking-client-phone').value;
-            const date = document.getElementById('booking-date').value;
-            const days = document.getElementById('booking-days').value;
-            const time = document.getElementById('booking-time').value;
+            try {
+                const carName = document.getElementById('booking-car-name').value;
+                const clientName = document.getElementById('booking-client-name').value;
+                const location = document.getElementById('booking-location').value;
+                
+                let clientPhone = "";
+                if (iti && typeof iti.getNumber === 'function') {
+                    clientPhone = iti.getNumber();
+                }
+                if (!clientPhone) {
+                    clientPhone = document.getElementById('booking-client-phone').value;
+                }
 
-            // 1. MINI-FORMULAIRE POUR WHATSAPP
-            const whatsappMessage = 
-`📋 *MUTUK RENTALS - BON DE RÉSERVATION*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚘 *Véhicule :* ${carName}
-👤 *Client :* ${clientName}
-📞 *Téléphone :* ${phoneVal}
-📅 *Date de départ :* ${date}
-⏰ *Heure de départ :* ${time}
-⏳ *Durée :* ${days} jour(s)
-📍 *Lieu :* Gombe, Kinshasa
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-_Merci de me confirmer la disponibilité._`;
+                const date = document.getElementById('booking-date').value;
+                const days = document.getElementById('booking-days').value;
+                const time = document.getElementById('booking-time').value;
 
-            // 2. ENVOI DE L'EMAIL À Contact@mutukrentals.com
-            fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
-                method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
-                    _captcha: "false", // Désactive les vérifications captcha
-                    _template: "table", // Envoie un e-mail sous forme de joli tableau HTML
-                    "Véhicule Sélectionné": carName,
-                    "Nom Complet": clientName,
-                    "Téléphone / WhatsApp": phoneVal,
-                    "Date souhaitée": date,
-                    "Heure de départ": time,
-                    "Durée (Jours)": days,
-                    "Lieu de prise en charge": "Gombe, Kinshasa"
+                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${location}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+                // Redirection WhatsApp
+                const opened = window.open(whatsappUrl, '_blank');
+                if (!opened) {
+                    window.location.href = whatsappUrl;
+                }
+
+                // Envoi de l'e-mail automatique à Contact@mutukrentals.com
+                fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
+                        _captcha: "false",
+                        _template: "table",
+                        "Véhicule Sélectionné": carName,
+                        "Nom Complet": clientName,
+                        "Téléphone / WhatsApp": clientPhone,
+                        "Lieu de prise en charge (Départ)": location,
+                        "Date souhaitée": date,
+                        "Heure de départ": time,
+                        "Durée (Jours)": days
+                    })
                 })
-            })
-            .then(res => res.json())
-            .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
-            .catch(err => console.error("Erreur Envoi Email :", err));
-
-            // 3. REDIRECTION WHATSAPP & FERMETURE DU MODAL
-            openWhatsApp(whatsappMessage);
-            closeBookingModal();
-        }
-
-        // ==========================================
-        // LOGIQUE PWA CONSTANTE
-        // ==========================================
-        let deferredPrompt = null;
-
-        function isPwaStandalone() {
-            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        }
-
-        function updatePwaUI() {
-            if (isPwaStandalone()) {
-                hidePwaUI();
-                return;
+                .then(res => res.json())
+                .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
+                .catch(err => console.error("Erreur Envoi Email :", err));
+                
+                closeBookingModal();
+            } catch (err) {
+                console.error("Erreur de soumission :", err);
+                alert("Erreur lors de la réservation. Veuillez réessayer.");
             }
-
-            const banner = document.getElementById('pwa-install-banner');
-            const mobileBtn = document.getElementById('pwa-mobile-btn');
-            const navBtn = document.getElementById('pwa-nav-btn');
-
-            if (banner) banner.classList.remove('hidden');
-            if (mobileBtn) mobileBtn.classList.remove('hidden');
-            if (navBtn) navBtn.classList.remove('hidden');
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            updatePwaUI();
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updatePwaUI();
-        });
-
-        async function triggerPwaInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    hidePwaUI();
-                }
-                deferredPrompt = null;
-            } else {
-                const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (isIos) {
-                    document.getElementById('ios-pwa-modal').classList.remove('hidden');
-                } else {
-                    alert("Pour installer l'application, appuyez sur le menu de votre navigateur et sélectionnez 'Ajouter à l'écran d'accueil'.");
-                }
-            }
-        }
-
-        function closeIosPwaModal() {
-            document.getElementById('ios-pwa-modal').classList.add('hidden');
-        }
-
-        function hidePwaUI() {
-            const banner = document.getElementById('pwa-install-banner');
-            const mobileBtn = document.getElementById('pwa-mobile-btn');
-            const navBtn = document.getElementById('pwa-nav-btn');
-            if (banner) banner.classList.add('hidden');
-            if (mobileBtn) mobileBtn.classList.add('hidden');
-            if (navBtn) navBtn.classList.add('hidden');
-        }
-
-        window.addEventListener('appinstalled', () => {
-            hidePwaUI();
-        });
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then((reg) => console.log('Service Worker enregistré !', reg))
-                    .catch((err) => console.log('Erreur SW :', err));
-            });
         }
     </script>
 </body>
