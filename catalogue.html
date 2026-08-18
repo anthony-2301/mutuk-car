@@ -489,29 +489,35 @@
         async function handleBookingFormSubmit(e) {
             e.preventDefault();
             
-            const carName = document.getElementById('booking-car-name').value;
-            const clientName = document.getElementById('booking-client-name').value;
-            const phoneVal = iti ? iti.getNumber() : document.getElementById('booking-client-phone').value;
-            const date = document.getElementById('booking-date').value;
-            const days = document.getElementById('booking-days').value;
-            const time = document.getElementById('booking-time').value;
+            try {
+                const carName = document.getElementById('booking-car-name').value;
+                const clientName = document.getElementById('booking-client-name').value;
+                
+                // Récupération propre du numéro avec l'indicatif pays
+                let clientPhone = "";
+                if (phoneInputIti && typeof phoneInputIti.getNumber === 'function') {
+                    clientPhone = phoneInputIti.getNumber();
+                }
+                if (!clientPhone) {
+                    clientPhone = document.getElementById('booking-client-phone').value;
+                }
 
-            // 1. MINI-FORMULAIRE POUR WHATSAPP
-            const whatsappMessage = 
-`📋 *MUTUK RENTALS - BON DE RÉSERVATION*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚘 *Véhicule :* ${carName}
-👤 *Client :* ${clientName}
-📞 *Téléphone :* ${phoneVal}
-📅 *Date de départ :* ${date}
-⏰ *Heure de départ :* ${time}
-⏳ *Durée :* ${days} jour(s)
-📍 *Lieu :* Gombe, Kinshasa
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-_Merci de me confirmer la disponibilité._`;
+                const date = document.getElementById('booking-date').value;
+                const days = document.getElementById('booking-days').value;
+                const time = document.getElementById('booking-time').value;
 
-            // 2. ENVOI DE L'EMAIL À Contact@mutukrentals.com
-            fetch("https://formsubmit.co/ajax/calebmupenda30@gmail.com", {
+                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+                // Redirection WhatsApp Garantie
+                const opened = window.open(whatsappUrl, '_blank');
+                if (!opened) {
+                    window.location.href = whatsappUrl; // Redirection directe de secours si le navigateur bloque le pop-up
+                }
+
+ // 2. ENVOI DE L'EMAIL À Contact@mutukrentals.com
+            fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
                 method: "POST",
                 headers: { 
                     'Content-Type': 'application/json',
@@ -533,10 +539,12 @@ _Merci de me confirmer la disponibilité._`;
             .then(res => res.json())
             .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
             .catch(err => console.error("Erreur Envoi Email :", err));
-
-            // 3. REDIRECTION WHATSAPP & FERMETURE DU MODAL
-            openWhatsApp(whatsappMessage);
-            closeBookingModal();
+                
+                closeBookingModal();
+            } catch (err) {
+                console.error("Erreur de soumission :", err);
+                alert("Erreur lors de la redirection WhatsApp. Veuillez réécarter.");
+            }
         }
     </script>
 </body>
