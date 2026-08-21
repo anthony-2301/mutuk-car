@@ -4,21 +4,17 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     
-    <!-- SEO & METADATA -->
     <title data-i18n="title">Catalogue - Mutuk Rentals Kinshasa</title>
     <meta name="description" content="Catalogue complet des véhicules de luxe, SUV 4x4 et berlines disponibles à la location à Gombe, Kinshasa.">
     <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
 
-    <!-- TAILWIND & FONTS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
-    <!-- INTL-TEL-INPUT -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
-    <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script id="tailwind-config">
@@ -51,8 +47,6 @@
                 <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 transition-colors">
                     <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> <span data-i18n="back_home" class="hidden sm:inline">Retour à l'accueil</span>
                 </a>
-
-                <!-- LANGUE -->
                 <div class="relative inline-block text-left group">
                     <button type="button" class="flex items-center gap-1 font-bold text-gray-700 hover:text-mutuk-blue px-1 py-2">
                         <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
@@ -74,14 +68,12 @@
                 <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2" data-i18n="catalog_title">Notre Catalogue à Kinshasa</h1>
                 <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus à Gombe</span></p>
             </div>
-
             <div class="relative w-full md:w-auto md:min-w-[320px]">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
                 <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-9 pr-3 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-xs md:text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
             </div>
         </div>
 
-        <!-- FILTRES -->
         <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-6 border-b border-gray-200 pb-4">
             <button onclick="filterCars('tout', this)" class="filter-btn active px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="filter_all">Tous les véhicules</button>
             <button onclick="filterCars('suv', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_suv">SUV 4x4</button>
@@ -100,9 +92,7 @@
             <p class="text-gray-500 font-bold text-sm" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
-        <!-- GRILLE DE VOITURES (2 PAR 2) -->
         <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"></div>
-        
         <div id="no-results" class="hidden text-center py-16">
             <span class="material-symbols-outlined text-5xl text-gray-300 mb-2">search_off</span>
             <h3 class="text-base md:text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
@@ -121,7 +111,6 @@
                     </div>
                     <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
                 </div>
-
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
                     <div>
                         <h2 id="detail-title" class="font-display text-xl md:text-3xl font-extrabold text-gray-900"></h2>
@@ -132,7 +121,6 @@
                         <span class="text-[10px] md:text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <div class="text-center">
                         <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span>
@@ -150,12 +138,10 @@
                         <span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                 </div>
-
                 <div class="mb-6">
                     <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1" data-i18n="description">Description & Options</h4>
                     <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
                 </div>
-
                 <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
                     <span class="material-symbols-outlined">event_available</span>
                     <span data-i18n="btn_book">Réserver</span>
@@ -164,56 +150,69 @@
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION EXPRESS AVEC HEURE ET LIEU DE DÉPART -->
+    <!-- MODAL RÉSERVATION EXPRESS -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
-            <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
                 <span class="material-symbols-outlined text-xl">close</span>
             </button>
 
             <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest">Réservation Express</span>
-            <h3 class="font-display text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
             
-            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-3.5">
+            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-3">
                 <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600">Véhicule Sélectionné</label>
-                    <input type="text" id="booking-car-name" readonly class="w-full p-3 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
+                    <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
                 </div>
 
-                <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600">Votre Nom Complet *</label>
-                    <input required type="text" id="booking-client-name" placeholder="Entrez votre nom" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
-                </div>
-
-                <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600">Téléphone / WhatsApp *</label>
-                    <div class="mt-1">
-                        <input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600">Lieu de prise en charge (Départ) *</label>
-                    <input required type="text" id="booking-location" placeholder="Ex: Hôtel Fleuve Congo, Gombe, Kinshasa" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600">Date souhaitée *</label>
-                        <input type="date" id="booking-date" required class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-1"/>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
+                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
                     </div>
                     <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600">Durée (Jours) *</label>
-                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-1"/>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
+                        <div class="mt-1"><input required type="tel" id="booking-client-phone" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/></div>
                     </div>
                 </div>
 
-                <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600">Heure de départ *</label>
-                    <input type="time" id="booking-time" value="08:00" required class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-1"/>
+                <!-- DÉPART -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
+                    <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
+                        <option value="autre">Autre adresse...</option>
+                    </select>
+                    <textarea required id="booking-depart-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
                 </div>
 
-                <p class="text-[10px] text-slate-500 italic mt-1">* Note: La location inclut notre chauffeur. Le carburant est à votre charge. Horaires : 7H à 22H.</p>
+                <!-- ARRIVÉE -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
+                    <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
+                        <option value="autre">Autre adresse...</option>
+                    </select>
+                    <textarea required id="booking-arrivee-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
+                        <input type="date" id="booking-date" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Heure *</label>
+                        <input type="time" id="booking-time" value="08:00" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">hourglass_bottom</span> Durée (J) *</label>
+                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                </div>
+
+                <p class="text-[10px] text-slate-500 italic mt-1">* Note: Chauffeur inclus. Carburant à votre charge. Horaires : 7H à 22H.</p>
 
                 <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
                     Confirmer la demande
@@ -222,11 +221,10 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT CATALOGUE PROPRE ET CORRIGÉ -->
+    <!-- JAVASCRIPT CATALOGUE -->
     <script>
         const WHATSAPP_NUMBER = "243997708115";
         const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
-        // nosemgrep: generic.secrets.security.detected-jwt-token.detected-jwt-token
         const SUPABASE_ANON_KEY = [
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
             "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0",
@@ -238,27 +236,26 @@
         let currentSearchTerm = "";
         let selectedCarForBooking = null;
         let phoneInputIti = null;
+        const AGENCE_ADDRESS = "5573. AV. KAUKA COMMUNE DE LA GOMBE\nREF: IMMEUBLE MAISHA PARK, ARRET : ROYAL";
 
         const i18nDict = {
             FR: {
                 title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour",
-                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options", book_whatsapp: "Réserver sur WhatsApp"
+                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options"
             },
             EN: {
                 title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Book", on_request: "On Request", per_day: "per day",
-                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options", book_whatsapp: "Book on WhatsApp"
+                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options"
             }
         };
 
         function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
-
         function changeLanguage(lang, e) {
             if(e) e.preventDefault();
             localStorage.setItem('mutuk_lang', lang);
             applyLanguage(lang);
             renderCars(getFilteredCars());
         }
-
         function applyLanguage(lang) {
             const dictionary = i18nDict[lang] || i18nDict['FR'];
             document.getElementById('current-lang').innerText = lang;
@@ -271,60 +268,45 @@
                 if (dictionary[key]) el.placeholder = dictionary[key];
             });
         }
-
         function formatPrice(p) {
             if (!p) return getTranslation('on_request');
             const str = p.toString().trim();
             if (str.toLowerCase().includes('devis')) return getTranslation('on_request');
             return str.endsWith('$') ? str : `${str}$`;
         }
-
         function getTranslation(key) { return i18nDict[getLang()][key] || key; }
 
         async function fetchCars() {
             document.getElementById('loading-spinner').classList.remove('hidden');
             document.getElementById('cars-grid').classList.add('hidden');
-
             try {
                 const { data, error } = await supabaseClient.from('cars').select('*').order('id', { ascending: false });
                 if (error) throw error;
                 carDatabase = data || [];
                 initCatalog();
-            } catch (error) {
-                console.error("Erreur Supabase:", error);
-            } finally {
-                document.getElementById('loading-spinner').classList.add('hidden');
-            }
+            } catch (error) { console.error(error); } 
+            finally { document.getElementById('loading-spinner').classList.add('hidden'); }
         }
 
-        // INITIALISATION SÉCURISÉE
         window.addEventListener('load', () => {
             applyLanguage(getLang());
-            try { 
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); 
-                fetchCars();
-            } catch(e){}
+            try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); fetchCars(); } catch(e){}
         });
 
         function initCatalog() {
             const params = new URLSearchParams(window.location.search);
             const searchParam = params.get('recherche');
             const catParam = params.get('categorie');
-
             if (searchParam) {
                 currentSearchTerm = searchParam;
                 document.getElementById('catalog-search').value = searchParam;
                 document.getElementById('search-indicator').classList.remove('hidden');
                 document.getElementById('search-term').innerText = searchParam;
                 filterCars('tout'); 
-            } 
-            else if (catParam) {
+            } else if (catParam) {
                 const buttons = document.querySelectorAll('.filter-btn');
-                buttons.forEach(btn => {
-                    if (btn.getAttribute('onclick').includes(catParam)) btn.click();
-                });
-            } 
-            else { renderCars(carDatabase); }
+                buttons.forEach(btn => { if (btn.getAttribute('onclick').includes(catParam)) btn.click(); });
+            } else { renderCars(carDatabase); }
         }
 
         function getFilteredCars() {
@@ -334,20 +316,17 @@
                 const match = activeBtn.getAttribute('onclick').match(/'(.*?)'/);
                 if(match) category = match[1];
             }
-
             let filtered = carDatabase;
             if (category !== 'tout') {
                 if (category === 'luxe') filtered = filtered.filter(car => car.categorie === 'luxe');
                 else filtered = filtered.filter(car => car.categorie === category);
             }
-
             if (currentSearchTerm !== "") {
                 filtered = filtered.filter(car => 
                     car.marque.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
                     car.modele.toLowerCase().includes(currentSearchTerm.toLowerCase())
                 );
             }
-
             return filtered;
         }
 
@@ -355,17 +334,14 @@
             const grid = document.getElementById('cars-grid');
             const noResults = document.getElementById('no-results');
             grid.innerHTML = "";
-
             if (carsToDisplay.length === 0) {
                 grid.classList.add('hidden');
                 noResults.classList.remove('hidden');
                 return;
             }
-
             grid.classList.remove('hidden');
             grid.style.display = 'grid';
             noResults.classList.add('hidden');
-
             const lang = getLang();
             const btnText = i18nDict[lang]['btn_book'];
 
@@ -373,7 +349,6 @@
                 const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
                 const priceDisplay = formatPrice(car.prix_jour);
                 const boiteDisplay = (lang === 'EN' && car.boite === 'Automatique') ? 'Auto' : (car.boite ? car.boite.substring(0, 4) : 'Auto');
-
                 grid.innerHTML += `
                 <div class="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition-shadow">
                     <div class="h-32 sm:h-40 md:h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
@@ -382,12 +357,10 @@
                     </div>
                     <div class="p-2.5 sm:p-3 md:p-4 flex-1 flex flex-col">
                         <h3 class="font-display text-xs sm:text-base md:text-lg font-bold text-gray-900 cursor-pointer truncate" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
-                        
                         <div class="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-bold text-gray-500 my-1.5 md:my-3">
                             <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
                             <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
                         </div>
-
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto pt-2 border-t border-gray-50 gap-1">
                             <div><span class="block text-sm sm:text-lg md:text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
                             <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg text-[10px] sm:text-xs hover:bg-mutuk-blue hover:text-white transition-colors text-center w-full sm:w-auto">${btnText}</button>
@@ -402,9 +375,7 @@
             if(currentSearchTerm !== "") {
                 document.getElementById('search-indicator').classList.remove('hidden');
                 document.getElementById('search-term').innerText = currentSearchTerm;
-            } else {
-                document.getElementById('search-indicator').classList.add('hidden');
-            }
+            } else { document.getElementById('search-indicator').classList.add('hidden'); }
             renderCars(getFilteredCars());
         }
 
@@ -425,7 +396,6 @@
             const cars = getFilteredCars();
             const car = cars[index];
             if (!car) return;
-
             selectedCarForBooking = car;
             const lang = getLang();
             const images = (car.images && car.images.length > 0) ? car.images : [car.image_url || 'https://placehold.co/600x400'];
@@ -438,111 +408,92 @@
             document.getElementById('detail-fuel').innerText = car.carburant || 'Essence';
             document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP d'exception disponible à Kinshasa.";
 
-            const mainImg = document.getElementById('detail-main-img');
-            mainImg.src = images[0];
-
+            document.getElementById('detail-main-img').src = images[0];
             const thumbsContainer = document.getElementById('detail-thumbs');
             thumbsContainer.innerHTML = "";
             images.slice(0, 5).forEach((imgSrc) => {
-                thumbsContainer.innerHTML += `
-                    <img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-14 w-16 md:h-16 md:w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">
-                `;
+                thumbsContainer.innerHTML += `<img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-14 w-16 md:h-16 md:w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">`;
             });
-
             document.getElementById('car-details-modal').classList.remove('hidden');
         }
 
-        function closeDetailsModal() {
-            document.getElementById('car-details-modal').classList.add('hidden');
+        function closeDetailsModal() { document.getElementById('car-details-modal').classList.add('hidden'); }
+
+        function toggleLocationInput(type) {
+            const select = document.getElementById(`booking-${type}-type`);
+            const textarea = document.getElementById(`booking-${type}-address`);
+            if (select.value === 'agence') {
+                textarea.value = AGENCE_ADDRESS;
+                textarea.readOnly = true;
+                textarea.classList.add('bg-slate-100', 'text-slate-600');
+            } else {
+                textarea.value = "";
+                textarea.readOnly = false;
+                textarea.placeholder = "Veuillez entrer l'adresse exacte...";
+                textarea.classList.remove('bg-slate-100', 'text-slate-600');
+                textarea.focus();
+            }
         }
 
-        // OUVERTURE DU MODAL DE RESERVATION
         function openBookingFormFromDetails() {
             closeDetailsModal();
             if (!selectedCarForBooking) return;
-            
             document.getElementById('booking-car-name').value = `${selectedCarForBooking.marque} ${selectedCarForBooking.modele}`;
             document.getElementById('booking-date').valueAsDate = new Date();
-            
-            const modal = document.getElementById('booking-modal');
-            modal.classList.remove('hidden');
+            document.getElementById('booking-modal').classList.remove('hidden');
 
             const phoneInput = document.getElementById("booking-client-phone");
             if (phoneInput && window.intlTelInput && !phoneInputIti) {
                 try {
-                    phoneInputIti = window.intlTelInput(phoneInput, {
-                        initialCountry: "cd",
-                        separateDialCode: true,
-                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-                    });
-                } catch(err) { console.error(err); }
+                    phoneInputIti = window.intlTelInput(phoneInput, { initialCountry: "cd", separateDialCode: true, utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" });
+                } catch(err) {}
             }
         }
 
-        function closeBookingModal() {
-            document.getElementById('booking-modal').classList.add('hidden');
-        }
+        function closeBookingModal() { document.getElementById('booking-modal').classList.add('hidden'); }
 
-        // SOUMISSION HYBRIDE (WHATSAPP + EMAIL AUTOMATIQUE À Contact@mutukrentals.com)
         async function handleBookingFormSubmit(e) {
             e.preventDefault();
-            
             try {
                 const carName = document.getElementById('booking-car-name').value;
                 const clientName = document.getElementById('booking-client-name').value;
-                const location = document.getElementById('booking-location').value;
+                const depart = document.getElementById('booking-depart-address').value;
+                const arrivee = document.getElementById('booking-arrivee-address').value;
                 
-                let clientPhone = "";
-                if (phoneInputIti && typeof phoneInputIti.getNumber === 'function') {
-                    clientPhone = phoneInputIti.getNumber();
-                }
-                if (!clientPhone) {
-                    clientPhone = document.getElementById('booking-client-phone').value;
-                }
-
+                let clientPhone = phoneInputIti && typeof phoneInputIti.getNumber === 'function' ? phoneInputIti.getNumber() : document.getElementById('booking-client-phone').value;
                 const date = document.getElementById('booking-date').value;
                 const days = document.getElementById('booking-days').value;
                 const time = document.getElementById('booking-time').value;
 
-                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${location}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
+                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${depart}\n🏁 *Lieu d'arrivée :* ${arrivee}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
 
                 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+                if (!window.open(whatsappUrl, '_blank')) window.location.href = whatsappUrl;
 
-                // Redirection WhatsApp
-                const opened = window.open(whatsappUrl, '_blank');
-                if (!opened) {
-                    window.location.href = whatsappUrl;
-                }
-
-                // Envoi de l'e-mail automatique à Contact@mutukrentals.com
                 fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
-                    method: "POST",
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`,
-                        _captcha: "false",
-                        _template: "table",
-                        "Véhicule Sélectionné": carName,
-                        "Nom Complet": clientName,
-                        "Téléphone / WhatsApp": clientPhone,
-                        "Lieu de prise en charge (Départ)": location,
-                        "Date souhaitée": date,
-                        "Heure de départ": time,
-                        "Durée (Jours)": days
-                    })
-                })
-                .then(res => res.json())
-                .then(data => console.log("Résultat Envoi Email FormSubmit :", data))
-                .catch(err => console.error("Erreur Envoi Email :", err));
+                    method: "POST", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`, _captcha: "false", _template: "table", "Véhicule": carName, "Client": clientName, "Téléphone": clientPhone, "Départ": depart, "Arrivée": arrivee, "Date": date, "Heure": time, "Durée": days })
+                }).catch(err => console.error(err));
                 
                 closeBookingModal();
-            } catch (err) {
-                console.error("Erreur de soumission :", err);
-                alert("Erreur lors de la réservation. Veuillez réessayer.");
-            }
+            } catch (err) { alert("Erreur lors de la réservation. Veuillez réessayer."); }
+        }
+
+        // AUTO-UPDATE DU SERVICE WORKER (PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    reg.update(); // Force la mise à jour
+                    reg.onupdatefound = () => {
+                        const installingWorker = reg.installing;
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                window.location.reload(); // Actualise automatiquement la page si mise à jour
+                            }
+                        };
+                    };
+                }).catch(err => console.log("SW non supporté", err));
+            });
         }
     </script>
 </body>
