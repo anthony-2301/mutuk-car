@@ -67,7 +67,7 @@
             <div class="hidden lg:flex items-center gap-8 font-bold text-[15px]">
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#accueil" data-i18n="menu_home">Accueil</a>
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#categories" data-i18n="menu_categories">Catégories</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#flotte" data-i18n="menu_fleet">La Flotte</a>
+                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="catalogue.html" data-i18n="menu_fleet">La Flotte</a>
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#services" data-i18n="menu_services">Nos Services</a>
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#contact" data-i18n="menu_contact">Contact</a>
             </div>
@@ -194,21 +194,41 @@
                 <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block" data-i18n="srv_subtitle">Sur-mesure</span>
                 <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900" data-i18n="srv_title">Nos Services Exclusifs</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Corporate B2B')">
                     <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1974" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-transparent flex flex-col justify-center p-8">
-                        <h3 class="text-3xl font-display font-extrabold text-white mb-3">Corporate B2B</h3>
-                        <p class="text-gray-200 mb-6 max-w-sm" data-i18n="srv_b2b_desc">Gestion de flotte, facturation centralisée et chauffeurs.</p>
+                        <h3 class="text-3xl font-display font-extrabold text-white mb-3">Location Longue Durée (LLD) Particuliers</h3>
+                        <p class="text-gray-200 mb-6 max-w-sm" data-i18n="srv_b2b_desc">Formule mensuelle sans souci (entretien et assurance inclus) pour les résidents qui ne souhaitent pas acheter un véhicule.</p>
                         <span class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-lg w-fit" data-i18n="srv_b2b_btn">Demander un devis</span>
                     </div>
                 </div>
-                <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Mariages')">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent flex flex-col justify-end p-8">
-                        <h3 class="text-3xl font-display font-extrabold text-white mb-3" data-i18n="srv_wedding">Mariages & Cérémonies</h3>
-                        <p class="text-gray-300 mb-6 max-w-sm" data-i18n="srv_wedding_desc">Des cortèges inoubliables avec nos modèles décorés.</p>
-                        <span class="bg-white text-mutuk-dark font-bold px-6 py-3 rounded-lg w-fit" data-i18n="srv_wedding_btn">Voir les forfaits</span>
+
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Mariages et Cérémonies')">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
+                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3" data-i18n="srv_wedding">Mariages</h3>
+                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm" data-i18n="srv_wedding_desc">Des cortèges inoubliables avec nos modèles décorés.</p>
+                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit" data-i18n="srv_wedding_btn">Forfaits</span>
+                    </div>
+                </div>
+
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Transfert Aéroport N\'djili')">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
+                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Aéroport</h3>
+                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm">Navettes ponctuelles N'djili et accueil VIP personnalisé.</p>
+                        <span class="bg-mutuk-blue text-white font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit">Réserver</span>
+                    </div>
+                </div>
+
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Location Longue Durée / Tourisme')">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Tourisme">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
+                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Longue Durée</h3>
+                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm">Solutions flexibles pour séjours prolongés ou excursions.</p>
+                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit">Explorer</span>
                     </div>
                 </div>
             </div>
@@ -236,16 +256,25 @@
         </section>
 
         <!-- CONTACT -->
-        <section id="contact" class="bg-inverse-surface py-20 text-white text-center px-4">
+    <section id="contact" class="bg-inverse-surface py-20 text-white text-center px-4">
             <span class="material-symbols-outlined text-mutuk-blue text-5xl mb-4">support_agent</span>
             <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-6" data-i18n="contact_title">Besoin d'assistance ?</h2>
             <p class="text-gray-400 max-w-2xl mx-auto text-lg mb-10" data-i18n="contact_desc">Notre conciergerie est disponible 24h/24 et 7j/7 pour répondre à toutes vos demandes.</p>
-            <button onclick="openWhatsApp('Bonjour, j\'ai une question.')" class="bg-[#25D366] text-white font-extrabold px-8 py-4 rounded-xl flex items-center justify-center gap-3 mx-auto hover:scale-105 transition shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012z"/></svg>
-                Contact WhatsApp
-            </button>
-        </section>
-    </main>
+    
+            <div class="flex flex-wrap items-center justify-center gap-4">
+        <!-- Bouton WhatsApp -->
+        <button onclick="openWhatsApp('Bonjour, j\'ai une question.')" class="bg-[#25D366] text-white font-extrabold px-8 py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012z"/></svg>
+            Contact WhatsApp
+        </button>
+        <!-- Bouton appel -->
+        <a href="tel:0997708115" class="bg-blue-600 text-white font-extrabold px-8 py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition shadow-lg">
+            <span class="material-symbols-outlined">call</span>
+            099 770 8115
+        </a>
+            </div>
+    </section>
+        </main>
 
     <!-- MODAL DÉTAILS VOITURES -->
     <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
