@@ -351,6 +351,36 @@
         </div>
     </div>
 
+<!-- NOTIFICATION D'INSTALLATION PWA -->
+<div id="pwa-install-toast" class="hidden fixed bottom-4 right-4 left-4 md:left-auto md:w-80 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 z-[999] flex flex-col gap-3 animate-fade-in-up">
+    <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-mutuk-blue text-white p-2 rounded-lg">
+                <span class="material-symbols-outlined text-xl">app_shortcut</span>
+            </div>
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm">Installer Mutuk Rentals</h4>
+                <p class="text-xs text-gray-500 mt-0.5">Accès rapide et hors-ligne</p>
+            </div>
+        </div>
+        <button id="pwa-close-btn" class="text-gray-400 hover:text-gray-600">
+            <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+    </div>
+    <button id="pwa-install-btn" class="w-full bg-mutuk-blue text-white font-bold py-2 rounded-lg text-sm hover:bg-mutuk-dark transition-colors">
+        Installer l'application
+    </button>
+</div>
+
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.4s ease-out forwards; }
+</style>
+
+
     <script src="js/supabase.js"></script>
     <script src="js/app.js?v=1.1"></script>
 </body>

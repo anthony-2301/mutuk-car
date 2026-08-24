@@ -401,3 +401,49 @@ window.handleAirportBooking = async function(e) {
         window.closeBookingModal();
     } catch (err) { alert("Erreur lors de la réservation."); }
 };
+
+// ==========================================
+// LOGIQUE : INSTALLATION PWA
+// ==========================================
+let deferredPrompt;
+const installToast = document.getElementById('pwa-install-toast');
+const installBtn = document.getElementById('pwa-install-btn');
+const closeBtn = document.getElementById('pwa-close-btn');
+
+if (installToast && installBtn && closeBtn) {
+    // 1. Écoute si l'appareil autorise l'installation (et si ce n'est pas déjà installé)
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Empêche l'affichage de la mini-barre native sur mobile
+        e.preventDefault();
+        // Sauvegarde l'événement pour le déclencher plus tard
+        deferredPrompt = e;
+        // Affiche notre notification personnalisée
+        installToast.classList.remove('hidden');
+    });
+
+    // 2. Clic sur le bouton "Installer"
+    installBtn.addEventListener('click', async () => {
+        installToast.classList.add('hidden');
+        if (deferredPrompt) {
+            // Affiche la popup native d'installation du navigateur
+            deferredPrompt.prompt();
+            // Attend la réponse de l'utilisateur
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('Installation PWA acceptée');
+            }
+            deferredPrompt = null;
+        }
+    });
+
+    // 3. Clic sur le bouton "Fermer" (X)
+    closeBtn.addEventListener('click', () => {
+        installToast.classList.add('hidden');
+    });
+
+    // 4. Cache la notification une fois l'installation réussie
+    window.addEventListener('appinstalled', () => {
+        installToast.classList.add('hidden');
+        deferredPrompt = null;
+    });
+}
