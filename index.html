@@ -3,59 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    
     <title data-i18n="title">Mutuk Rentals - Location de Véhicules VIP à Kinshasa Gombe</title>
-    <meta name="description" content="Mutuk Rentals : Service de location de véhicules VIP, berlines et SUV 4x4 avec chauffeur accrédité à Gombe, Kinshasa (RDC). Réservez votre véhicule de prestige 24/7.">
-    <meta name="keywords" content="location voiture Kinshasa, location SUV Gombe, Mutuk Rentals, chauffeur VIP Kinshasa, location berline RDC">
-    
     <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#009ae0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="MutukRentals">
-    <link rel="apple-touch-icon" href="image/logo.jpeg">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script id="tailwind-config">
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa", "surface": "#ffffff", "inverse-surface": "#1a1f26" },
-            fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] }
-          }
-        }
-      }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa", "surface": "#ffffff", "inverse-surface": "#1a1f26" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
     </script>
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        #preloader { transition: opacity 0.5s ease-out; z-index: 9999; }
-        .logo-pulse { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse-ring { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: 0.85; } }
-        .loading-bar { animation: fillBar 1.5s ease-in-out forwards; }
-        @keyframes fillBar { 0% { width: 0%; } 100% { width: 100%; } }
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
         .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
-        .iti { width: 100%; }
     </style>
 </head>
-<body class="bg-background text-gray-900 font-body overflow-hidden">
-
-    <div id="preloader" class="fixed inset-0 bg-white flex flex-col items-center justify-center">
-        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-mutuk-blue flex items-center justify-center logo-pulse bg-white p-2 overflow-hidden shadow-lg">
-            <img src="image/logo.jpeg" alt="Mutuk Rentals Logo" class="w-full h-full object-cover rounded-full" onerror="this.src='https://placehold.co/150x150/009ae0/FFF?text=MR'">
-        </div>
-        <div class="mt-8 w-40 md:w-48 h-1.5 bg-gray-100 rounded-full overflow-hidden shadow-inner"><div class="h-full bg-mutuk-blue loading-bar rounded-full"></div></div>
-    </div>
+<body class="bg-background text-gray-900 font-body">
 
     <!-- HEADER -->
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-surface shadow-sm transition-all duration-300 h-16 md:h-20 border-b border-gray-100">
@@ -66,42 +32,21 @@
             </a>
             <div class="hidden lg:flex items-center gap-8 font-bold text-[15px]">
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#accueil" data-i18n="menu_home">Accueil</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#categories" data-i18n="menu_categories">Catégories</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="catalogue.html" data-i18n="menu_fleet">La Flotte</a>
                 <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#services" data-i18n="menu_services">Nos Services</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#contact" data-i18n="menu_contact">Contact</a>
+                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#categories" data-i18n="menu_categories">Catégories</a>
+                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="catalogue.html" data-i18n="menu_fleet">Nos Véhicules</a>
             </div>
             <div class="flex items-center gap-3 md:gap-4">
-                <button id="pwa-nav-btn" style="display:none;" onclick="triggerPwaInstall()" class="hidden md:flex items-center gap-1.5 bg-blue-50 text-mutuk-blue border border-mutuk-blue/30 px-3 py-1.5 rounded-full font-bold text-xs hover:bg-mutuk-blue hover:text-white transition-all shadow-sm">
-                    <span class="material-symbols-outlined text-base">download</span> <span data-i18n="install_app">Installer L'App</span>
-                </button>
-                <div class="relative inline-block text-left group">
-                    <button type="button" class="flex items-center gap-1 text-sm font-bold text-gray-700 hover:text-mutuk-blue px-2 py-2">
-                        <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
-                    </button>
-                    <div class="absolute right-0 mt-0 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block transition-all border border-gray-100 z-50">
-                        <div class="py-1">
-                            <a href="#" onclick="changeLanguage('FR', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">FR</a>
-                            <a href="#" onclick="changeLanguage('EN', event)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">EN</a>
-                        </div>
-                    </div>
-                </div>
-                <a href="admin.html" class="hidden lg:flex items-center justify-center text-gray-400 hover:text-mutuk-blue transition-colors" title="Administration"><span class="material-symbols-outlined text-2xl">admin_panel_settings</span></a>
-                <button id="mobileMenuBtn" class="lg:hidden text-mutuk-dark p-1 focus:outline-none"><span id="menuIcon" class="material-symbols-outlined text-3xl">menu</span></button>
+                <a href="admin.html" class="hidden lg:flex items-center text-gray-400 hover:text-mutuk-blue" title="Administration"><span class="material-symbols-outlined text-2xl">admin_panel_settings</span></a>
+                <button id="mobileMenuBtn" class="lg:hidden text-mutuk-dark p-1 focus:outline-none"><span class="material-symbols-outlined text-3xl">menu</span></button>
             </div>
         </nav>
         <div id="mobileMenu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex-col z-40 lg:hidden">
-            <a href="#accueil" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_home">Accueil</a>
-            <a href="#categories" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_categories">Catégories</a>
-            <a href="#flotte" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_fleet">La Flotte</a>
-            <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700" data-i18n="menu_services">Nos Services</a>
-            <a href="#contact" class="mobile-link block px-6 py-4 font-bold text-gray-700 border-b border-gray-50" data-i18n="menu_contact">Contact</a>
-            <button id="pwa-mobile-btn" style="display:none;" onclick="triggerPwaInstall()" class="mobile-link w-full text-left px-6 py-4 font-bold text-mutuk-blue bg-blue-50/80 flex items-center gap-2 border-b border-gray-50">
-                <span class="material-symbols-outlined text-lg">download</span> <span data-i18n="install_app">Installer L'Application PWA</span>
-            </button>
-            <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-gray-500 bg-gray-50 flex items-center gap-2">
-                <span class="material-symbols-outlined">admin_panel_settings</span> Espace Admin
-            </a>
+            <a href="#accueil" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Accueil</a>
+            <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Nos Services</a>
+            <a href="#categories" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Catégories</a>
+            <a href="catalogue.html" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Nos Véhicules</a>
+            <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-gray-500 bg-gray-50 flex items-center gap-2"><span class="material-symbols-outlined">admin_panel_settings</span> Espace Admin</a>
         </div>
     </header>
 
@@ -110,589 +55,301 @@
         <section id="accueil" class="relative min-h-[90vh] flex flex-col justify-center pt-16 md:pt-20">
             <div class="absolute inset-0 z-0">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background z-10"></div>
-                <img class="w-full h-full object-cover object-center" src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069" alt="Location véhicule VIP">
+                <img class="w-full h-full object-cover object-center" src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069" alt="Location">
             </div>
             <div class="relative z-20 w-full px-4 md:px-8 max-w-[1200px] mx-auto mt-6 md:mt-0">
                 <div class="text-white mb-6 md:mb-8 text-center md:text-left">
                     <h1 class="font-display text-3xl md:text-6xl font-extrabold mb-3 leading-tight" data-i18n="hero_title">L'élite de la mobilité à Kinshasa.</h1>
-                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-xl mx-auto md:mx-0" data-i18n="hero_subtitle">Trouvez le véhicule parfait disponible à Gombe, Kinshasa.</p>
+                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-xl mx-auto md:mx-0">Trouvez le véhicule parfait disponible à Gombe, Kinshasa.</p>
                 </div>
                 <div class="booking-widget rounded-xl md:rounded-2xl shadow-2xl p-3 md:p-6 border border-mutuk-blue/20">
-                    <div class="mb-3 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-200 pb-2" data-i18n="vip_included">
-                        <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus à Kinshasa
+                    <div class="mb-3 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-200 pb-2">
+                        <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus
                     </div>
                     <form id="mainSearchForm" class="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-3">
                         <div class="col-span-2 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_brand">Marque / Modèle</label>
+                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Marque / Modèle</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
                             <input type="text" id="search-car" placeholder="Recherche..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_location">Lieu</label>
+                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Lieu</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">location_on</span>
-                            <input type="text" id="search-location" value="Gombe, Kinshasa" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                            <input type="text" value="Gombe, Kinshasa" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
                         </div>
                         <div class="col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_start">Départ</label>
+                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Départ</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
                             <input type="date" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-800 text-[10px] md:text-sm">
                         </div>
                         <div class="col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase" data-i18n="search_label_end">Retour</label>
+                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Retour</label>
                             <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
                             <input type="date" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-800 text-[10px] md:text-sm">
                         </div>
                         <div class="col-span-2 md:col-span-1">
-                            <button type="submit" class="w-full h-full bg-mutuk-blue text-white font-bold rounded-lg md:rounded-xl py-3 hover:bg-mutuk-dark transition-all active:scale-95 flex items-center justify-center gap-2 shadow-md text-sm md:text-base" data-i18n="search_btn">Rechercher</button>
+                            <button type="submit" class="w-full h-full bg-mutuk-blue text-white font-bold rounded-lg md:rounded-xl py-3 hover:bg-mutuk-dark transition flex items-center justify-center gap-2 shadow-md">Rechercher</button>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
 
-        <!-- CATEGORIES -->
-        <section id="categories" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
-            <div class="text-center md:text-left mb-6 md:mb-8">
-                <h2 class="font-display text-2xl md:text-4xl font-extrabold text-gray-900 mb-2" data-i18n="cat_title">Parcourir par catégorie</h2>
-                <p class="text-gray-500 text-sm md:text-base" data-i18n="cat_subtitle">Choisissez une catégorie pour consulter notre catalogue à Kinshasa.</p>
-            </div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-                <div onclick="goToCatalog('suv')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="SUV">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_suv">SUV 4x4</span></div>
-                </div>
-                <div onclick="goToCatalog('berline')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Berlines">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_sedan">Berlines</span></div>
-                </div>
-                <div onclick="goToCatalog('luxe')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Luxe">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_luxe">Luxe & VIP</span></div>
-                </div>
-                <div onclick="goToCatalog('utilitaire')" class="cat-card group relative h-32 md:h-56 rounded-xl overflow-hidden cursor-pointer shadow-md">
-                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500" alt="Utilitaires">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3 md:p-5"><span class="text-white font-display text-lg md:text-2xl font-extrabold" data-i18n="cat_van">Utilitaires</span></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FLOTTE (A LA UNE) -->
-        <section id="flotte" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden bg-white/50 scroll-mt-20">
-            <div class="flex justify-between items-end mb-6 md:mb-8 border-b border-gray-200 pb-4">
-                <h2 class="font-display text-2xl md:text-3xl font-extrabold text-gray-900" data-i18n="fleet_title">À la une</h2>
-                <a href="catalogue.html" class="text-mutuk-blue font-bold text-sm md:text-base hover:underline flex items-center gap-1" data-i18n="fleet_link">
-                    Tout le catalogue <span class="material-symbols-outlined text-sm md:text-base">arrow_forward</span>
-                </a>
-            </div>
-            <div id="carousel-spinner" class="text-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-mutuk-blue mx-auto"></div></div>
-            <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
-        </section>
-
-        <!-- NOS SERVICES -->
+        <!-- NOS SERVICES (DÉPLACÉ EN HAUT) -->
         <section id="services" class="py-16 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
             <div class="text-center mb-10">
-                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block" data-i18n="srv_subtitle">Sur-mesure</span>
-                <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900" data-i18n="srv_title">Nos Services Exclusifs</h2>
+                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Sur-mesure</span>
+                <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900">Nos Services Exclusifs</h2>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Corporate B2B')">
+                <div class="relative rounded-3xl overflow-hidden group h-[300px] shadow-lg cursor-pointer" onclick="window.open('https://wa.me/243997708115?text=Devis%20Location%20LLD', '_blank')">
                     <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1974" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-transparent flex flex-col justify-center p-8">
-                        <h3 class="text-3xl font-display font-extrabold text-white mb-3">Location Longue Durée (LLD) Particuliers</h3>
-                        <p class="text-gray-200 mb-6 max-w-sm" data-i18n="srv_b2b_desc">Formule mensuelle sans souci (entretien et assurance inclus) pour les résidents qui ne souhaitent pas acheter un véhicule.</p>
-                        <span class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-lg w-fit" data-i18n="srv_b2b_btn">Demander un devis</span>
+                        <h3 class="text-3xl font-display font-extrabold text-white mb-3">Location Longue Durée</h3>
+                        <p class="text-gray-200 mb-6 max-w-sm">Formule mensuelle sans souci (entretien et assurance inclus).</p>
+                        <span class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-lg w-fit">Demander un devis</span>
                     </div>
                 </div>
 
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Mariages et Cérémonies')">
-                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.open('https://wa.me/243997708115?text=Infos%20Mariages', '_blank')">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3" data-i18n="srv_wedding">Mariages</h3>
-                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm" data-i18n="srv_wedding_desc">Des cortèges inoubliables avec nos modèles décorés.</p>
-                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit" data-i18n="srv_wedding_btn">Forfaits</span>
+                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Mariages</h3>
+                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit">Forfaits</span>
                     </div>
                 </div>
 
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Transfert Aéroport N\'djili')">
-                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
+                <!-- LIEN VERS LA PAGE AÉROPORT -->
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.location.href='aeroport.html'">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
                         <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Aéroport</h3>
-                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm">Navettes ponctuelles N'djili et accueil VIP personnalisé.</p>
                         <span class="bg-mutuk-blue text-white font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit">Réserver</span>
                     </div>
                 </div>
 
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="openWhatsApp('Location Longue Durée / Tourisme')">
-                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Tourisme">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.location.href='catalogue.html'">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Tourisme">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Longue Durée</h3>
-                        <p class="hidden md:block text-gray-300 mb-6 max-w-sm text-sm">Solutions flexibles pour séjours prolongés ou excursions.</p>
+                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Tourisme</h3>
                         <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit">Explorer</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CARTE GOOGLE MAPS -->
-        <section id="localisation" class="py-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-            <div class="text-center mb-10">
-                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Localisation</span>
-                <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Notre Agence à Gombe</h2>
-                <p class="text-gray-500 font-medium text-sm md:text-base max-w-xl mx-auto">
-                    5573. AV. KAUKA COMMUNE DE LA GOMBE<br>REFERENCE IMMEUBLE MAISHA PARK, ARRET : ROYAL
-                </p>
+        <!-- CATEGORIES (8 CATÉGORIES) -->
+        <section id="categories" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto bg-gray-50 rounded-3xl scroll-mt-20">
+            <div class="text-center md:text-left mb-6 md:mb-8">
+                <h2 class="font-display text-2xl md:text-4xl font-extrabold text-gray-900 mb-2">Parcourir par catégorie</h2>
+                <p class="text-gray-500 text-sm md:text-base">Choisissez une catégorie pour consulter notre catalogue.</p>
             </div>
-            <div class="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl border border-gray-200 relative group">
-                <iframe 
-                    src="https://maps.google.com/maps?q=5573%20AV.%20KAUKA%20GOMBE%20Kinshasa&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-                <a href="https://maps.app.goo.gl/tMAfag2hgvzMXBQ68" target="_blank" class="absolute bottom-6 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-8 bg-mutuk-blue text-white font-extrabold px-6 py-3.5 rounded-xl shadow-[0_10px_25px_rgba(0,154,224,0.4)] hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
-                    <span class="material-symbols-outlined text-[20px]">map</span>
-                    Ouvrir dans Google Maps
-                </a>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div onclick="goToCatalog('suv')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV 4x4</span></div>
+                </div>
+                <div onclick="goToCatalog('berline')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Berlines</span></div>
+                </div>
+                <div onclick="goToCatalog('luxe')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Luxe & VIP</span></div>
+                </div>
+                <div onclick="goToCatalog('utilitaire')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Utilitaires</span></div>
+                </div>
+                
+                <!-- NOUVELLES CATEGORIES -->
+                <div onclick="goToCatalog('pickup')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="image/ford.jpeg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Pick-up</span></div>
+                </div>
+                <div onclick="goToCatalog('suv_compact')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="image/Nissan Juke.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV Compact</span></div>
+                </div>
+                <div onclick="goToCatalog('economique')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="image/pegeout 208 gt.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Économique</span></div>
+                </div>
+                <div onclick="goToCatalog('hybride')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                    <img src="image/Hyundai Tucson.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Hybride</span></div>
+                </div>
             </div>
         </section>
 
-        <!-- CONTACT -->
-    <section id="contact" class="bg-inverse-surface py-20 text-white text-center px-4">
-            <span class="material-symbols-outlined text-mutuk-blue text-5xl mb-4">support_agent</span>
-            <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-6" data-i18n="contact_title">Besoin d'assistance ?</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg mb-10" data-i18n="contact_desc">Notre conciergerie est disponible 24h/24 et 7j/7 pour répondre à toutes vos demandes.</p>
-    
-            <div class="flex flex-wrap items-center justify-center gap-4">
-        <!-- Bouton WhatsApp -->
-        <button onclick="openWhatsApp('Bonjour, j\'ai une question.')" class="bg-[#25D366] text-white font-extrabold px-8 py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12.031 21.5c-1.636 0-3.222-.416-4.648-1.21l-1.056-.592-5.015 1.315 1.34-4.887-.65-.103c-.856-1.464-1.308-3.15-1.308-4.908 0-5.385 4.38-9.765 9.765-9.765 5.384 0 9.764 4.38 9.764 9.765 0 5.386-4.38 9.766-9.766 9.766zm-5.45-3.328l.842.502c1.37.815 2.94 1.246 4.577 1.246 4.885 0 8.86-3.974 8.86-8.858 0-4.884-3.975-8.86-8.86-8.86-4.884 0-8.859 3.976-8.859 8.86 0 1.696.448 3.32 1.298 4.746l.525.882-1.026 3.743 3.843-1.012z"/></svg>
-            Contact WhatsApp
-        </button>
-        <!-- Bouton appel -->
-        <a href="tel:0997708115" class="bg-blue-600 text-white font-extrabold px-8 py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-105 transition shadow-lg">
-            <span class="material-symbols-outlined">call</span>
-            099 770 8115
-        </a>
+        <!-- FLOTTE (A LA UNE) -->
+        <section id="flotte" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden">
+            <div class="flex justify-between items-end mb-6 md:mb-8 border-b border-gray-200 pb-4">
+                <h2 class="font-display text-2xl md:text-3xl font-extrabold text-gray-900">À la une</h2>
+                <a href="catalogue.html" class="text-mutuk-blue font-bold text-sm md:text-base hover:underline flex items-center gap-1">
+                    Tout le catalogue <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
             </div>
-    </section>
-        </main>
+            <div id="carousel-spinner" class="text-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-mutuk-blue mx-auto"></div></div>
+            <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
+        </section>
 
-    <!-- MODAL DÉTAILS VOITURES -->
-    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
-            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20"><span class="material-symbols-outlined">close</span></button>
-            <div class="p-6 md:p-8">
-                <div class="mb-6">
-                    <div class="h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-3 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
-                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-2"></div>
+        <!-- SECTION CONTACT / ADRESSE -->
+        <section id="contact" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto">
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                <div class="p-8 md:w-1/2 flex flex-col justify-center">
+                    <span class="text-mutuk-blue font-bold uppercase tracking-widest text-sm mb-2">Nous trouver</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Contact & Accès</h2>
+                    
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="bg-blue-50 p-3 rounded-full text-mutuk-blue">
+                            <span class="material-symbols-outlined text-2xl">location_on</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Adresse Physique</h4>
+                            <p class="text-gray-600 leading-relaxed mt-1">
+                                5573. AV. KAUKA COMMUNE DE LA GOMBE<br>
+                                REFERENCE IMMEUBLE MAISHA PARK<br>
+                                ARRET : ROYAL
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 mb-8">
+                        <div class="bg-blue-50 p-3 rounded-full text-mutuk-blue">
+                            <span class="material-symbols-outlined text-2xl">mail</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Email</h4>
+                            <p class="text-gray-600 leading-relaxed mt-1">contact@mutukrentals.com</p>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/243997708115" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-6 py-4 rounded-xl shadow-lg hover:bg-[#20bd5a] transition">
+                        <span class="material-symbols-outlined">forum</span> Discuter sur WhatsApp : 0997 708 115
+                    </a>
                 </div>
-                <div class="flex flex-col md:flex-row md:items-center justify-between border-b pb-4 mb-6">
-                    <div>
-                        <h2 id="detail-title" class="font-display text-2xl md:text-3xl font-extrabold text-gray-900"></h2>
-                        <span id="detail-category-badge" class="inline-block mt-1 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-blue-50 text-mutuk-blue rounded-full"></span>
-                    </div>
-                    <div class="mt-3 md:mt-0">
-                        <span id="detail-price" class="text-3xl font-extrabold text-mutuk-blue block"></span>
-                        <span class="text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
-                    </div>
+                <div class="md:w-1/2 h-64 md:h-auto min-h-[300px]">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.2009885945063!2d15.311803599999998!3d-4.3023786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a3300517dfba3%3A0xdfb0db9176b07a2c!2sMutuk%20Rentals%20Location%20Voiture%20Kinshasa!5e1!3m2!1sen!2scd!4v1787528845044!5m2!1sen!2scd" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
-                <div class="grid grid-cols-3 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">event_seat</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="seats">Places</span>
-                        <span id="detail-seats" class="font-extrabold text-gray-800 text-sm"></span>
-                    </div>
-                    <div class="text-center border-x border-gray-200">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">settings</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="gearbox">Boîte</span>
-                        <span id="detail-boite" class="font-extrabold text-gray-800 text-sm"></span>
-                    </div>
-                    <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">local_gas_station</span>
-                        <span class="block text-xs font-bold text-gray-400 uppercase" data-i18n="fuel">Carburant</span>
-                        <span id="detail-fuel" class="font-extrabold text-gray-800 text-sm"></span>
-                    </div>
-                </div>
-                <div class="mb-8">
-                    <h4 class="font-bold text-gray-900 mb-2" data-i18n="description">Description & Options</h4>
-                    <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
-                </div>
-                <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-extrabold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg text-base">
-                    <span class="material-symbols-outlined">event_available</span> <span data-i18n="btn_book">Réserver</span>
-                </button>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- MODAL RÉSERVATION EXPRESS -->
-    <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                <span class="material-symbols-outlined text-xl">close</span>
-            </button>
+        <!-- SECTION CONDITIONS GÉNÉRALES -->
+        <section id="cgv" class="py-12 md:py-16 px-4 md:px-8 max-w-[1000px] mx-auto">
+            <h2 class="font-display text-2xl md:text-3xl font-extrabold text-gray-900 mb-8 text-center">CONDITIONS GÉNÉRALES DE LOCATION</h2>
+            <div class="bg-gray-50 p-6 md:p-8 rounded-2xl text-sm text-gray-700 space-y-4 max-h-[500px] overflow-y-auto border border-gray-200 shadow-inner leading-relaxed">
+                <p><strong>MUTUK RENTALS</strong><br>
+                5573. AV. KAUKA COMMUNE DE LA GOMBE<br>
+                REFERENCE IMMEUBLE MAISHA PARK<br>
+                ARRET : ROYAL<br>
+                +243 997 708 115 • www.mutukrentals.com • contact@mutukrentals.com</p>
 
-            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest">Réservation Express</span>
-            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
-            
-            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-3">
-                <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
-                    <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
-                </div>
+                <p>Les présentes conditions générales encadrent toute réservation et toute prestation de location de véhicule réalisée avec Mutuk Rentals. La confirmation de la réservation ou le début de la prestation vaut acceptation de ces conditions par le client.</p>
+                
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 1 — OBJET ET ACCEPTATION</h4>
+                <p>Mutuk Rentals met à la disposition du client un véhicule avec chauffeur selon la catégorie, la durée, l’itinéraire et le prix convenus lors de la réservation. Toute condition particulière convenue par écrit avec le client complète les présentes conditions générales.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
-                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
-                        <div class="mt-1"><input required type="tel" id="booking-client-phone" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/></div>
-                    </div>
-                </div>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 2 — ÉTAT DU VÉHICULE ET CHAUFFEUR</h4>
+                <p>Les véhicules doivent être propres, climatisés et en bon état de fonctionnement. La location comprend un chauffeur fourni par Mutuk Rentals, sans frais supplémentaires, sauf en cas d’heures supplémentaires ou d’arrangement particulier convenu avant la course. Tout accident, dommage, incident, panne ou vol doit être signalé immédiatement à Mutuk Rentals.</p>
 
-                <!-- DÉPART -->
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
-                    <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
-                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
-                        <option value="autre">Autre adresse...</option>
-                    </select>
-                    <textarea required id="booking-depart-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
-                </div>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 3 — RÉSERVATION ET PAIEMENT</h4>
+                <p>Un acompte de 50 % du montant convenu est obligatoire pour confirmer la réservation sauf arrangement différent fait au préalable. La réservation n’est considérée comme confirmée qu’après réception effective de l’acompte et envoi de la confirmation ou du reçu au client. Le solde doit être payé au plus tard à l’arrivée du véhicule et avant le début de la prestation, sauf accord écrit contraire.</p>
 
-                <!-- ARRIVÉE -->
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
-                    <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
-                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
-                        <option value="autre">Autre adresse...</option>
-                    </select>
-                    <textarea required id="booking-arrivee-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
-                </div>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 4 — CARBURANT</h4>
+                <p>Le carburant est à la charge du client. Une photo du niveau du réservoir doit être prise au début de la prestation. À la fin de la location, le véhicule doit être restitué avec le même niveau de carburant. Toute différence peut être facturée au client.</p>
 
-                <div class="grid grid-cols-3 gap-2">
-                    <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
-                        <input type="date" id="booking-date" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Heure *</label>
-                        <input type="time" id="booking-time" value="08:00" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">hourglass_bottom</span> Durée (J) *</label>
-                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
-                    </div>
-                </div>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 5 — HORAIRES ET HEURES SUPPLÉMENTAIRES</h4>
+                <p>Les heures normales de location sont de 07h30 à 21h00, sauf convention particulière.<br>
+                Pour les voitures basses, les mini-vans (Toyota Noah, etc.) et mini-jeeps (Toyota Vanguard, Harrier) : forfait de 15 USD de 21h00 à 00h00, puis 10 USD par heure supplémentaire après 00h00.<br>
+                Pour les grosses jeeps et les autres modèles : 10 USD par heure supplémentaire à compter de 21h00.<br>
+                Tout arrangement différent doit être discuté et accepté avant la prolongation de la prestation.</p>
 
-                <p class="text-[10px] text-slate-500 italic mt-1">* Note: Chauffeur inclus. Carburant à votre charge. Horaires : 7H à 22H.</p>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 6 — LOCATIONS POUR MARIAGE</h4>
+                <p>Pour les locations de mariage, un forfait d’heures supplémentaires peut être convenu afin de prolonger la prestation jusqu’à 05h00. Après 05h00, le tarif journalier normal s’applique.</p>
 
-                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
-                    Confirmer la demande
-                </button>
-            </form>
-        </div>
-    </div>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 7 — COURSES AÉROPORT</h4>
+                <p>Une course aéroport correspond à un aller simple et comprend une heure d’attente. Au-delà de cette heure d’attente incluse, le tarif journalier normal peut s’appliquer, sauf arrangement contraire convenu à l’avance. Les frais de parking sont à la charge du client lorsque le véhicule doit entrer dans le parking. Afin d’éviter ces frais, le client peut demander à être pris en charge ou déposé à l’entrée de l’aéroport.</p>
 
-    <!-- BANNIÈRE PWA (CACHÉE PAR DÉFAUT, APPARAIT SI INSTALLABLE) -->
-    <div id="pwa-install-banner" style="display:none;" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-white/95 backdrop-blur-md border border-mutuk-blue/20 shadow-2xl rounded-2xl p-4 z-[200] flex items-center justify-between gap-3 transition-all duration-300">
-        <div class="flex items-center gap-3">
-            <div class="relative flex-shrink-0">
-                <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-12 h-12 rounded-xl object-cover border border-mutuk-blue/30 shadow-sm" onerror="this.src='https://placehold.co/100?text=MR'">
-                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full animate-ping"></span>
-                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 8 — RETARDS, PANNE ET VÉHICULE DE REMPLACEMENT</h4>
+                <p>En cas de retard, Mutuk Rentals informe le client du délai estimé et recherche une solution. En cas de panne immobilisant le véhicule avant ou pendant la prestation, Mutuk Rentals dispose d’un délai maximal de deux heures à compter du signalement pour remettre le véhicule en état ou proposer un véhicule de remplacement. Passé ce délai, le client est remboursé du montant correspondant à la partie non exécutée.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 9 — ANNULATION PAR LE CLIENT</h4>
+                <p>Moins de 24 heures avant le début de la course : retenue de 20 % du montant de la première journée.<br>
+                Le jour même, avant le départ : retenue de 50 % du montant de la première journée.<br>
+                Lorsque le véhicule ou le chauffeur a déjà été mobilisé, la course est jugée débutée et le client devra donc payer l'entièreté de la somme due.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 10 — COURSES DE LONGUE DURÉE</h4>
+                <p>Lorsque le client met fin à une location de longue durée avant la date prévue, les jours non prestés sont remboursés intégralement. Si une réduction avait été accordée et que le client utilise moins de 75 % des jours prévus, les jours effectivement prestés peuvent être recalculés au tarif normal.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 11 — ANNULATION OU NON-EXÉCUTION PAR MUTUK RENTALS</h4>
+                <p>En cas d’annulation ou de non-exécution imputable à Mutuk Rentals, le client est remboursé du montant correspondant à la partie non exécutée.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 12 — OBLIGATIONS DU CLIENT</h4>
+                <p>Le client doit communiquer des informations exactes. Il doit respecter les consignes de sécurité du chauffeur. Mutuk Rentals s’engage à restituer tout objet retrouvé, mais ne peut être tenue responsable des objets oubliés, perdus ou volés.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 13 — ARRANGEMENTS DIRECTS ET PAIEMENTS NON AUTORISÉS</h4>
+                <p>Seuls les arrangements préalablement autorisés par écrit par Mutuk Rentals engagent l’agence. Le chauffeur n’est pas autorisé à modifier le prix ou promettre un remboursement. Toute somme versée directement par le client au chauffeur non autorisée ne fera l'objet d'aucun remboursement.</p>
+
+                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 14 — RÈGLEMENT DES DIFFÉRENDS ET ACCEPTATION</h4>
+                <p>En cas de désaccord, les parties chercheront d’abord une solution à l’amiable. À défaut d’accord, le différend pourra être soumis aux juridictions compétentes de Kinshasa. En confirmant sa réservation, le client reconnaît avoir lu, compris et accepté les présentes conditions générales.</p>
             </div>
-            <div>
-                <h4 class="font-display font-extrabold text-sm text-gray-900 leading-tight">Installer Mutuk Rentals</h4>
-                <p class="text-gray-500 text-xs mt-0.5 font-medium">Application rapide & réservation 24/7</p>
-            </div>
-        </div>
-        <button onclick="triggerPwaInstall()" class="bg-mutuk-blue text-white text-xs font-extrabold px-3.5 py-2.5 rounded-xl hover:bg-mutuk-dark transition-all shadow-md shadow-mutuk-blue/20 active:scale-95 whitespace-nowrap flex items-center gap-1.5 flex-shrink-0">
-            <span class="material-symbols-outlined text-base">download</span> Installer
-        </button>
-    </div>
+        </section>
+    </main>
 
-    <!-- FOOTER -->
     <footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8 text-center md:text-left">
         <div class="px-4 md:px-8 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
                 <span class="font-display text-2xl font-extrabold text-mutuk-dark block">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
                 <p class="text-gray-500 text-sm mt-2">Avenue Kauka, Gombe, Kinshasa - RDC</p>
             </div>
-            <div class="flex gap-6 text-gray-400 text-sm">
-                <a href="#" class="hover:text-mutuk-blue font-bold">Mentions légales</a>
-                <a href="#" class="hover:text-mutuk-blue font-bold">Confidentialité</a>
-            </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT GLOBAL -->
-    <script>
-        const WHATSAPP_NUMBER = "243997708115";
-        const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
-        const SUPABASE_ANON_KEY = [
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-            "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0",
-            "NY5ubUi-2S9yMlpyFhAwCDMqUIywKJ9eiSho08mBB2k"
-        ].join('.');
-        
-        let supabaseClient;
-        let globalCarData = [];
-        let selectedCarForBooking = null;
-        const AGENCE_ADDRESS = "5573. AV. KAUKA COMMUNE DE LA GOMBE\nREF: IMMEUBLE MAISHA PARK, ARRET : ROYAL";
+<!-- MODAL DÉTAILS VOITURES -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative">
+            <button onclick="closeDetailsModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-1.5 z-20"><span class="material-symbols-outlined text-lg">close</span></button>
+            <div class="p-4 md:p-8">
+                <div class="mb-4 md:mb-6">
+                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
+                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
+                    <div>
+                        <h2 id="detail-title" class="font-display text-xl md:text-3xl font-extrabold text-gray-900"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-1 text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 bg-blue-50 text-mutuk-blue rounded-full"></span>
+                    </div>
+                    <div>
+                        <span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span>
+                        <span class="text-[10px] md:text-xs text-gray-400 font-bold">par jour</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                    <div class="text-center border-x border-gray-200">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1">Description & Options</h4>
+                    <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
+                </div>
+                <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
+                        span class="material-symbols-outlined">event_available</span> Réserver
+                </button>
+            </div>
+        </div>
+    </div>
 
-        const i18nDict = {
-            FR: {
-                title: "Mutuk Rentals - Location VIP à Kinshasa", menu_home: "Accueil", menu_categories: "Catégories", menu_fleet: "La Flotte", menu_services: "Nos Services", menu_contact: "Contact",
-                hero_title: "L'élite de la mobilité à Kinshasa.", hero_subtitle: "Trouvez le véhicule parfait disponible à Gombe, Kinshasa.", search_btn: "Rechercher",
-                search_label_brand: "Marque / Modèle", search_label_location: "Lieu", search_label_start: "Départ", search_label_end: "Retour", vip_included: "Service Chauffeur VIP inclus",
-                cat_title: "Parcourir par catégorie", cat_subtitle: "Choisissez une catégorie.", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires",
-                fleet_title: "À la une", fleet_link: "Tout le catalogue", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour", seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description",
-                srv_subtitle: "Sur-mesure", srv_title: "Nos Services Exclusifs", srv_b2b_desc: "Gestion de flotte et chauffeurs.", srv_b2b_btn: "Devis", srv_wedding: "Mariages", srv_wedding_desc: "Cortèges inoubliables.", srv_wedding_btn: "Forfaits",
-                contact_title: "Besoin d'assistance ?", contact_desc: "Notre conciergerie est disponible 24h/24 et 7j/7.", install_app: "Installer L'App"
-            },
-            EN: {
-                title: "Mutuk Rentals - VIP Car Rental Kinshasa", menu_home: "Home", menu_categories: "Categories", menu_fleet: "Fleet", menu_services: "Services", menu_contact: "Contact",
-                hero_title: "Elite mobility in Kinshasa.", hero_subtitle: "Find the perfect vehicle in Gombe.", search_btn: "Search",
-                search_label_brand: "Make / Model", search_label_location: "Location", search_label_start: "Pickup", search_label_end: "Return", vip_included: "VIP Chauffeur Service included",
-                cat_title: "Browse by category", cat_subtitle: "Choose a category.", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury", cat_van: "Vans",
-                fleet_title: "Featured", fleet_link: "Full catalog", btn_book: "Book", on_request: "On Request", per_day: "per day", seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description",
-                srv_subtitle: "Tailor-made", srv_title: "Exclusive Services", srv_b2b_desc: "Fleet management.", srv_b2b_btn: "Quote", srv_wedding: "Weddings", srv_wedding_desc: "Unforgettable motorcades.", srv_wedding_btn: "Packages",
-                contact_title: "Need help?", contact_desc: "Our concierge is available 24/7.", install_app: "Install App"
-            }
-        };
-
-        let iti;
-        document.addEventListener("DOMContentLoaded", () => {
-            const input = document.querySelector("#booking-client-phone");
-            if(input && window.intlTelInput) {
-                iti = window.intlTelInput(input, { initialCountry: "cd", separateDialCode: true, utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" });
-            }
-        });
-
-        function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
-        function changeLanguage(lang, e) {
-            if(e) e.preventDefault();
-            localStorage.setItem('mutuk_lang', lang);
-            applyLanguage(lang);
-            loadCarouselData();
-        }
-        function applyLanguage(lang) {
-            const dictionary = i18nDict[lang] || i18nDict['FR'];
-            document.getElementById('current-lang').innerText = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dictionary[key]) el.innerText = dictionary[key];
-            });
-        }
-
-        function hidePreloader() {
-            const p = document.getElementById('preloader');
-            if(p && p.style.display !== 'none') {
-                p.style.opacity = '0';
-                setTimeout(() => { p.style.display = 'none'; document.body.classList.remove('overflow-hidden'); }, 500);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            applyLanguage(getLang());
-            try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); loadCarouselData(); } catch(e) {}
-            setTimeout(hidePreloader, 1800);
-        });
-        setTimeout(hidePreloader, 5000);
-
-        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-            const m = document.getElementById('mobileMenu');
-            m.classList.toggle('hidden'); m.classList.toggle('flex');
-        });
-
-        function goToCatalog(cat) { window.location.href = `catalogue.html?categorie=${encodeURIComponent(cat)}`; }
-
-        document.getElementById('mainSearchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const car = document.getElementById('search-car').value;
-            window.location.href = `catalogue.html?recherche=${encodeURIComponent(car)}`;
-        });
-
-        function openWhatsApp(msg) { window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'); }
-
-        function formatPrice(p) {
-            if (!p) return getTranslation('on_request');
-            const str = p.toString().trim();
-            if (str.toLowerCase().includes('devis')) return getTranslation('on_request');
-            return str.endsWith('$') ? str : `${str}$`;
-        }
-
-        async function loadCarouselData() {
-            try {
-                const { data } = await supabaseClient.from('cars').select('*').limit(6).order('id', { ascending: false });
-                if (!data) return;
-                globalCarData = data;
-                const grid = document.getElementById('carousel-grid');
-                grid.innerHTML = "";
-                const lang = getLang();
-                const btnText = i18nDict[lang]['btn_book'];
-
-                data.forEach((car, index) => {
-                    const priceDisplay = formatPrice(car.prix_jour);
-                    const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
-                    grid.innerHTML += `
-                    <div class="min-w-[280px] md:min-w-[340px] snap-start bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition">
-                        <div class="h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
-                            <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
-                            <span class="absolute top-2 left-2 bg-gray-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
-                        </div>
-                        <div class="p-4 flex-1 flex flex-col">
-                            <h3 class="font-display text-lg font-bold text-gray-900 cursor-pointer" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
-                            <div class="flex items-center gap-3 text-xs font-bold text-gray-500 my-3">
-                                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
-                                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${car.boite || 'Auto'}</span>
-                            </div>
-                            <div class="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
-                                <div><span class="block text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
-                                <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">${btnText}</button>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('carousel-spinner').classList.add('hidden');
-                grid.classList.remove('hidden');
-            } catch(e) {}
-        }
-
-        function openCarDetailsModal(index) {
-            const car = globalCarData[index];
-            if (!car) return;
-            selectedCarForBooking = car;
-            const images = (car.images && car.images.length > 0) ? car.images : [car.image_url || 'https://placehold.co/600x400'];
-
-            document.getElementById('detail-title').innerText = `${car.marque} ${car.modele}`;
-            document.getElementById('detail-price').innerText = formatPrice(car.prix_jour);
-            document.getElementById('detail-category-badge').innerText = car.categorie.toUpperCase();
-            document.getElementById('detail-seats').innerText = car.places || 5;
-            document.getElementById('detail-boite').innerText = car.boite || 'Automatique';
-            document.getElementById('detail-fuel').innerText = car.carburant || 'Essence';
-            document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP disponible à Gombe, Kinshasa.";
-
-            document.getElementById('detail-main-img').src = images[0];
-            const thumbsContainer = document.getElementById('detail-thumbs');
-            thumbsContainer.innerHTML = "";
-            images.slice(0, 5).forEach((imgSrc) => {
-                thumbsContainer.innerHTML += `<img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-16 w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">`;
-            });
-            document.getElementById('car-details-modal').classList.remove('hidden');
-        }
-
-        function closeDetailsModal() { document.getElementById('car-details-modal').classList.add('hidden'); }
-
-        function toggleLocationInput(type) {
-            const select = document.getElementById(`booking-${type}-type`);
-            const textarea = document.getElementById(`booking-${type}-address`);
-            if (select.value === 'agence') {
-                textarea.value = AGENCE_ADDRESS;
-                textarea.readOnly = true;
-                textarea.classList.add('bg-slate-100', 'text-slate-600');
-            } else {
-                textarea.value = "";
-                textarea.readOnly = false;
-                textarea.placeholder = "Veuillez entrer l'adresse exacte...";
-                textarea.classList.remove('bg-slate-100', 'text-slate-600');
-                textarea.focus();
-            }
-        }
-
-        function openBookingFormFromDetails() {
-            closeDetailsModal();
-            if (!selectedCarForBooking) return;
-            document.getElementById('booking-car-name').value = `${selectedCarForBooking.marque} ${selectedCarForBooking.modele}`;
-            document.getElementById('booking-date').valueAsDate = new Date();
-            document.getElementById('booking-modal').classList.remove('hidden');
-        }
-
-        function closeBookingModal() { document.getElementById('booking-modal').classList.add('hidden'); }
-
-        async function handleBookingFormSubmit(e) {
-            e.preventDefault();
-            try {
-                const carName = document.getElementById('booking-car-name').value;
-                const clientName = document.getElementById('booking-client-name').value;
-                const depart = document.getElementById('booking-depart-address').value;
-                const arrivee = document.getElementById('booking-arrivee-address').value;
-                
-                let clientPhone = iti && typeof iti.getNumber === 'function' ? iti.getNumber() : document.getElementById('booking-client-phone').value;
-                const date = document.getElementById('booking-date').value;
-                const days = document.getElementById('booking-days').value;
-                const time = document.getElementById('booking-time').value;
-
-                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${depart}\n🏁 *Lieu d'arrivée :* ${arrivee}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
-
-                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-                if (!window.open(whatsappUrl, '_blank')) window.location.href = whatsappUrl;
-
-                fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
-                    method: "POST", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`, _captcha: "false", _template: "table", "Véhicule": carName, "Nom": clientName, "Téléphone": clientPhone, "Départ": depart, "Arrivée": arrivee, "Date": date, "Heure": time, "Durée": days })
-                }).catch(err => console.error(err));
-                
-                closeBookingModal();
-            } catch (err) { alert("Erreur lors de la réservation."); }
-        }
-
-        // GESTION INTELLIGENTE DE LA PWA (INSTALLATION + MISE A JOUR AUTO)
-        let deferredPrompt;
-        const pwaElements = [
-            document.getElementById('pwa-install-banner'),
-            document.getElementById('pwa-nav-btn'),
-            document.getElementById('pwa-mobile-btn')
-        ];
-
-        function hidePwaElements() { pwaElements.forEach(el => { if(el) el.style.display = 'none'; }); }
-        function showPwaElements() { pwaElements.forEach(el => { if(el) el.style.display = 'flex'; }); }
-
-        // Cacher par défaut si déjà installé
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-            hidePwaElements();
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            showPwaElements(); // Afficher uniquement parce que l'utilisateur NE l'a PAS encore
-        });
-
-        window.addEventListener('appinstalled', () => {
-            hidePwaElements();
-            deferredPrompt = null;
-        });
-
-        function triggerPwaInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') hidePwaElements();
-                    deferredPrompt = null;
-                });
-            } else {
-                alert("Pour installer sur iOS, utilisez le bouton 'Partager' puis 'Sur l'écran d'accueil'.");
-            }
-        }
-
-        // Auto Update Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => {
-                    reg.update();
-                    reg.onupdatefound = () => {
-                        const installingWorker = reg.installing;
-                        installingWorker.onstatechange = () => {
-                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.location.reload(); // Force le rafraichissement de la PWA si une modif du code est détectée
-                            }
-                        };
-                    };
-                }).catch(err => console.log("SW non supporté", err));
-            });
-        }
-    </script>
+    <script src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

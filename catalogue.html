@@ -3,34 +3,21 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    
-    <title data-i18n="title">Catalogue - Mutuk Rentals Kinshasa</title>
-    <meta name="description" content="Catalogue complet des véhicules de luxe, SUV 4x4 et berlines disponibles à la location à Gombe, Kinshasa.">
-    <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
-
+    <title>Catalogue - Mutuk Rentals Kinshasa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script id="tailwind-config">
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" },
-            fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] }
-          }
-        }
-      }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
     </script>
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .filter-btn.active { background-color: #009ae0; color: white; border-color: #009ae0; }
         .iti { width: 100%; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="bg-background text-gray-900 font-body">
@@ -42,44 +29,35 @@
                 <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue" onerror="this.src='https://placehold.co/100x100/009ae0/FFF?text=MR'">
                 <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
             </a>
-            
-            <div class="flex items-center gap-4 md:gap-6 font-bold text-[13px] md:text-[15px]">
-                <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 transition-colors">
-                    <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> <span data-i18n="back_home" class="hidden sm:inline">Retour à l'accueil</span>
-                </a>
-                <div class="relative inline-block text-left group">
-                    <button type="button" class="flex items-center gap-1 font-bold text-gray-700 hover:text-mutuk-blue px-1 py-2">
-                        <span id="current-lang">FR</span> <span class="material-symbols-outlined text-lg">expand_more</span>
-                    </button>
-                    <div class="absolute right-0 mt-0 w-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block transition-all border border-gray-100 z-50">
-                        <div class="py-1">
-                            <a href="#" onclick="changeLanguage('FR', event)" class="block px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-100">FR</a>
-                            <a href="#" onclick="changeLanguage('EN', event)" class="block px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-100">EN</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 font-bold text-[13px] md:text-[15px]">
+                <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> Retour
+            </a>
         </nav>
     </header>
 
     <main class="pt-20 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
         <div class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
-                <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2" data-i18n="catalog_title">Notre Catalogue à Kinshasa</h1>
-                <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> <span data-i18n="vip_included">Service Chauffeur VIP inclus à Gombe</span></p>
+                <h1 class="font-display text-2xl md:text-5xl font-extrabold text-gray-900 mb-1 md:mb-2">Notre Catalogue</h1>
+                <p class="text-gray-500 text-xs md:text-base font-bold flex items-center gap-1"><span class="material-symbols-outlined text-yellow-500 text-sm md:text-base">stars</span> Service Chauffeur VIP inclus</p>
             </div>
             <div class="relative w-full md:w-auto md:min-w-[320px]">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
-                <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-9 pr-3 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-xs md:text-sm font-bold text-gray-800" data-i18n-placeholder="search_placeholder">
+                <input type="text" id="catalog-search" oninput="handleCatalogSearch()" placeholder="Rechercher marque ou modèle..." class="w-full pl-9 pr-3 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-mutuk-blue text-xs md:text-sm font-bold text-gray-800">
             </div>
         </div>
 
+        <!-- FILTRES (MIS À JOUR AVEC TOUTES LES CATÉGORIES) -->
         <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-6 border-b border-gray-200 pb-4">
-            <button onclick="filterCars('tout', this)" class="filter-btn active px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="filter_all">Tous les véhicules</button>
-            <button onclick="filterCars('suv', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_suv">SUV 4x4</button>
-            <button onclick="filterCars('berline', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_sedan">Berlines</button>
-            <button onclick="filterCars('luxe', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_luxe">Luxe & VIP</button>
-            <button onclick="filterCars('utilitaire', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap" data-i18n="cat_van">Utilitaires & Bus</button>
+            <button onclick="filterCars('tout', this)" class="filter-btn active px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Tous</button>
+            <button onclick="filterCars('suv', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">SUV 4x4</button>
+            <button onclick="filterCars('suv_compact', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">SUV Compact</button>
+            <button onclick="filterCars('berline', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Berlines</button>
+            <button onclick="filterCars('luxe', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Luxe & VIP</button>
+            <button onclick="filterCars('pickup', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Pick-up</button>
+            <button onclick="filterCars('economique', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Économique</button>
+            <button onclick="filterCars('hybride', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Hybride</button>
+            <button onclick="filterCars('utilitaire', this)" class="filter-btn px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gray-300 font-bold text-xs md:text-sm text-gray-600 whitespace-nowrap">Utilitaires</button>
         </div>
 
         <div id="search-indicator" class="hidden mb-4 p-3 bg-blue-50 text-mutuk-dark rounded-lg text-xs md:text-sm font-bold flex justify-between items-center">
@@ -89,13 +67,13 @@
 
         <div id="loading-spinner" class="text-center py-16">
             <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-mutuk-blue mx-auto mb-3"></div>
-            <p class="text-gray-500 font-bold text-sm" data-i18n="loading">Connexion au garage Mutuk...</p>
         </div>
 
         <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"></div>
+        
         <div id="no-results" class="hidden text-center py-16">
             <span class="material-symbols-outlined text-5xl text-gray-300 mb-2">search_off</span>
-            <h3 class="text-base md:text-xl font-bold text-gray-600" data-i18n="no_results">Aucun véhicule trouvé</h3>
+            <h3 class="text-base md:text-xl font-bold text-gray-600">Aucun véhicule trouvé</h3>
         </div>
     </main>
 
@@ -103,12 +81,9 @@
     <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative">
             <button onclick="closeDetailsModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-1.5 z-20"><span class="material-symbols-outlined text-lg">close</span></button>
-            
             <div class="p-4 md:p-8">
                 <div class="mb-4 md:mb-6">
-                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner">
-                        <img id="detail-main-img" src="" class="w-full h-full object-cover">
-                    </div>
+                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
                     <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
@@ -118,33 +93,26 @@
                     </div>
                     <div>
                         <span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span>
-                        <span class="text-[10px] md:text-xs text-gray-400 font-bold" data-i18n="per_day">par jour</span>
+                        <span class="text-[10px] md:text-xs text-gray-400 font-bold">par jour</span>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span>
-                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="seats">Places</span>
-                        <span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                     <div class="text-center border-x border-gray-200">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span>
-                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="gearbox">Boîte</span>
-                        <span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span>
-                        <span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase" data-i18n="fuel">Carburant</span>
-                        <span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
                     </div>
                 </div>
                 <div class="mb-6">
-                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1" data-i18n="description">Description & Options</h4>
+                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1">Description & Options</h4>
                     <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
                 </div>
-                <button onclick="openBookingFormFromDetails()" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
-                    <span class="material-symbols-outlined">event_available</span>
-                    <span data-i18n="btn_book">Réserver</span>
+                <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
+                        <span class="material-symbols-outlined">event_available</span> Réserver
                 </button>
             </div>
         </div>
@@ -153,10 +121,7 @@
     <!-- MODAL RÉSERVATION EXPRESS -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                <span class="material-symbols-outlined text-xl">close</span>
-            </button>
-
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-xl">close</span></button>
             <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest">Réservation Express</span>
             <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
             
@@ -165,7 +130,6 @@
                     <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
                     <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
@@ -177,7 +141,6 @@
                     </div>
                 </div>
 
-                <!-- DÉPART -->
                 <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                     <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
                     <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
@@ -186,8 +149,6 @@
                     </select>
                     <textarea required id="booking-depart-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
                 </div>
-
-                <!-- ARRIVÉE -->
                 <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                     <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
                     <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
@@ -196,7 +157,6 @@
                     </select>
                     <textarea required id="booking-arrivee-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
                 </div>
-
                 <div class="grid grid-cols-3 gap-2">
                     <div>
                         <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
@@ -211,9 +171,6 @@
                         <input type="number" id="booking-days" min="1" value="1" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
                     </div>
                 </div>
-
-                <p class="text-[10px] text-slate-500 italic mt-1">* Note: Chauffeur inclus. Carburant à votre charge. Horaires : 7H à 22H.</p>
-
                 <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
                     Confirmer la demande
                 </button>
@@ -222,279 +179,7 @@
     </div>
 
     <!-- JAVASCRIPT CATALOGUE -->
-    <script>
-        const WHATSAPP_NUMBER = "243997708115";
-        const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
-        const SUPABASE_ANON_KEY = [
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-            "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0",
-            "NY5ubUi-2S9yMlpyFhAwCDMqUIywKJ9eiSho08mBB2k"
-        ].join('.');
-        
-        let supabaseClient;
-        let carDatabase = [];
-        let currentSearchTerm = "";
-        let selectedCarForBooking = null;
-        let phoneInputIti = null;
-        const AGENCE_ADDRESS = "5573. AV. KAUKA COMMUNE DE LA GOMBE\nREF: IMMEUBLE MAISHA PARK, ARRET : ROYAL";
-
-        const i18nDict = {
-            FR: {
-                title: "Catalogue - Mutuk Rentals", back_home: "Retour à l'accueil", catalog_title: "Notre Catalogue", vip_included: "Service Chauffeur VIP inclus", search_placeholder: "Rechercher marque ou modèle...", filter_all: "Tous les véhicules", cat_suv: "SUV 4x4", cat_sedan: "Berlines", cat_luxe: "Luxe & VIP", cat_van: "Utilitaires & Bus", loading: "Chargement de la flotte...", no_results: "Aucun véhicule trouvé", btn_book: "Réserver", on_request: "Sur Devis", per_day: "par jour",
-                seats: "Places", gearbox: "Boîte", fuel: "Carburant", description: "Description & Options"
-            },
-            EN: {
-                title: "Catalog - Mutuk Rentals", back_home: "Back to Home", catalog_title: "Our Catalog", vip_included: "VIP Chauffeur Service included", search_placeholder: "Search make or model...", filter_all: "All vehicles", cat_suv: "SUV 4x4", cat_sedan: "Sedans", cat_luxe: "Luxury & VIP", cat_van: "Vans & Buses", loading: "Loading fleet...", no_results: "No vehicle found", btn_book: "Book", on_request: "On Request", per_day: "per day",
-                seats: "Seats", gearbox: "Gearbox", fuel: "Fuel", description: "Description & Options"
-            }
-        };
-
-        function getLang() { return localStorage.getItem('mutuk_lang') || 'FR'; }
-        function changeLanguage(lang, e) {
-            if(e) e.preventDefault();
-            localStorage.setItem('mutuk_lang', lang);
-            applyLanguage(lang);
-            renderCars(getFilteredCars());
-        }
-        function applyLanguage(lang) {
-            const dictionary = i18nDict[lang] || i18nDict['FR'];
-            document.getElementById('current-lang').innerText = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dictionary[key]) el.innerText = dictionary[key];
-            });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (dictionary[key]) el.placeholder = dictionary[key];
-            });
-        }
-        function formatPrice(p) {
-            if (!p) return getTranslation('on_request');
-            const str = p.toString().trim();
-            if (str.toLowerCase().includes('devis')) return getTranslation('on_request');
-            return str.endsWith('$') ? str : `${str}$`;
-        }
-        function getTranslation(key) { return i18nDict[getLang()][key] || key; }
-
-        async function fetchCars() {
-            document.getElementById('loading-spinner').classList.remove('hidden');
-            document.getElementById('cars-grid').classList.add('hidden');
-            try {
-                const { data, error } = await supabaseClient.from('cars').select('*').order('id', { ascending: false });
-                if (error) throw error;
-                carDatabase = data || [];
-                initCatalog();
-            } catch (error) { console.error(error); } 
-            finally { document.getElementById('loading-spinner').classList.add('hidden'); }
-        }
-
-        window.addEventListener('load', () => {
-            applyLanguage(getLang());
-            try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); fetchCars(); } catch(e){}
-        });
-
-        function initCatalog() {
-            const params = new URLSearchParams(window.location.search);
-            const searchParam = params.get('recherche');
-            const catParam = params.get('categorie');
-            if (searchParam) {
-                currentSearchTerm = searchParam;
-                document.getElementById('catalog-search').value = searchParam;
-                document.getElementById('search-indicator').classList.remove('hidden');
-                document.getElementById('search-term').innerText = searchParam;
-                filterCars('tout'); 
-            } else if (catParam) {
-                const buttons = document.querySelectorAll('.filter-btn');
-                buttons.forEach(btn => { if (btn.getAttribute('onclick').includes(catParam)) btn.click(); });
-            } else { renderCars(carDatabase); }
-        }
-
-        function getFilteredCars() {
-            const activeBtn = document.querySelector('.filter-btn.active');
-            let category = 'tout';
-            if (activeBtn && activeBtn.getAttribute('onclick')) {
-                const match = activeBtn.getAttribute('onclick').match(/'(.*?)'/);
-                if(match) category = match[1];
-            }
-            let filtered = carDatabase;
-            if (category !== 'tout') {
-                if (category === 'luxe') filtered = filtered.filter(car => car.categorie === 'luxe');
-                else filtered = filtered.filter(car => car.categorie === category);
-            }
-            if (currentSearchTerm !== "") {
-                filtered = filtered.filter(car => 
-                    car.marque.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
-                    car.modele.toLowerCase().includes(currentSearchTerm.toLowerCase())
-                );
-            }
-            return filtered;
-        }
-
-        function renderCars(carsToDisplay) {
-            const grid = document.getElementById('cars-grid');
-            const noResults = document.getElementById('no-results');
-            grid.innerHTML = "";
-            if (carsToDisplay.length === 0) {
-                grid.classList.add('hidden');
-                noResults.classList.remove('hidden');
-                return;
-            }
-            grid.classList.remove('hidden');
-            grid.style.display = 'grid';
-            noResults.classList.add('hidden');
-            const lang = getLang();
-            const btnText = i18nDict[lang]['btn_book'];
-
-            carsToDisplay.forEach((car, index) => {
-                const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
-                const priceDisplay = formatPrice(car.prix_jour);
-                const boiteDisplay = (lang === 'EN' && car.boite === 'Automatique') ? 'Auto' : (car.boite ? car.boite.substring(0, 4) : 'Auto');
-                grid.innerHTML += `
-                <div class="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="h-32 sm:h-40 md:h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${index})">
-                        <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
-                        <span class="absolute top-1.5 left-1.5 bg-gray-900/80 text-white text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie}</span>
-                    </div>
-                    <div class="p-2.5 sm:p-3 md:p-4 flex-1 flex flex-col">
-                        <h3 class="font-display text-xs sm:text-base md:text-lg font-bold text-gray-900 cursor-pointer truncate" onclick="openCarDetailsModal(${index})">${car.marque} ${car.modele}</h3>
-                        <div class="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-bold text-gray-500 my-1.5 md:my-3">
-                            <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
-                            <span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] md:text-[16px] text-mutuk-blue">settings</span> ${boiteDisplay}</span>
-                        </div>
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-auto pt-2 border-t border-gray-50 gap-1">
-                            <div><span class="block text-sm sm:text-lg md:text-xl font-extrabold text-mutuk-blue">${priceDisplay}</span></div>
-                            <button onclick="openCarDetailsModal(${index})" class="bg-gray-100 text-mutuk-blue font-bold px-2 py-1 md:px-3 md:py-1.5 rounded-md md:rounded-lg text-[10px] sm:text-xs hover:bg-mutuk-blue hover:text-white transition-colors text-center w-full sm:w-auto">${btnText}</button>
-                        </div>
-                    </div>
-                </div>`;
-            });
-        }
-
-        function handleCatalogSearch() {
-            currentSearchTerm = document.getElementById('catalog-search').value.trim();
-            if(currentSearchTerm !== "") {
-                document.getElementById('search-indicator').classList.remove('hidden');
-                document.getElementById('search-term').innerText = currentSearchTerm;
-            } else { document.getElementById('search-indicator').classList.add('hidden'); }
-            renderCars(getFilteredCars());
-        }
-
-        function filterCars(category, btnElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
-            renderCars(getFilteredCars());
-        }
-
-        function clearSearch() {
-            currentSearchTerm = "";
-            document.getElementById('catalog-search').value = "";
-            document.getElementById('search-indicator').classList.add('hidden');
-            renderCars(getFilteredCars());
-        }
-
-        function openCarDetailsModal(index) {
-            const cars = getFilteredCars();
-            const car = cars[index];
-            if (!car) return;
-            selectedCarForBooking = car;
-            const lang = getLang();
-            const images = (car.images && car.images.length > 0) ? car.images : [car.image_url || 'https://placehold.co/600x400'];
-
-            document.getElementById('detail-title').innerText = `${car.marque} ${car.modele}`;
-            document.getElementById('detail-price').innerText = formatPrice(car.prix_jour);
-            document.getElementById('detail-category-badge').innerText = car.categorie.toUpperCase();
-            document.getElementById('detail-seats').innerText = car.places || 5;
-            document.getElementById('detail-boite').innerText = (lang === 'EN' && car.boite === 'Automatique') ? 'Automatic' : (car.boite || 'Automatique');
-            document.getElementById('detail-fuel').innerText = car.carburant || 'Essence';
-            document.getElementById('detail-desc').innerText = car.description || "Véhicule VIP d'exception disponible à Kinshasa.";
-
-            document.getElementById('detail-main-img').src = images[0];
-            const thumbsContainer = document.getElementById('detail-thumbs');
-            thumbsContainer.innerHTML = "";
-            images.slice(0, 5).forEach((imgSrc) => {
-                thumbsContainer.innerHTML += `<img src="${imgSrc}" onclick="document.getElementById('detail-main-img').src='${imgSrc}'" class="h-14 w-16 md:h-16 md:w-20 object-cover rounded-lg border-2 border-transparent hover:border-mutuk-blue cursor-pointer transition">`;
-            });
-            document.getElementById('car-details-modal').classList.remove('hidden');
-        }
-
-        function closeDetailsModal() { document.getElementById('car-details-modal').classList.add('hidden'); }
-
-        function toggleLocationInput(type) {
-            const select = document.getElementById(`booking-${type}-type`);
-            const textarea = document.getElementById(`booking-${type}-address`);
-            if (select.value === 'agence') {
-                textarea.value = AGENCE_ADDRESS;
-                textarea.readOnly = true;
-                textarea.classList.add('bg-slate-100', 'text-slate-600');
-            } else {
-                textarea.value = "";
-                textarea.readOnly = false;
-                textarea.placeholder = "Veuillez entrer l'adresse exacte...";
-                textarea.classList.remove('bg-slate-100', 'text-slate-600');
-                textarea.focus();
-            }
-        }
-
-        function openBookingFormFromDetails() {
-            closeDetailsModal();
-            if (!selectedCarForBooking) return;
-            document.getElementById('booking-car-name').value = `${selectedCarForBooking.marque} ${selectedCarForBooking.modele}`;
-            document.getElementById('booking-date').valueAsDate = new Date();
-            document.getElementById('booking-modal').classList.remove('hidden');
-
-            const phoneInput = document.getElementById("booking-client-phone");
-            if (phoneInput && window.intlTelInput && !phoneInputIti) {
-                try {
-                    phoneInputIti = window.intlTelInput(phoneInput, { initialCountry: "cd", separateDialCode: true, utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js" });
-                } catch(err) {}
-            }
-        }
-
-        function closeBookingModal() { document.getElementById('booking-modal').classList.add('hidden'); }
-
-        async function handleBookingFormSubmit(e) {
-            e.preventDefault();
-            try {
-                const carName = document.getElementById('booking-car-name').value;
-                const clientName = document.getElementById('booking-client-name').value;
-                const depart = document.getElementById('booking-depart-address').value;
-                const arrivee = document.getElementById('booking-arrivee-address').value;
-                
-                let clientPhone = phoneInputIti && typeof phoneInputIti.getNumber === 'function' ? phoneInputIti.getNumber() : document.getElementById('booking-client-phone').value;
-                const date = document.getElementById('booking-date').value;
-                const days = document.getElementById('booking-days').value;
-                const time = document.getElementById('booking-time').value;
-
-                const message = `*RÉSERVATION EXPRESS*\n\n🚘 *Véhicule :* ${carName}\n👤 *Nom :* ${clientName}\n📞 *Tél/WhatsApp :* ${clientPhone}\n📍 *Lieu de départ :* ${depart}\n🏁 *Lieu d'arrivée :* ${arrivee}\n📅 *Date souhaitée :* ${date}\n⏰ *Heure de départ :* ${time}\n⏳ *Durée :* ${days} jour(s)\n\nMerci de me confirmer la disponibilité.`;
-
-                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-                if (!window.open(whatsappUrl, '_blank')) window.location.href = whatsappUrl;
-
-                fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
-                    method: "POST", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ _subject: `🚗 Nouvelle Réservation - ${carName} (${clientName})`, _captcha: "false", _template: "table", "Véhicule": carName, "Client": clientName, "Téléphone": clientPhone, "Départ": depart, "Arrivée": arrivee, "Date": date, "Heure": time, "Durée": days })
-                }).catch(err => console.error(err));
-                
-                closeBookingModal();
-            } catch (err) { alert("Erreur lors de la réservation. Veuillez réessayer."); }
-        }
-
-        // AUTO-UPDATE DU SERVICE WORKER (PWA)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => {
-                    reg.update(); // Force la mise à jour
-                    reg.onupdatefound = () => {
-                        const installingWorker = reg.installing;
-                        installingWorker.onstatechange = () => {
-                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.location.reload(); // Actualise automatiquement la page si mise à jour
-                            }
-                        };
-                    };
-                }).catch(err => console.log("SW non supporté", err));
-            });
-        }
-    </script>
+    <script src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

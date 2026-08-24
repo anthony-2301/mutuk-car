@@ -4,23 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Mutuk Rentals</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=Metropolis:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
-
-    <!-- SUPABASE LIBRARY -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script id="tailwind-config">
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" },
-            fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] }
-          }
-        }
-      }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
     </script>
 </head>
 <body class="bg-background font-body min-h-screen">
@@ -68,7 +57,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm whitespace-nowrap">
                             <thead class="bg-gray-50 text-gray-500 font-bold uppercase border-b">
-                                <tr><th class="p-4">Photo</th><th class="p-4">Marque & Modèle</th><th class="p-4">Catégorie</th><th class="p-4">Specs</th><th class="p-4">Prix</th><th class="p-4 text-right">Actions</th></tr>
+                                <tr><th class="p-4">Photo</th><th class="p-4">Marque & Modèle</th><th class="p-4">Catégorie</th><th class="p-4">Prix Jour / Aéroport</th><th class="p-4 text-center">À la une</th><th class="p-4 text-right">Actions</th></tr>
                             </thead>
                             <tbody id="admin-table-body" class="divide-y divide-gray-100"></tbody>
                         </table>
@@ -78,52 +67,56 @@
 
             <!-- VUE FORMULAIRE COMPLET -->
             <div id="form-view" class="hidden max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-200">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b">
-                    <button type="button" onclick="showList()" class="text-gray-400 hover:text-mutuk-blue"><span class="material-symbols-outlined">arrow_back</span></button>
-                    <h2 class="font-display font-bold text-2xl text-gray-900" id="form-title">Ajouter un véhicule</h2>
+                <div class="flex items-center justify-between mb-6 pb-4 border-b">
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="showList()" class="text-gray-400 hover:text-mutuk-blue"><span class="material-symbols-outlined">arrow_back</span></button>
+                        <h2 class="font-display font-bold text-2xl text-gray-900" id="form-title">Ajouter un véhicule</h2>
+                    </div>
+                    <div class="flex items-center gap-2 bg-yellow-50 px-3 py-2 rounded-lg border border-yellow-100">
+                        <input type="checkbox" id="car-featured" class="w-4 h-4 text-mutuk-blue rounded border-gray-300">
+                        <label for="car-featured" class="text-xs font-bold text-yellow-700 cursor-pointer">Afficher à la une (Accueil)</label>
+                    </div>
                 </div>
 
                 <form onsubmit="handleSaveCar(event)" class="space-y-4">
                     <input type="hidden" id="car-id">
 
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Marque</label><input type="text" id="car-brand" placeholder="ex: Toyota" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
-                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Modèle</label><input type="text" id="car-model" placeholder="ex: Land Cruiser Prado" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Marque</label><input type="text" id="car-brand" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Modèle</label><input type="text" id="car-model" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Catégorie</label>
-                            <select id="car-category" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue">
-                                <option value="suv">SUV 4x4</option><option value="berline">Berlines</option><option value="luxe">Luxe & VIP</option><option value="utilitaire">Utilitaires & Bus</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prix par jour ($ ou Sur devis)</label><input type="text" id="car-price" placeholder="ex: 350" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Catégorie</label>
+                        <select id="car-category" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue">
+                            <option value="suv">SUV 4x4</option>
+                            <option value="suv_compact">SUV Compact</option>
+                            <option value="berline">Berlines</option>
+                            <option value="luxe">Luxe & VIP</option>
+                            <option value="pickup">Pick-up</option>
+                            <option value="economique">Économique</option>
+                            <option value="hybride">Hybride</option>
+                            <option value="utilitaire">Utilitaires & Bus</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                        <div><label class="block text-xs font-bold text-mutuk-dark uppercase mb-1">Prix par jour ($)</label><input type="text" id="car-price" placeholder="ex: 150" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue" required></div>
+                        <div><label class="block text-xs font-bold text-mutuk-dark uppercase mb-1">Prix Transfert Aéroport ($)</label><input type="text" id="car-price-aero" placeholder="ex: 80" class="w-full border p-3 rounded-lg outline-none focus:border-mutuk-blue"></div>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200">
                         <div><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Places</label><input type="number" id="car-seats" value="5" min="1" max="50" class="w-full border p-2 rounded-lg outline-none" required></div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Boîte</label>
-                            <select id="car-boite" class="w-full border p-2 rounded-lg outline-none"><option value="Automatique">Automatique</option><option value="Manuelle">Manuelle</option></select>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Carburant</label>
-                            <select id="car-fuel" class="w-full border p-2 rounded-lg outline-none"><option value="Essence">Essence</option><option value="Diesel">Diesel</option><option value="Hybride">Hybride</option><option value="Électrique">Électrique</option></select>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Climatisation</label>
-                            <select id="car-clim" class="w-full border p-2 rounded-lg outline-none"><option value="Oui">Oui</option><option value="Non">Non</option></select>
-                        </div>
+                        <div><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Boîte</label><select id="car-boite" class="w-full border p-2 rounded-lg outline-none"><option value="Automatique">Automatique</option><option value="Manuelle">Manuelle</option></select></div>
+                        <div><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Carburant</label><select id="car-fuel" class="w-full border p-2 rounded-lg outline-none"><option value="Essence">Essence</option><option value="Diesel">Diesel</option><option value="Hybride">Hybride</option><option value="Électrique">Électrique</option></select></div>
+                        <div><label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Climatisation</label><select id="car-clim" class="w-full border p-2 rounded-lg outline-none"><option value="Oui">Oui</option><option value="Non">Non</option></select></div>
                     </div>
 
-                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Options</label><textarea id="car-desc" placeholder="ex: Blindé, toit panoramique, cuir..." class="w-full border p-3 rounded-lg outline-none" rows="3"></textarea></div>
+                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description / Options</label><textarea id="car-desc" class="w-full border p-3 rounded-lg outline-none" rows="3"></textarea></div>
 
-                    <!-- 10 PHOTOS MAX -->
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Photos (Jusqu'à 10 photos)</label>
                         <input type="file" id="car-images" accept="image/*" multiple class="w-full border p-2 rounded-lg text-sm bg-gray-50">
-                        <p class="text-[11px] text-gray-400 mt-1">Sélectionnez jusqu'à 10 photos en une fois.</p>
                         <div id="previews-container" class="flex gap-2 mt-3 overflow-x-auto pb-2"></div>
                     </div>
 
@@ -139,7 +132,6 @@
     <script>
         const SUPABASE_URL = 'https://nuejepagywuozxdjymln.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51ZWplcGFneXd1b3p4ZGp5bWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3OTUyMTksImV4cCI6MjEwMTM3MTIxOX0.NY5ubUi-2S9yMlpyFhAwCDMqUIywKJ9eiSho08mBB2k';
-        
         let supabaseClient = null;
         let carsData = [];
         let existingImages = [];
@@ -151,10 +143,7 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const client = getSupabase();
-            if (client) {
-                const { data: { session } } = await client.auth.getSession();
-                if (session) showDashboard(session.user.email);
-            }
+            if (client) { const { data: { session } } = await client.auth.getSession(); if (session) showDashboard(session.user.email); }
         });
 
         function showDashboard(email) {
@@ -169,26 +158,18 @@
             const password = document.getElementById('login-password').value;
             const errEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
-
             if (!email || !password) { errEl.innerText = "Champs requis."; errEl.classList.remove('hidden'); return; }
-
             const client = getSupabase();
             btn.innerText = "Connexion..."; btn.disabled = true; errEl.classList.add('hidden');
-
             try {
                 const { data, error } = await client.auth.signInWithPassword({ email, password });
-                if (error) { errEl.innerText = error.message; errEl.classList.remove('hidden'); btn.innerText = "Se connecter"; btn.disabled = false; } 
-                else if (data && data.session) showDashboard(data.session.user.email);
-            } catch (e) {
-                errEl.innerText = e.message; errEl.classList.remove('hidden'); btn.innerText = "Se connecter"; btn.disabled = false;
-            }
+                if (error) throw error; else if (data && data.session) showDashboard(data.session.user.email);
+            } catch (e) { errEl.innerText = e.message; errEl.classList.remove('hidden'); btn.innerText = "Se connecter"; btn.disabled = false; }
         }
 
         async function handleLogout() {
-            const client = getSupabase();
-            if (client) await client.auth.signOut();
-            document.getElementById('dashboard-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
+            const client = getSupabase(); if (client) await client.auth.signOut();
+            document.getElementById('dashboard-screen').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden');
         }
 
         async function fetchAdminCars() {
@@ -203,13 +184,14 @@
             tbody.innerHTML = "";
             carsData.forEach(car => {
                 const cover = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/100');
+                const featuredIcon = car.is_featured ? '<span class="material-symbols-outlined text-yellow-500">star</span>' : '-';
                 tbody.innerHTML += `
                 <tr class="hover:bg-gray-50">
                     <td class="p-4"><img src="${cover}" class="w-12 h-10 object-cover rounded border"></td>
                     <td class="p-4 font-bold text-gray-900">${car.marque} ${car.modele}</td>
-                    <td class="p-4 uppercase text-xs font-bold text-gray-500">${car.categorie}</td>
-                    <td class="p-4 text-xs font-bold text-gray-600">${car.places || 5} pl. | ${car.boite || 'Auto'} | Clim: ${car.climatisation || 'Oui'}</td>
-                    <td class="p-4 font-bold text-mutuk-blue">${car.prix_jour}</td>
+                    <td class="p-4 uppercase text-[10px] font-bold text-gray-500 tracking-wider">${car.categorie.replace('_', ' ')}</td>
+                    <td class="p-4 font-bold"><span class="text-mutuk-blue">${car.prix_jour}</span> <br><span class="text-[10px] text-gray-400">Aero: ${car.prix_aeroport || '-'}</span></td>
+                    <td class="p-4 text-center">${featuredIcon}</td>
                     <td class="p-4 text-right">
                         <button type="button" onclick='editCar(${JSON.stringify(car).replace(/'/g, "\\'")})' class="p-2 text-mutuk-dark hover:bg-blue-50 rounded mr-1"><span class="material-symbols-outlined text-lg">edit</span></button>
                         <button type="button" onclick="deleteCar(${car.id})" class="p-2 text-red-500 hover:bg-red-50 rounded"><span class="material-symbols-outlined text-lg">delete</span></button>
@@ -219,24 +201,16 @@
         }
 
         function showForm() {
-            document.getElementById('list-view').classList.add('hidden');
-            document.getElementById('form-view').classList.remove('hidden');
-            document.getElementById('car-id').value = "";
-            document.getElementById('car-brand').value = "";
-            document.getElementById('car-model').value = "";
-            document.getElementById('car-price').value = "";
-            document.getElementById('car-seats').value = "5";
-            document.getElementById('car-desc').value = "";
-            document.getElementById('car-images').value = "";
-            document.getElementById('previews-container').innerHTML = "";
-            existingImages = [];
-            document.getElementById('form-title').innerText = "Ajouter un véhicule";
+            document.getElementById('list-view').classList.add('hidden'); document.getElementById('form-view').classList.remove('hidden');
+            document.getElementById('car-id').value = ""; document.getElementById('car-brand').value = "";
+            document.getElementById('car-model').value = ""; document.getElementById('car-price').value = "";
+            document.getElementById('car-price-aero').value = ""; document.getElementById('car-featured').checked = false;
+            document.getElementById('car-seats').value = "5"; document.getElementById('car-desc').value = "";
+            document.getElementById('car-images').value = ""; document.getElementById('previews-container').innerHTML = "";
+            existingImages = []; document.getElementById('form-title').innerText = "Ajouter un véhicule";
         }
 
-        function showList() {
-            document.getElementById('form-view').classList.add('hidden');
-            document.getElementById('list-view').classList.remove('hidden');
-        }
+        function showList() { document.getElementById('form-view').classList.add('hidden'); document.getElementById('list-view').classList.remove('hidden'); }
 
         function editCar(car) {
             showForm();
@@ -246,6 +220,8 @@
             document.getElementById('car-model').value = car.modele;
             document.getElementById('car-category').value = car.categorie;
             document.getElementById('car-price').value = car.prix_jour;
+            document.getElementById('car-price-aero').value = car.prix_aeroport || "";
+            document.getElementById('car-featured').checked = car.is_featured || false;
             document.getElementById('car-seats').value = car.places || "5";
             document.getElementById('car-boite').value = car.boite || "Automatique";
             document.getElementById('car-fuel').value = car.carburant || "Essence";
@@ -255,17 +231,12 @@
             existingImages = car.images && car.images.length > 0 ? car.images : (car.image_url ? [car.image_url] : []);
             const container = document.getElementById('previews-container');
             container.innerHTML = "";
-            existingImages.forEach(src => {
-                container.innerHTML += `<img src="${src}" class="h-16 w-20 object-cover rounded border">`;
-            });
+            existingImages.forEach(src => { container.innerHTML += `<img src="${src}" class="h-16 w-20 object-cover rounded border">`; });
         }
 
-        // UPLOAD JUSQU'À 10 PHOTOS
         async function handleSaveCar(e) {
             e.preventDefault();
-            const btn = document.getElementById('save-btn');
-            btn.innerText = "Upload des images..."; btn.disabled = true;
-
+            const btn = document.getElementById('save-btn'); btn.innerText = "Enregistrement..."; btn.disabled = true;
             const client = getSupabase();
             const id = document.getElementById('car-id').value;
             const fileInput = document.getElementById('car-images');
@@ -273,19 +244,17 @@
 
             try {
                 if (fileInput.files.length > 0) {
-                    const files = Array.from(fileInput.files).slice(0, 10); // 10 MAX
+                    const files = Array.from(fileInput.files).slice(0, 10);
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
                         const fileName = `${Date.now()}_${i}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
-                        const { error: uploadErr } = await client.storage.from('cars-images').upload(fileName, file);
-                        if (!uploadErr) {
+                        const { error } = await client.storage.from('cars-images').upload(fileName, file);
+                        if (!error) {
                             const { data } = client.storage.from('cars-images').getPublicUrl(fileName);
-                            if(i === 0 && fileInput.files.length > 0) uploadedUrls = [data.publicUrl];
-                            else uploadedUrls.push(data.publicUrl);
+                            if(i === 0 && fileInput.files.length > 0) uploadedUrls = [data.publicUrl]; else uploadedUrls.push(data.publicUrl);
                         }
                     }
                 }
-
                 if (uploadedUrls.length === 0) throw new Error("Ajoutez au moins une photo.");
 
                 const payload = {
@@ -293,36 +262,27 @@
                     modele: document.getElementById('car-model').value,
                     categorie: document.getElementById('car-category').value,
                     prix_jour: document.getElementById('car-price').value,
+                    prix_aeroport: document.getElementById('car-price-aero').value,
+                    is_featured: document.getElementById('car-featured').checked,
                     places: document.getElementById('car-seats').value,
                     boite: document.getElementById('car-boite').value,
                     carburant: document.getElementById('car-fuel').value,
                     climatisation: document.getElementById('car-clim').value,
                     description: document.getElementById('car-desc').value,
-                    image_url: uploadedUrls[0],
-                    images: uploadedUrls
+                    image_url: uploadedUrls[0], images: uploadedUrls
                 };
 
                 if (id) payload.id = id;
-
                 const { error: dbErr } = await client.from('cars').upsert([payload]);
                 if (dbErr) throw dbErr;
 
-                alert("Véhicule enregistré avec succès !");
-                showList();
-                fetchAdminCars();
-
-            } catch (err) {
-                alert("Erreur: " + err.message);
-            } finally {
-                btn.innerText = "Enregistrer"; btn.disabled = false;
-            }
+                alert("Véhicule enregistré avec succès !"); showList(); fetchAdminCars();
+            } catch (err) { alert("Erreur: " + err.message); } finally { btn.innerText = "Enregistrer"; btn.disabled = false; }
         }
 
         async function deleteCar(id) {
             if (!confirm("Supprimer ce véhicule ?")) return;
-            const client = getSupabase();
-            await client.from('cars').delete().eq('id', id);
-            fetchAdminCars();
+            const client = getSupabase(); await client.from('cars').delete().eq('id', id); fetchAdminCars();
         }
     </script>
 </body>

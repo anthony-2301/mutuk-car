@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Transfert Aéroport - Mutuk Rentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script id="tailwind-config">
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
+    </script>
+    <style>
+        .material-symbols-outlined { vertical-align: middle; }
+        .iti { width: 100%; }
+    </style>
+</head>
+<body class="bg-background text-gray-900 font-body">
+<span id="aeroport-page-marker" class="hidden"></span>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm h-16 md:h-20 border-b border-gray-100">
+        <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full">
+            <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
+                <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue" onerror="this.src='https://placehold.co/100x100/009ae0/FFF?text=MR'">
+                <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
+            </a>
+            <a href="index.html" class="text-gray-500 hover:text-mutuk-blue flex items-center gap-1 font-bold text-[13px] md:text-[15px]">
+                <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> Retour
+            </a>
+        </nav>
+    </header>
+
+    <main class="pt-24 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
+        <div class="mb-8 md:mb-12 text-center bg-blue-50 py-8 rounded-3xl border border-blue-100">
+            <span class="material-symbols-outlined text-mutuk-blue text-5xl mb-2">flight</span>
+            <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-2">Transfert Aéroport N'djili</h1>
+            <p class="text-gray-600 text-sm md:text-base font-medium max-w-xl mx-auto px-4">Réservez votre navette VIP pour vos arrivées et départs à l'aéroport international de N'djili. Chauffeur inclus.</p>
+        </div>
+
+        <div id="loading-spinner" class="text-center py-16">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-mutuk-blue mx-auto mb-3"></div>
+            <p class="text-gray-500 font-bold text-sm">Chargement des véhicules...</p>
+        </div>
+
+        <!-- GRILLE DE VOITURES (AVEC PRIX AÉROPORT) -->
+        <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"></div>
+    </main>
+
+    <!-- MODAL RÉSERVATION AÉROPORT -->
+    <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-xl">close</span></button>
+            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest flex items-center gap-1"><span class="material-symbols-outlined text-sm">flight</span> Navette Aéroport</span>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN TRANSFERT</h3>
+            
+            <form onsubmit="handleAirportBooking(event)" class="flex flex-col gap-3">
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
+                    <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
+                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
+                        <div class="mt-1"><input required type="tel" id="booking-client-phone" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">flight_takeoff</span> Lieu de prise en charge *</label>
+                    <input required type="text" id="booking-pickup" placeholder="Ex: Aéroport de N'djili OU Hôtel Fleuve Congo" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">flight_land</span> Destination *</label>
+                    <input required type="text" id="booking-dropoff" placeholder="Ex: Gombe OU Aéroport de N'djili" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date de prise en charge *</label>
+                        <input type="date" id="booking-date" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Heure de prise en charge *</label>
+                        <input type="time" id="booking-time" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                </div>
+
+                <p class="text-[10px] text-slate-500 italic mt-1 text-center">Service ponctuel et personnalisé. Notre chauffeur vous attendra à l'heure indiquée.</p>
+
+                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    Confirmer la navette
+                </button>
+            </form>
+        </div>
+    </div>
+
+   <!-- MODAL DÉTAILS VOITURES (Idem Catalogue) -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative">
+            <button onclick="closeDetailsModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-1.5 z-20"><span class="material-symbols-outlined text-lg">close</span></button>
+            <div class="p-4 md:p-8">
+                <div class="mb-4 md:mb-6">
+                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
+                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
+                    <div>
+                        <h2 id="detail-title" class="font-display text-xl md:text-3xl font-extrabold text-gray-900"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-1 text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 bg-blue-50 text-mutuk-blue rounded-full"></span>
+                    </div>
+                    <div>
+                        <span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span>
+                        <span class="text-[10px] md:text-xs text-gray-400 font-bold">par transfert</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                    <div class="text-center border-x border-gray-200">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                    <div class="text-center">
+                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1">Description & Options</h4>
+                    <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
+                </div>
+                
+                <!-- NOTEZ ICI LE BOUTON AVEC SON ID btn-reserver-details -->
+                <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
+                    <span class="material-symbols-outlined">event_available</span> Réserver
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
+</body>
