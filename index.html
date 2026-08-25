@@ -348,9 +348,69 @@
                     <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
                 </div>
                 <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
-                        span class="material-symbols-outlined">event_available</span> Réserver
+                        <span class="material-symbols-outlined">event_available</span> Réserver
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL RÉSERVATION EXPRESS -->
+    <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-xl">close</span></button>
+            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest">Réservation Express</span>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
+            
+            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-3">
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
+                    <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
+                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
+                        <div class="mt-1"><input required type="tel" id="booking-client-phone" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
+                    <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
+                        <option value="autre">Autre adresse...</option>
+                    </select>
+                    <textarea required id="booking-depart-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
+                    <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                        <option value="agence">Agence Mutuk Rentals (Gombe)</option>
+                        <option value="autre">Autre adresse...</option>
+                    </select>
+                    <textarea required id="booking-arrivee-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
+                        <input type="date" id="booking-date" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Heure *</label>
+                        <input type="time" id="booking-time" value="08:00" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">hourglass_bottom</span> Durée (J) *</label>
+                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                    </div>
+                </div>
+                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    Confirmer la demande
+                </button>
+            </form>
         </div>
     </div>
 
