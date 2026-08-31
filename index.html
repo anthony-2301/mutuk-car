@@ -10,38 +10,61 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="manifest" href="manifest.json">
-<!-- Optionnel mais recommandé pour les PWA : Couleur de la barre d'état sur mobile -->
-<meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#ffffff">
 
     <script id="tailwind-config">
-      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "background": "#f8f9fa", "surface": "#ffffff", "inverse-surface": "#1a1f26" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8", "surface": "#ffffff", "inverse-surface": "#1a1f26" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
     </script>
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,25,47,0.9), transparent); }
+        
+        /* Styles FAQ */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        /* Styles du Preloader */
+        body.loading-active { overflow: hidden; }
+        @keyframes loading-bar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
     </style>
 </head>
-<body class="bg-background text-gray-900 font-body">
+<body class="bg-background text-gray-900 font-body loading-active">
 
-    <!-- HEADER -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-surface shadow-sm transition-all duration-300 h-16 md:h-20 border-b border-gray-100">
+    <!-- PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-mutuk-blue flex items-center justify-center animate-pulse bg-blue-50 shadow-xl overflow-hidden p-2">
+            <!-- Si l'image ne charge pas, on affiche le texte stylé -->
+            <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('preloader-text').style.display='block';">
+            <span id="preloader-text" class="hidden font-display text-2xl font-extrabold text-mutuk-dark tracking-wider">MUTUK</span>
+        </div>
+        <div class="mt-10 w-56 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-mutuk-blue w-0 animate-[loading-bar_2s_ease-in-out_forwards]"></div>
+        </div>
+        <p class="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Chargement...</p>
+    </div>
+
+    <!-- HEADER (Effet de Transparence / Glassmorphism) -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-lg shadow-sm transition-all duration-300 h-16 md:h-20 border-b border-gray-100/50">
         <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full relative">
             <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
                 <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-blue" onerror="this.src='https://placehold.co/100x100/009ae0/FFF?text=MR'">
                 <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-dark tracking-tight">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
             </a>
             <div class="hidden lg:flex items-center gap-8 font-bold text-[15px]">
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#accueil" data-i18n="menu_home">Accueil</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#services" data-i18n="menu_services">Nos Services</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="#categories" data-i18n="menu_categories">Catégories</a>
-                <a class="text-gray-700 hover:text-mutuk-blue transition-colors" href="catalogue.html" data-i18n="menu_fleet">Nos Véhicules</a>
+                <a class="text-gray-800 hover:text-mutuk-blue transition-colors drop-shadow-sm" href="#accueil">Accueil</a>
+                <a class="text-gray-800 hover:text-mutuk-blue transition-colors drop-shadow-sm" href="#services">Nos Services</a>
+                <a class="text-gray-800 hover:text-mutuk-blue transition-colors drop-shadow-sm" href="#categories">Catégories</a>
+                <a class="text-gray-800 hover:text-mutuk-blue transition-colors drop-shadow-sm" href="catalogue.html">Nos Véhicules</a>
             </div>
             <div class="flex items-center gap-3 md:gap-4">
                 <a href="admin.html" class="hidden lg:flex items-center text-gray-400 hover:text-mutuk-blue" title="Administration"><span class="material-symbols-outlined text-2xl">admin_panel_settings</span></a>
-                <button id="mobileMenuBtn" class="lg:hidden text-mutuk-dark p-1 focus:outline-none"><span class="material-symbols-outlined text-3xl">menu</span></button>
+                <button id="mobileMenuBtn" class="lg:hidden text-gray-800 p-1 focus:outline-none"><span class="material-symbols-outlined text-3xl">menu</span></button>
             </div>
         </nav>
         <div id="mobileMenu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex-col z-40 lg:hidden">
@@ -55,110 +78,172 @@
 
     <main>
         <!-- HERO -->
-        <section id="accueil" class="relative min-h-[90vh] flex flex-col justify-center pt-16 md:pt-20">
-            <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-background z-10"></div>
-                <img class="w-full h-full object-cover object-center" src="https://i.pinimg.com/1200x/b2/8f/2f/b28f2f19ef3a6fa4732fea9c34f1e3bd.jpg" alt="Location">
+        <section id="accueil" class="relative min-h-screen flex flex-col justify-center pt-24 md:pt-32 pb-12">
+            <!-- Background Slider avec Voile Bleu Nuit -->
+            <div class="absolute inset-0 z-0 bg-mutuk-navy overflow-hidden">
+                <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                <img src="https://i.pinimg.com/736x/2c/c1/b0/2cc1b04475c22d96513b5dcf0a7ab373.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                <img src="https://i.pinimg.com/736x/f3/5c/dd/f35cddf58a6d872c42832bce1893100d.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                
+                <!-- Overlay bleu nuit et dégradé bas -->
+                <div class="absolute inset-0 bg-mutuk-navy/70 mix-blend-multiply z-10"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-mutuk-navy/40 to-background z-10"></div>
             </div>
-            <div class="relative z-20 w-full px-4 md:px-8 max-w-[1200px] mx-auto mt-6 md:mt-0">
-                <div class="text-white mb-6 md:mb-8 text-center md:text-left">
-                    <h1 class="font-display text-3xl md:text-6xl font-extrabold mb-3 leading-tight" data-i18n="hero_title">L'élite de la mobilité à Kinshasa.</h1>
-                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-xl mx-auto md:mx-0">Trouvez le véhicule parfait disponible à Gombe, Kinshasa.</p>
+
+            <div class="relative z-20 w-full px-4 md:px-8 max-w-[1200px] mx-auto flex flex-col h-full mt-auto">
+                <div class="text-white mb-10 text-center md:text-left pt-8 md:pt-0">
+                    <span class="inline-block bg-mutuk-blue text-white px-4 py-1.5 rounded-full text-xs md:text-sm font-bold tracking-widest uppercase mb-4 shadow-lg border border-blue-400/30">
+                        KINSHASA • DISPONIBLE 7J/7
+                    </span>
+                    <h1 class="font-display text-4xl md:text-5xl lg:text-7xl font-extrabold mb-4 leading-tight">
+                        Votre véhicule.<br>Votre chauffeur.<br><span class="text-mutuk-blue drop-shadow-md">Votre tranquillité.</span>
+                    </h1>
+                    <p class="text-base md:text-xl font-medium text-gray-200 max-w-2xl mx-auto md:mx-0 mb-8 leading-relaxed">
+                        Des véhicules fiables pour vos déplacements privés, professionnels, transferts aéroport et événements à Kinshasa.
+                    </p>
+                    
+                    <!-- Boutons d'action -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-8">
+                        <a href="catalogue.html" class="w-full sm:w-auto bg-mutuk-blue text-white px-8 py-4 rounded-xl font-bold hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/30 text-center border border-mutuk-blue">Voir les véhicules</a>
+                        <a href="https://wa.me/243997708115" target="_blank" class="w-full sm:w-auto bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition shadow-lg shadow-green-500/30 border border-[#25D366]">
+                            <span class="material-symbols-outlined">forum</span> WhatsApp
+                        </a>
+                    </div>
+                    
+                    <!-- Ligne d'info (Mise en évidence sur fond sombre) -->
+                    <div class="inline-flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 text-[11px] md:text-sm font-bold text-white bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/15 shadow-xl">
+                        <span>Prado • Fortuner • G-Class • Noah • Hiace</span>
+                        <span class="text-mutuk-blue hidden sm:inline">•</span>
+                        <span class="bg-mutuk-blue text-white px-2.5 py-1 rounded-md shadow-sm">À partir de 45 $ / jour</span>
+                        <span class="text-mutuk-blue hidden sm:inline">•</span>
+                        <span>Avec chauffeur</span>
+                        <span class="text-mutuk-blue hidden sm:inline">•</span>
+                        <span>Réponse rapide</span>
+                    </div>
                 </div>
-                <div class="booking-widget rounded-xl md:rounded-2xl shadow-2xl p-3 md:p-6 border border-mutuk-blue/20">
-                    <div class="mb-3 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-200 pb-2">
+
+                <!-- Widget de recherche stylisé -->
+                <div class="booking-widget rounded-2xl md:rounded-3xl shadow-[0_10px_40px_rgba(0,154,224,0.15)] p-4 md:p-6 border-2 border-mutuk-blue/30">
+                    <div class="mb-4 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-100 pb-3">
                         <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus
                     </div>
-                    <form id="mainSearchForm" class="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-3">
-                        <div class="col-span-2 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Marque / Modèle</label>
-                            <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
-                            <input type="text" id="search-car" placeholder="Recherche..." class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                    <form id="mainSearchForm" class="grid grid-cols-2 md:grid-cols-6 gap-3">
+                        <div class="col-span-2 relative bg-gray-50 rounded-xl border border-gray-200 hover:border-mutuk-blue transition">
+                            <label class="absolute top-2 left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Marque / Modèle</label>
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">directions_car</span>
+                            <input type="text" id="search-car" placeholder="Recherche..." class="w-full pt-6 pb-2 pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-900 text-xs md:text-base">
                         </div>
-                        <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Lieu</label>
-                            <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">location_on</span>
-                            <input type="text" value="Gombe, Kinshasa" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-800 text-xs md:text-base">
+                        <div class="col-span-2 md:col-span-1 relative bg-gray-50 rounded-xl border border-gray-200 hover:border-mutuk-blue transition">
+                            <label class="absolute top-2 left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Lieu</label>
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">location_on</span>
+                            <input type="text" placeholder="Gombe, Kinshasa" class="w-full pt-6 pb-2 pl-10 pr-2 bg-transparent border-none outline-none font-bold text-gray-900 text-xs md:text-base">
                         </div>
-                        <div class="col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Départ</label>
-                            <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
-                            <input type="date" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-800 text-[10px] md:text-sm">
+                        <div class="col-span-1 relative bg-gray-50 rounded-xl border border-gray-200 hover:border-mutuk-blue transition">
+                            <label class="absolute top-2 left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Départ</label>
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
+                            <input type="date" class="w-full pt-6 pb-2 pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-900 text-[10px] md:text-sm">
                         </div>
-                        <div class="col-span-1 relative bg-gray-50 rounded-lg md:rounded-xl border border-gray-200">
-                            <label class="absolute top-1 md:top-2 left-8 md:left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Retour</label>
-                            <span class="material-symbols-outlined absolute left-2 md:left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
-                            <input type="date" class="w-full pt-4 pb-1 md:pt-6 md:pb-2 pl-8 md:pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-800 text-[10px] md:text-sm">
+                        <div class="col-span-1 relative bg-gray-50 rounded-xl border border-gray-200 hover:border-mutuk-blue transition">
+                            <label class="absolute top-2 left-10 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase">Retour</label>
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-mutuk-blue text-lg md:text-2xl">event</span>
+                            <input type="date" class="w-full pt-6 pb-2 pl-10 pr-1 bg-transparent border-none outline-none font-bold text-gray-900 text-[10px] md:text-sm">
                         </div>
                         <div class="col-span-2 md:col-span-1">
-                            <button type="submit" class="w-full h-full bg-mutuk-blue text-white font-bold rounded-lg md:rounded-xl py-3 hover:bg-mutuk-dark transition flex items-center justify-center gap-2 shadow-md">Rechercher</button>
+                            <button type="submit" class="w-full h-full bg-mutuk-blue text-white font-bold rounded-xl py-3 hover:bg-mutuk-dark transition flex items-center justify-center gap-2 shadow-md">Rechercher</button>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
 
+        <!-- SCRIPT DU PRELOADER & SLIDER HERO -->
+        <script>
+            // Disparition du preloader au chargement complet
+            window.addEventListener('load', () => {
+                const preloader = document.getElementById('preloader');
+                // Petit délai pour s'assurer que l'animation de base est vue
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.remove();
+                        document.body.classList.remove('loading-active');
+                    }, 700); // Temps du fadeOut
+                }, 1000);
+            });
+
+            // Gestion du slider Hero
+            document.addEventListener('DOMContentLoaded', () => {
+                const slides = document.querySelectorAll('.hero-bg-slide');
+                let currentSlide = 0;
+                if(slides.length > 1) {
+                    setInterval(() => {
+                        slides[currentSlide].classList.remove('opacity-100');
+                        slides[currentSlide].classList.add('opacity-0');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.remove('opacity-0');
+                        slides[currentSlide].classList.add('opacity-100');
+                    }, 5000); 
+                }
+            });
+        </script>
+
         <!-- NOS SERVICES -->
-        <section id="services" class="py-16 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
-            <div class="text-center mb-10">
-                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Sur-mesure</span>
-                <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900">Nos Services Exclusifs</h2>
+        <section id="services" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-3 block">PLUS QU’UNE LOCATION DE VOITURE</span>
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Des solutions adaptées à chaque déplacement</h2>
             </div>
 
-            <!-- Grille configurée pour afficher 2 à 2 (sur mobile et PC) -->
-            <div class="grid grid-cols-2 gap-4 md:gap-6">
-                
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.open('https://wa.me/243997708115?text=Devis%20Location%20LLD', '_blank')">
-                    <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=1974" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Location longue Durée</h3>
-                        <span class="bg-mutuk-blue text-white font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-[10px] md:text-base w-fit">Devis</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='longue-duree.html'">
+                    <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
+                    <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Location longue Durée</h3>
+                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Devis rapide</span>
                     </div>
                 </div>
 
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.open('https://wa.me/243997708115?text=Infos%20Mariages', '_blank')">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='mariage.html'">
                     <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Mariages</h3>
-                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-[10px] md:text-base w-fit">Forfaits</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Mariages & VIP</h3>
+                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Voir la flotte Luxe</span>
                     </div>
                 </div>
 
-                <!-- LIEN VERS LA PAGE AÉROPORT -->
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.location.href='aeroport.html'">
-                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Aéroport</h3>
-                        <span class="bg-mutuk-blue text-white font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-[10px] md:text-base w-fit">Réserver</span>
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='aeroport.html'">
+                    <img src="https://i.pinimg.com/736x/23/5b/55/235b55fc659f76dc24069bf6a991d9c6.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
+                    <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Aéroport</h3>
+                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Réserver Navette</span>
                     </div>
                 </div>
 
-                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[220px] md:h-[300px] shadow-lg cursor-pointer" onclick="window.location.href='catalogue.html'">
-                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Tourisme">
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent flex flex-col justify-end p-3 md:p-8">
-                        <h3 class="text-base md:text-3xl font-display font-extrabold text-white mb-1 md:mb-3">Tourisme</h3>
-                        <span class="bg-white text-mutuk-dark font-bold px-3 py-1.5 md:px-6 md:py-3 rounded-lg text-[10px] md:text-base w-fit">Explorer</span>
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='pro.html'">
+                    <img src="https://i.pinimg.com/736x/e0/5e/0d/e05e0d330e8a237ee3b75fee2c947783.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Événements">
+                    <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Événements & Pro</h3>
+                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Parcourir</span>
                     </div>
                 </div>
-                
             </div>
         </section>
 
-        <!-- CATEGORIES (8 CATÉGORIES) -->
-        <section id="categories" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto bg-gray-50 rounded-3xl scroll-mt-20">
-            <div class="text-center md:text-left mb-6 md:mb-8">
-                <h2 class="font-display text-2xl md:text-4xl font-extrabold text-gray-900 mb-2">Parcourir par catégorie</h2>
-                <p class="text-gray-500 text-sm md:text-base">Choisissez une catégorie pour consulter notre catalogue.</p>
+        <!-- CATEGORIES -->
+        <section id="categories" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 scroll-mt-20">
+            <div class="text-center md:text-left mb-10">
+                <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">UN VEHICULE POUR CHAQUE BESOIN</span>
+                <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Choisissez votre catégorie</h2>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                <div onclick="goToCatalog('suv')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                <div onclick="goToCatalog('suv_prestige')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
                     <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV 4x4</span></div>
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV Prestige</span></div>
                 </div>
-                <div onclick="goToCatalog('berline')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
+                <div onclick="goToCatalog('berline-standars')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
                     <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Berlines</span></div>
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Berlines Standars</span></div>
                 </div>
                 <div onclick="goToCatalog('luxe')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
                     <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
@@ -166,55 +251,123 @@
                 </div>
                 <div onclick="goToCatalog('utilitaire')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
                     <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Utilitaires</span></div>
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Utilitaires & Mini-Bus</span></div>
                 </div>
                 
-                <!-- NOUVELLES CATEGORIES -->
-                <div onclick="goToCatalog('pickup')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="image/ford.jpeg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Pick-up</span></div>
-                </div>
-                <div onclick="goToCatalog('suv_compact')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="image/Nissan Juke.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV Compact</span></div>
-                </div>
-                <div onclick="goToCatalog('economique')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="image/pegeout 208 gt.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Économique</span></div>
-                </div>
-                <div onclick="goToCatalog('hybride')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="image/Hyundai Tucson.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Hybride</span></div>
-                </div>
             </div>
         </section>
 
         <!-- FLOTTE (A LA UNE) -->
-        <section id="flotte" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden">
-            <div class="flex justify-between items-end mb-6 md:mb-8 border-b border-gray-200 pb-4">
-                <h2 class="font-display text-2xl md:text-3xl font-extrabold text-gray-900">À la une</h2>
-                <a href="catalogue.html" class="text-mutuk-blue font-bold text-sm md:text-base hover:underline flex items-center gap-1">
-                    Tout le catalogue <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        <section id="flotte" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-gray-200 pb-6 gap-4">
+                <div>
+                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">VÉHICULES EN VEDETTE</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Quelques choix populaires</h2>
+                </div>
+                <a href="catalogue.html" class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-xl text-sm md:text-base hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/25 flex items-center justify-center gap-2 w-full md:w-auto">
+                    Tout le catalogue <span class="material-symbols-outlined text-base">arrow_forward</span>
                 </a>
             </div>
             <div id="carousel-spinner" class="text-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-mutuk-blue mx-auto"></div></div>
             <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
         </section>
 
-        <!-- SECTION CONTACT / ADRESSE -->
-        <section id="contact" class="py-12 md:py-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
-                <div class="p-8 md:w-1/2 flex flex-col justify-center">
-                    <span class="text-mutuk-blue font-bold uppercase tracking-widest text-sm mb-2">Nous trouver</span>
-                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Contact & Accès</h2>
+        <!-- FAQ ET TÉMOIGNAGES -->
+        <section id="faq-testimonials" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
+                
+                <!-- Colonne Gauche : Témoignages -->
+                <div>
+                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Ils nous font confiance</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Avis Clients</h2>
                     
-                    <div class="flex items-start gap-4 mb-6">
-                        <div class="bg-blue-50 p-3 rounded-full text-mutuk-blue">
-                            <span class="material-symbols-outlined text-2xl">location_on</span>
+                    <div class="bg-background p-8 md:p-10 rounded-3xl relative overflow-hidden">
+                        <span class="material-symbols-outlined absolute top-4 right-6 text-8xl text-mutuk-blue opacity-10">format_quote</span>
+                        <div class="flex gap-1 mb-5 text-yellow-500">
+                            <span class="material-symbols-outlined filled text-xl">star</span>
+                            <span class="material-symbols-outlined filled text-xl">star</span>
+                            <span class="material-symbols-outlined filled text-xl">star</span>
+                            <span class="material-symbols-outlined filled text-xl">star</span>
+                            <span class="material-symbols-outlined filled text-xl">star</span>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">Adresse Physique</h4>
-                            <p class="text-gray-600 leading-relaxed mt-1">
+                        <p class="text-lg md:text-xl text-gray-700 italic mb-8 relative z-10 font-medium leading-relaxed">
+                            “Service rapide, chauffeur professionnel et véhicule propre. Une excellente expérience pour nos déplacements professionnels à Kinshasa.”
+                        </p>
+                        <div class="flex items-center gap-4 border-t border-gray-200 pt-6">
+                            <div class="w-12 h-12 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md">M</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-lg">Marc D.</h4>
+                                <span class="text-sm font-bold text-gray-500">Client Entreprise</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne Droite : FAQ -->
+                <div>
+                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Informations utiles</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Questions Fréquentes</h2>
+                    
+                    <div class="space-y-4">
+                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition" open>
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                                Comment réserver un véhicule ?
+                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                            </summary>
+                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                                Vous pouvez réserver directement sur ce site via le bouton "Réserver", ou nous contacter sur WhatsApp au 0997 708 115 pour une prise en charge immédiate.
+                            </p>
+                        </details>
+                        
+                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                                Le carburant est-il inclus ?
+                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                            </summary>
+                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                                Non, le carburant est à la charge du client. Le véhicule est fourni avec un niveau de carburant défini qui doit être restitué à l'identique.
+                            </p>
+                        </details>
+                        
+                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                                Puis-je louer pour plusieurs jours ?
+                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                            </summary>
+                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                                Absolument. Nous proposons des tarifs dégressifs et des forfaits pour la location longue durée adaptés aux particuliers et entreprises.
+                            </p>
+                        </details>
+
+                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                                Proposez-vous des transferts aéroport ?
+                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                            </summary>
+                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                                Oui, nous disposons d'un service navette VIP spécifique pour vos arrivées et départs à l'aéroport de N'djili, avec un temps d'attente inclus.
+                            </p>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION CONTACT / ADRESSE -->
+        <section id="contact" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto">
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                <div class="p-8 md:p-12 md:w-1/2 flex flex-col justify-center">
+                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Nous trouver</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Contact & Accès</h2>
+                    
+                    <div class="flex items-start gap-5 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-2xl text-mutuk-blue">
+                            <span class="material-symbols-outlined text-3xl">location_on</span>
+                        </div>
+                        <div class="mt-1">
+                            <h4 class="font-bold text-gray-900 text-lg">Adresse Physique</h4>
+                            <p class="text-gray-600 leading-relaxed mt-2 text-sm md:text-base">
                                 5573. AV. KAUKA COMMUNE DE LA GOMBE<br>
                                 REFERENCE IMMEUBLE MAISHA PARK<br>
                                 ARRET : ROYAL
@@ -222,228 +375,147 @@
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-4 mb-8">
-                        <div class="bg-blue-50 p-3 rounded-full text-mutuk-blue">
-                            <span class="material-symbols-outlined text-2xl">mail</span>
+                    <div class="flex items-start gap-5 mb-10">
+                        <div class="bg-blue-50 p-4 rounded-2xl text-mutuk-blue">
+                            <span class="material-symbols-outlined text-3xl">mail</span>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">Email</h4>
-                            <p class="text-gray-600 leading-relaxed mt-1">contact@mutukrentals.com</p>
+                        <div class="mt-1">
+                            <h4 class="font-bold text-gray-900 text-lg">Email</h4>
+                            <p class="text-gray-600 leading-relaxed mt-2 text-sm md:text-base">contact@mutukrentals.com</p>
                         </div>
                     </div>
 
-                    <a href="https://wa.me/243997708115" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-6 py-4 rounded-xl shadow-lg hover:bg-[#20bd5a] transition">
-                        <span class="material-symbols-outlined">forum</span> Discuter sur WhatsApp : 0997 708 115
+                    <a href="https://wa.me/243997708115" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-8 py-5 rounded-xl shadow-lg hover:bg-[#20bd5a] transition">
+                        <span class="material-symbols-outlined text-xl">forum</span> Discuter sur WhatsApp : 0997 708 115
                     </a>
                 </div>
-                <div class="md:w-1/2 h-64 md:h-auto min-h-[300px]">
+                <div class="md:w-1/2 h-80 md:h-auto min-h-[400px]">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3336.2009885945063!2d15.311803599999998!3d-4.3023786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a3300517dfba3%3A0xdfb0db9176b07a2c!2sMutuk%20Rentals%20Location%20Voiture%20Kinshasa!5e1!3m2!1sen!2scd!4v1787528845044!5m2!1sen!2scd" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
         </section>
-
-        <!-- SECTION CONDITIONS GÉNÉRALES -->
-        <section id="cgv" class="py-12 md:py-16 px-4 md:px-8 max-w-[1000px] mx-auto">
-            <h2 class="font-display text-2xl md:text-3xl font-extrabold text-gray-900 mb-8 text-center">CONDITIONS GÉNÉRALES DE LOCATION</h2>
-            <div class="bg-gray-50 p-6 md:p-8 rounded-2xl text-sm text-gray-700 space-y-4 max-h-[500px] overflow-y-auto border border-gray-200 shadow-inner leading-relaxed">
-                <p><strong>MUTUK RENTALS</strong><br>
-                5573. AV. KAUKA COMMUNE DE LA GOMBE<br>
-                REFERENCE IMMEUBLE MAISHA PARK<br>
-                ARRET : ROYAL<br>
-                +243 997 708 115 • www.mutukrentals.com • contact@mutukrentals.com</p>
-
-                <p>Les présentes conditions générales encadrent toute réservation et toute prestation de location de véhicule réalisée avec Mutuk Rentals. La confirmation de la réservation ou le début de la prestation vaut acceptation de ces conditions par le client.</p>
-                
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 1 — OBJET ET ACCEPTATION</h4>
-                <p>Mutuk Rentals met à la disposition du client un véhicule avec chauffeur selon la catégorie, la durée, l’itinéraire et le prix convenus lors de la réservation. Toute condition particulière convenue par écrit avec le client complète les présentes conditions générales.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 2 — ÉTAT DU VÉHICULE ET CHAUFFEUR</h4>
-                <p>Les véhicules doivent être propres, climatisés et en bon état de fonctionnement. La location comprend un chauffeur fourni par Mutuk Rentals, sans frais supplémentaires, sauf en cas d’heures supplémentaires ou d’arrangement particulier convenu avant la course. Tout accident, dommage, incident, panne ou vol doit être signalé immédiatement à Mutuk Rentals.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 3 — RÉSERVATION ET PAIEMENT</h4>
-                <p>Un acompte de 50 % du montant convenu est obligatoire pour confirmer la réservation sauf arrangement différent fait au préalable. La réservation n’est considérée comme confirmée qu’après réception effective de l’acompte et envoi de la confirmation ou du reçu au client. Le solde doit être payé au plus tard à l’arrivée du véhicule et avant le début de la prestation, sauf accord écrit contraire.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 4 — CARBURANT</h4>
-                <p>Le carburant est à la charge du client. Une photo du niveau du réservoir doit être prise au début de la prestation. À la fin de la location, le véhicule doit être restitué avec le même niveau de carburant. Toute différence peut être facturée au client.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 5 — HORAIRES ET HEURES SUPPLÉMENTAIRES</h4>
-                <p>Les heures normales de location sont de 07h30 à 21h00, sauf convention particulière.<br>
-                Pour les voitures basses, les mini-vans (Toyota Noah, etc.) et mini-jeeps (Toyota Vanguard, Harrier) : forfait de 15 USD de 21h00 à 00h00, puis 10 USD par heure supplémentaire après 00h00.<br>
-                Pour les grosses jeeps et les autres modèles : 10 USD par heure supplémentaire à compter de 21h00.<br>
-                Tout arrangement différent doit être discuté et accepté avant la prolongation de la prestation.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 6 — LOCATIONS POUR MARIAGE</h4>
-                <p>Pour les locations de mariage, un forfait d’heures supplémentaires peut être convenu afin de prolonger la prestation jusqu’à 05h00. Après 05h00, le tarif journalier normal s’applique.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 7 — COURSES AÉROPORT</h4>
-                <p>Une course aéroport correspond à un aller simple et comprend une heure d’attente. Au-delà de cette heure d’attente incluse, le tarif journalier normal peut s’appliquer, sauf arrangement contraire convenu à l’avance. Les frais de parking sont à la charge du client lorsque le véhicule doit entrer dans le parking. Afin d’éviter ces frais, le client peut demander à être pris en charge ou déposé à l’entrée de l’aéroport.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 8 — RETARDS, PANNE ET VÉHICULE DE REMPLACEMENT</h4>
-                <p>En cas de retard, Mutuk Rentals informe le client du délai estimé et recherche une solution. En cas de panne immobilisant le véhicule avant ou pendant la prestation, Mutuk Rentals dispose d’un délai maximal de deux heures à compter du signalement pour remettre le véhicule en état ou proposer un véhicule de remplacement. Passé ce délai, le client est remboursé du montant correspondant à la partie non exécutée.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 9 — ANNULATION PAR LE CLIENT</h4>
-                <p>Moins de 24 heures avant le début de la course : retenue de 20 % du montant de la première journée.<br>
-                Le jour même, avant le départ : retenue de 50 % du montant de la première journée.<br>
-                Lorsque le véhicule ou le chauffeur a déjà été mobilisé, la course est jugée débutée et le client devra donc payer l'entièreté de la somme due.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 10 — COURSES DE LONGUE DURÉE</h4>
-                <p>Lorsque le client met fin à une location de longue durée avant la date prévue, les jours non prestés sont remboursés intégralement. Si une réduction avait été accordée et que le client utilise moins de 75 % des jours prévus, les jours effectivement prestés peuvent être recalculés au tarif normal.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 11 — ANNULATION OU NON-EXÉCUTION PAR MUTUK RENTALS</h4>
-                <p>En cas d’annulation ou de non-exécution imputable à Mutuk Rentals, le client est remboursé du montant correspondant à la partie non exécutée.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 12 — OBLIGATIONS DU CLIENT</h4>
-                <p>Le client doit communiquer des informations exactes. Il doit respecter les consignes de sécurité du chauffeur. Mutuk Rentals s’engage à restituer tout objet retrouvé, mais ne peut être tenue responsable des objets oubliés, perdus ou volés.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 13 — ARRANGEMENTS DIRECTS ET PAIEMENTS NON AUTORISÉS</h4>
-                <p>Seuls les arrangements préalablement autorisés par écrit par Mutuk Rentals engagent l’agence. Le chauffeur n’est pas autorisé à modifier le prix ou promettre un remboursement. Toute somme versée directement par le client au chauffeur non autorisée ne fera l'objet d'aucun remboursement.</p>
-
-                <h4 class="font-bold text-gray-900 pt-2">ARTICLE 14 — RÈGLEMENT DES DIFFÉRENDS ET ACCEPTATION</h4>
-                <p>En cas de désaccord, les parties chercheront d’abord une solution à l’amiable. À défaut d’accord, le différend pourra être soumis aux juridictions compétentes de Kinshasa. En confirmant sa réservation, le client reconnaît avoir lu, compris et accepté les présentes conditions générales.</p>
-            </div>
-        </section>
     </main>
 
-    <footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8 text-center md:text-left">
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-10 text-center md:text-left mt-8">
         <div class="px-4 md:px-8 max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
                 <span class="font-display text-2xl font-extrabold text-mutuk-dark block">Mutuk<span class="text-mutuk-blue">Rentals</span></span>
-                <p class="text-gray-500 text-sm mt-2">Avenue Kauka, Gombe, Kinshasa - RDC</p>
+                <p class="text-gray-500 text-sm mt-2 font-medium">Avenue Kauka, Gombe, Kinshasa - RDC</p>
+            </div>
+            <div class="flex gap-4">
+                <a href="cgv.html" class="text-sm font-bold text-gray-500 hover:text-mutuk-blue transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-base">gavel</span> Conditions Générales
+                </a>
             </div>
         </div>
     </footer>
 
-<!-- MODAL DÉTAILS VOITURES -->
-    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] overflow-y-auto relative">
-            <button onclick="closeDetailsModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-1.5 z-20"><span class="material-symbols-outlined text-lg">close</span></button>
-            <div class="p-4 md:p-8">
-                <div class="mb-4 md:mb-6">
-                    <div class="h-48 sm:h-64 md:h-80 rounded-xl overflow-hidden bg-gray-100 mb-2 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
-                    <div id="detail-thumbs" class="flex gap-2 overflow-x-auto pb-1"></div>
+    <!-- MODAL DÉTAILS VOITURES -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative border border-gray-100">
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20 transition"><span class="material-symbols-outlined">close</span></button>
+            <div class="p-5 md:p-8">
+                <div class="mb-5 md:mb-6">
+                    <div class="h-48 sm:h-64 md:h-80 rounded-2xl overflow-hidden bg-gray-100 mb-3 shadow-inner"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
+                    <div id="detail-thumbs" class="flex gap-3 overflow-x-auto pb-2 hide-scrollbar"></div>
                 </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 mb-4 gap-2">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-5 gap-3">
                     <div>
-                        <h2 id="detail-title" class="font-display text-xl md:text-3xl font-extrabold text-gray-900"></h2>
-                        <span id="detail-category-badge" class="inline-block mt-1 text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 bg-blue-50 text-mutuk-blue rounded-full"></span>
+                        <h2 id="detail-title" class="font-display text-2xl md:text-3xl font-extrabold text-gray-900"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-2 text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1 bg-blue-50 text-mutuk-blue rounded-lg border border-blue-100"></span>
                     </div>
-                    <div>
-                        <span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span>
-                        <span class="text-[10px] md:text-xs text-gray-400 font-bold">par jour</span>
+                    <div class="text-left sm:text-right">
+                        <span id="detail-price" class="text-2xl md:text-4xl font-extrabold text-mutuk-blue block"></span>
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wide">par jour</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <div class="grid grid-cols-3 gap-3 mb-6 bg-background p-4 rounded-2xl border border-gray-100">
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">event_seat</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">event_seat</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-900 text-sm"></span>
                     </div>
                     <div class="text-center border-x border-gray-200">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">settings</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">settings</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-900 text-sm"></span>
                     </div>
                     <div class="text-center">
-                        <span class="material-symbols-outlined text-mutuk-blue text-xl mb-0.5">local_gas_station</span><span class="block text-[9px] md:text-xs font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-800 text-xs md:text-sm"></span>
+                        <span class="material-symbols-outlined text-mutuk-blue text-2xl mb-1">local_gas_station</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-900 text-sm"></span>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <h4 class="font-bold text-gray-900 text-xs md:text-sm mb-1">Description & Options</h4>
-                    <p id="detail-desc" class="text-gray-600 text-xs md:text-sm leading-relaxed"></p>
+                <div class="mb-8">
+                    <h4 class="font-bold text-gray-900 text-sm md:text-base mb-2">Description & Options</h4>
+                    <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed"></p>
                 </div>
-                <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-3 md:py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-md text-sm md:text-base">
-                        <span class="material-symbols-outlined">event_available</span> Réserver
+                <button id="btn-reserver-details" class="w-full bg-mutuk-blue text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/30 text-base">
+                        <span class="material-symbols-outlined">event_available</span> Réserver ce véhicule
                 </button>
             </div>
         </div>
     </div>
 
     <!-- MODAL RÉSERVATION EXPRESS -->
-    <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-5 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
+    <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
             <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-xl">close</span></button>
-            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest">Réservation Express</span>
-            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-4">RÉSERVER UN VÉHICULE</h3>
+            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest block mb-1">Réservation Express</span>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-6 font-extrabold tracking-tight">VOTRE DEMANDE</h3>
             
-            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-3">
+            <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-4">
                 <div>
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
-                    <input type="text" id="booking-car-name" readonly class="w-full p-2.5 bg-slate-50 rounded-xl font-semibold text-mutuk-blue border border-slate-200 text-sm mt-1 outline-none"/>
+                    <label class="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5 mb-1.5"><span class="material-symbols-outlined text-base">directions_car</span> Véhicule Sélectionné</label>
+                    <input type="text" id="booking-car-name" readonly class="w-full p-3 bg-blue-50 rounded-xl font-bold text-mutuk-blue border border-blue-100 text-sm outline-none"/>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
-                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50 mt-1"/>
+                        <label class="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5 mb-1.5"><span class="material-symbols-outlined text-base">person</span> Nom Complet *</label>
+                        <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-mutuk-blue transition"/>
                     </div>
                     <div>
-                        <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
-                        <div class="mt-1"><input required type="tel" id="booking-client-phone" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-mutuk-blue/50"/></div>
+                        <label class="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5 mb-1.5"><span class="material-symbols-outlined text-base">call</span> Téléphone / WhatsApp *</label>
+                        <div><input required type="tel" id="booking-client-phone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-mutuk-blue transition"/></div>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
-                    <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                <div class="bg-background p-4 rounded-2xl border border-slate-100">
+                    <label class="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5 mb-2"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_takeoff</span> Lieu de départ *</label>
+                    <select id="booking-depart-type" onchange="toggleLocationInput('depart')" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none bg-white font-medium focus:border-mutuk-blue transition">
                         <option value="agence">Agence Mutuk Rentals (Gombe)</option>
                         <option value="autre">Autre adresse...</option>
                     </select>
-                    <textarea required id="booking-depart-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
+                    <textarea required id="booking-depart-address" rows="2" class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-3 bg-slate-100 text-slate-500 outline-none font-medium" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
                 </div>
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <label class="text-xs font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
-                    <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1 outline-none bg-white">
+                
+                <div class="bg-background p-4 rounded-2xl border border-slate-100">
+                    <label class="text-xs font-bold uppercase text-slate-500 flex items-center gap-1.5 mb-2"><span class="material-symbols-outlined text-base text-mutuk-blue">flight_land</span> Lieu d'arrivée *</label>
+                    <select id="booking-arrivee-type" onchange="toggleLocationInput('arrivee')" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none bg-white font-medium focus:border-mutuk-blue transition">
                         <option value="agence">Agence Mutuk Rentals (Gombe)</option>
                         <option value="autre">Autre adresse...</option>
                     </select>
-                    <textarea required id="booking-arrivee-address" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-2 bg-slate-100 text-slate-600 outline-none" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
+                    <textarea required id="booking-arrivee-address" rows="2" class="w-full p-3 rounded-xl border border-slate-200 text-sm mt-3 bg-slate-100 text-slate-500 outline-none font-medium" readonly>5573. AV. KAUKA COMMUNE DE LA GOMBE&#10;REF: IMMEUBLE MAISHA PARK, ARRET : ROYAL</textarea>
                 </div>
-                <div class="grid grid-cols-3 gap-2">
+                
+                <div class="grid grid-cols-3 gap-3">
                     <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
-                        <input type="date" id="booking-date" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                        <label class="text-[10px] md:text-xs font-bold uppercase text-slate-500 flex items-center gap-1 mb-1.5"><span class="material-symbols-outlined text-sm">calendar_month</span> Date *</label>
+                        <input type="date" id="booking-date" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-mutuk-blue transition"/>
                     </div>
                     <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Heure *</label>
-                        <input type="time" id="booking-time" value="08:00" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                        <label class="text-[10px] md:text-xs font-bold uppercase text-slate-500 flex items-center gap-1 mb-1.5"><span class="material-symbols-outlined text-sm">schedule</span> Heure *</label>
+                        <input type="time" id="booking-time" value="08:00" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-mutuk-blue transition"/>
                     </div>
                     <div>
-                        <label class="text-[10px] font-semibold uppercase text-slate-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">hourglass_bottom</span> Durée (J) *</label>
-                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-2.5 rounded-xl border border-slate-200 text-sm mt-1"/>
+                        <label class="text-[10px] md:text-xs font-bold uppercase text-slate-500 flex items-center gap-1 mb-1.5"><span class="material-symbols-outlined text-sm">hourglass_bottom</span> Durée (J) *</label>
+                        <input type="number" id="booking-days" min="1" value="1" required class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-mutuk-blue transition"/>
                     </div>
                 </div>
-                <button type="submit" class="mt-2 bg-mutuk-blue text-white font-semibold text-base py-3.5 rounded-xl shadow-lg shadow-mutuk-blue/25 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2 cursor-pointer">
+                
+                <button type="submit" class="mt-4 w-full bg-mutuk-blue text-white font-bold text-base py-4 rounded-xl shadow-lg shadow-mutuk-blue/30 hover:bg-mutuk-dark transition-all flex items-center justify-center gap-2">
                     Confirmer la demande
                 </button>
             </form>
         </div>
     </div>
 
-<!-- NOTIFICATION D'INSTALLATION PWA -->
-<div id="pwa-install-toast" class="hidden fixed bottom-4 right-4 left-4 md:left-auto md:w-80 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 z-[999] flex flex-col gap-3 animate-fade-in-up">
-    <div class="flex items-start justify-between">
-        <div class="flex items-center gap-3">
-            <div class="bg-mutuk-blue text-white p-2 rounded-lg">
-                <span class="material-symbols-outlined text-xl">app_shortcut</span>
-            </div>
-            <div>
-                <h4 class="font-bold text-gray-900 text-sm">Installer Mutuk Rentals</h4>
-                <p class="text-xs text-gray-500 mt-0.5">Accès rapide et hors-ligne</p>
-            </div>
-        </div>
-        <button id="pwa-close-btn" class="text-gray-400 hover:text-gray-600">
-            <span class="material-symbols-outlined text-lg">close</span>
-        </button>
-    </div>
-    <button id="pwa-install-btn" class="w-full bg-mutuk-blue text-white font-bold py-2 rounded-lg text-sm hover:bg-mutuk-dark transition-colors">
-        Installer l'application
-    </button>
-</div>
-
-<style>
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-up { animation: fadeInUp 0.4s ease-out forwards; }
-</style>
-
-
+    <!-- SCRIPTS -->
     <script src="js/supabase.js"></script>
     <script src="js/app.js?v=1.1"></script>
 </body>

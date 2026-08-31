@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Transfert Aéroport - Mutuk Rentals</title>
+    <title>Événements & Pro - Mutuk Rentals</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -11,20 +11,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script id="tailwind-config">
-        tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
     </script>
     <style> .iti { width: 100%; } .filter-btn.active { background-color: #009ae0; color: white; border-color: #009ae0; } .hide-scrollbar::-webkit-scrollbar { display: none; } body.loading-active { overflow: hidden; } @keyframes loading-bar { 0% { width: 0%; } 100% { width: 100%; } } </style>
 </head>
 <body class="bg-background text-gray-900 font-body loading-active">
-    <span id="aeroport-page-marker" class="hidden"></span>
-
-    <!-- PRELOADER -->
+    
     <div id="preloader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="w-32 h-32 rounded-full border-4 border-mutuk-blue flex items-center justify-center animate-pulse bg-blue-50 overflow-hidden p-2"><img src="image/logo.jpeg" class="w-full h-full object-contain rounded-full"></div>
         <div class="mt-10 w-56 h-1.5 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-mutuk-blue w-0 animate-[loading-bar_1.5s_ease-in-out_forwards]"></div></div>
     </div>
 
-    <!-- HEADER -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-lg shadow-sm h-16 md:h-20 border-b border-gray-100">
         <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full">
             <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12 hover:scale-105 transition-transform"><img src="image/logo.jpeg" class="h-full object-contain rounded-full border-2 border-mutuk-blue"><span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-navy">Mutuk<span class="text-mutuk-blue">Rentals</span></span></a>
@@ -33,19 +30,23 @@
     </header>
 
     <main class="pt-24 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
-        <div class="mb-10 text-center bg-white shadow-lg shadow-mutuk-blue/5 py-10 md:py-14 rounded-3xl border border-gray-100 animate-[fadeInUp_0.5s_ease-out]">
-            <span class="material-symbols-outlined text-mutuk-blue text-5xl mb-2">flight_takeoff</span>
-            <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Service Navette VIP</span>
-            <h1 class="font-display text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">Transfert Aéroport N'djili</h1>
-            <p class="text-gray-600 font-medium max-w-xl mx-auto px-4">Réservez votre navette VIP pour vos arrivées et départs à l'aéroport international de N'djili. Chauffeur inclus.</p>
+        <div class="mb-10 flex flex-col md:flex-row items-center gap-6 bg-mutuk-navy text-white shadow-xl p-8 md:p-12 rounded-3xl border border-mutuk-blue/30 relative overflow-hidden animate-[fadeInUp_0.5s_ease-out]">
+            <div class="absolute right-0 top-0 w-64 h-64 bg-mutuk-blue/20 rounded-full blur-3xl"></div>
+            <div class="flex-1 text-center md:text-left relative z-10">
+                <span class="text-blue-300 font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Délégations & Convois</span>
+                <h1 class="font-display text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Déplacements Pro</h1>
+                <p class="text-blue-100 font-medium max-w-xl leading-relaxed text-sm md:text-base">Solution de transport fiable pour vos événements, visites de chantiers ou déplacements d'équipes à Kinshasa.</p>
+            </div>
+            <div class="hidden md:block relative z-10"><span class="material-symbols-outlined text-8xl text-white/20">groups</span></div>
         </div>
 
         <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-2 w-full md:w-auto">
                 <button onclick="filterCars('tout', this)" class="filter-btn active px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">Tous</button>
                 <button onclick="filterCars('suv', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">SUV 4x4</button>
+                <button onclick="filterCars('pickup', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">Pick-ups</button>
+                <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">Utilitaires / Bus</button>
                 <button onclick="filterCars('berline', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">Berlines</button>
-                <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs bg-white shadow-sm transition-all">Bus/Vans</button>
             </div>
             <div class="relative w-full md:w-72 group">
                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
@@ -56,18 +57,18 @@
         <div id="loading-spinner" class="text-center py-20"><div class="animate-spin rounded-full h-12 w-12 border-b-4 border-mutuk-blue mx-auto mb-4"></div></div>
         
         <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-        <div id="no-results" class="hidden text-center py-16 bg-white rounded-3xl"><h3 class="text-lg font-bold text-gray-800">Aucune navette trouvée.</h3></div>
+        <div id="no-results" class="hidden text-center py-16 bg-white rounded-3xl"><h3 class="text-lg font-bold text-gray-800">Aucun véhicule trouvé.</h3></div>
     </main>
 
     <!-- MODAL DÉTAILS -->
     <div id="car-details-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative border border-gray-100">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative">
             <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20"><span class="material-symbols-outlined">close</span></button>
             <div class="p-5 md:p-8">
                 <div class="mb-5 md:mb-6"><div class="h-48 sm:h-64 md:h-80 rounded-2xl overflow-hidden bg-gray-100 mb-3"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div><div id="detail-thumbs" class="flex gap-3 overflow-x-auto pb-2 hide-scrollbar"></div></div>
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-5 gap-3">
                     <div><h2 id="detail-title" class="font-display text-2xl font-extrabold text-gray-900"></h2><span id="detail-category-badge" class="inline-block mt-2 text-[10px] font-bold uppercase px-3 py-1 bg-blue-50 text-mutuk-blue rounded-lg border border-blue-100"></span></div>
-                    <div class="text-left sm:text-right"><span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span><span class="text-xs text-gray-400 font-bold uppercase">par transfert</span></div>
+                    <div class="text-left sm:text-right"><span id="detail-price" class="text-2xl md:text-3xl font-extrabold text-mutuk-blue block"></span><span class="text-xs text-gray-400 font-bold uppercase">par jour</span></div>
                 </div>
                 <div class="grid grid-cols-3 gap-3 mb-6 bg-background p-4 rounded-2xl border border-gray-100">
                     <div class="text-center"><span class="material-symbols-outlined text-mutuk-blue text-xl mb-1">event_seat</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-900 text-sm"></span></div>
@@ -75,41 +76,32 @@
                     <div class="text-center"><span class="material-symbols-outlined text-mutuk-blue text-xl mb-1">local_gas_station</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-900 text-sm"></span></div>
                 </div>
                 <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed mb-6"></p>
-                <button onclick="openServiceBooking()" class="w-full bg-mutuk-blue text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg"><span class="material-symbols-outlined">flight_takeoff</span> Réserver cette navette</button>
+                <button onclick="openServiceBooking()" class="w-full bg-mutuk-blue text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-mutuk-dark transition shadow-lg">Demander la logistique</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL RÉSERVATION AEROPORT -->
+    <!-- MODAL RÉSERVATION PRO -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100">
-            <button onclick="document.getElementById('booking-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 bg-slate-100 p-2 rounded-full"><span class="material-symbols-outlined">close</span></button>
-            <h3 class="font-display text-xl md:text-2xl text-gray-900 mb-6 font-extrabold tracking-tight">RÉSERVER UN TRANSFERT</h3>
+            <button onclick="document.getElementById('booking-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 bg-slate-100 p-2 rounded-full transition-colors"><span class="material-symbols-outlined">close</span></button>
+            <h3 class="font-display text-xl md:text-2xl text-mutuk-navy mb-6 font-extrabold tracking-tight">RÉSERVATION LOGISTIQUE</h3>
             
-            <form onsubmit="handleAirportBooking(event)" class="flex flex-col gap-4">
-                <input type="text" id="booking-car-name" readonly class="w-full p-3 bg-blue-50 rounded-xl font-bold text-mutuk-blue border border-blue-100 outline-none"/>
-                
+            <form onsubmit="handleProBooking(event)" class="flex flex-col gap-4">
+                <input type="text" id="pro-car" readonly class="w-full p-3 bg-blue-50 rounded-xl font-bold text-mutuk-blue border border-blue-100 outline-none"/>
                 <div class="grid grid-cols-2 gap-4">
-                    <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-3 rounded-xl border border-slate-200 focus:border-mutuk-blue outline-none text-sm transition-colors"/>
-                    <div><input required type="tel" id="booking-client-phone" placeholder="Téléphone" class="w-full p-3 rounded-xl border border-slate-200 focus:border-mutuk-blue outline-none text-sm transition-colors"/></div>
+                    <input required type="text" id="pro-name" placeholder="Nom ou Entreprise" class="w-full p-3 rounded-xl border border-slate-200 focus:border-mutuk-blue outline-none text-sm transition-colors"/>
+                    <div><input required type="tel" id="pro-phone" placeholder="Téléphone" class="w-full p-3 rounded-xl border border-slate-200 focus:border-mutuk-blue outline-none text-sm transition-colors"/></div>
                 </div>
-
-                <div class="bg-background p-4 rounded-2xl border border-slate-100">
-                    <label class="text-xs font-bold text-slate-500 mb-2 block">Prise en charge *</label>
-                    <input required type="text" id="booking-pickup" placeholder="Ex: Aéroport N'djili" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <label class="text-xs font-bold text-slate-500 mb-2 block">Itinéraire / Programme *</label>
+                    <textarea required id="pro-itinerary" rows="2" placeholder="Ex: Gombe -> Maluku -> Gombe" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"></textarea>
                 </div>
-
-                <div class="bg-background p-4 rounded-2xl border border-slate-100">
-                    <label class="text-xs font-bold text-slate-500 mb-2 block">Destination *</label>
-                    <input required type="text" id="booking-dropoff" placeholder="Ex: Hôtel Gombe" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/>
-                </div>
-
                 <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Date</label><input type="date" id="booking-date" required class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/></div>
-                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Heure</label><input type="time" id="booking-time" required class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/></div>
+                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Date</label><input type="date" id="pro-date" required class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/></div>
+                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Nb. Véhicules</label><input type="number" id="pro-qty" value="1" min="1" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-blue transition-colors"/></div>
                 </div>
-
-                <button type="submit" class="mt-4 w-full bg-mutuk-blue text-white font-bold py-4 rounded-xl hover:bg-mutuk-dark transition-all shadow-lg shadow-mutuk-blue/30">Confirmer la navette</button>
+                <button type="submit" class="mt-4 w-full bg-mutuk-blue text-white font-bold py-4 rounded-xl hover:bg-mutuk-dark transition-all shadow-lg shadow-mutuk-blue/30">Confirmer la logistique</button>
             </form>
         </div>
     </div>

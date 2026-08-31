@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Mariages & VIP - Mutuk Rentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Metropolis:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script id="tailwind-config">
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8", "surface": "#ffffff", "mutuk-gold": "#c5a059" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
+    </script>
+    <style>
+        .material-symbols-outlined { vertical-align: middle; }
+        .filter-btn.active { background-color: #0a192f; color: #c5a059; border-color: #0a192f; transform: scale(1.05); }
+        .iti { width: 100%; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        body.loading-active { overflow: hidden; }
+        @keyframes loading-bar { 0% { width: 0%; } 100% { width: 100%; } }
+    </style>
+</head>
+<body class="bg-background text-gray-900 font-body loading-active">
+    
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-mutuk-gold flex items-center justify-center animate-pulse bg-yellow-50 shadow-xl overflow-hidden p-2">
+            <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('preloader-text').style.display='block';">
+            <span id="preloader-text" class="hidden font-display text-2xl font-extrabold text-mutuk-navy tracking-wider">MUTUK</span>
+        </div>
+        <div class="mt-10 w-56 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-mutuk-gold w-0 animate-[loading-bar_1.5s_ease-in-out_forwards]"></div>
+        </div>
+        <p class="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Préparation VIP...</p>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-lg shadow-sm transition-all duration-300 h-16 md:h-20 border-b border-gray-100/50">
+        <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full">
+            <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12 hover:scale-105 transition-transform">
+                <img src="image/logo.jpeg" alt="Mutuk Logo" class="h-full object-contain rounded-full border-2 border-mutuk-gold">
+                <span class="font-display text-lg md:text-2xl font-extrabold text-mutuk-navy">Mutuk<span class="text-mutuk-gold">Rentals</span></span>
+            </a>
+            <a href="index.html" class="text-gray-700 hover:text-mutuk-gold flex items-center gap-1 font-bold text-[13px] md:text-[15px] transition-colors">
+                <span class="material-symbols-outlined text-sm md:text-base">arrow_back</span> Accueil
+            </a>
+        </nav>
+    </header>
+
+    <main class="pt-24 md:pt-32 pb-20 px-3 md:px-8 max-w-[1400px] mx-auto min-h-screen">
+        <div class="mb-8 text-center bg-mutuk-navy shadow-xl py-12 md:py-16 rounded-3xl relative overflow-hidden animate-[fadeInUp_0.5s_ease-out]">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069')] bg-cover bg-center opacity-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy via-mutuk-navy/80 to-transparent"></div>
+            <div class="relative z-10 px-4">
+                <span class="text-mutuk-gold font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-3 block">ÉLÉGANCE & PRESTIGE</span>
+                <h1 class="font-display text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Flotte Mariages & VIP</h1>
+                <p class="text-gray-300 text-sm md:text-lg font-medium max-w-2xl mx-auto leading-relaxed">Faites une entrée inoubliable avec nos véhicules de luxe.</p>
+            </div>
+        </div>
+
+        <!-- RECHERCHE & FILTRES -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex overflow-x-auto hide-scrollbar gap-2 pb-2 w-full md:w-auto">
+                <button onclick="filterCars('tout', this)" class="filter-btn active px-4 py-2 rounded-full border border-gray-200 font-bold text-xs md:text-sm text-gray-600 bg-white shadow-sm transition-all">Tous</button>
+                <button onclick="filterCars('luxe', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs md:text-sm text-gray-600 bg-white shadow-sm transition-all">Luxe & VIP</button>
+                <button onclick="filterCars('berline', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs md:text-sm text-gray-600 bg-white shadow-sm transition-all">Berlines</button>
+                <button onclick="filterCars('suv', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs md:text-sm text-gray-600 bg-white shadow-sm transition-all">SUV 4x4</button>
+                <button onclick="filterCars('utilitaire', this)" class="filter-btn px-4 py-2 rounded-full border border-gray-200 font-bold text-xs md:text-sm text-gray-600 bg-white shadow-sm transition-all">Utilitaires</button>
+            </div>
+            <div class="relative w-full md:w-72 group">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg group-hover:text-mutuk-gold transition-colors">search</span>
+                <input type="text" id="page-search" oninput="handleSearch()" placeholder="Rechercher..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:border-mutuk-gold outline-none text-sm font-bold shadow-sm transition-all">
+            </div>
+        </div>
+
+        <div id="loading-spinner" class="text-center py-20"><div class="animate-spin rounded-full h-12 w-12 border-b-4 border-mutuk-gold mx-auto mb-4"></div></div>
+        
+        <div id="cars-grid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"></div>
+        <div id="no-results" class="hidden text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm"><h3 class="text-lg font-bold text-gray-800">Aucun véhicule trouvé.</h3></div>
+    </main>
+
+    <!-- MODAL DÉTAILS -->
+    <div id="car-details-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative border border-gray-100">
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full p-2 z-20 transition"><span class="material-symbols-outlined">close</span></button>
+            <div class="p-5 md:p-8">
+                <div class="mb-5 md:mb-6">
+                    <div class="h-48 sm:h-64 md:h-80 rounded-2xl overflow-hidden bg-gray-100 mb-3"><img id="detail-main-img" src="" class="w-full h-full object-cover"></div>
+                    <div id="detail-thumbs" class="flex gap-3 overflow-x-auto pb-2 hide-scrollbar"></div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 mb-5 gap-3">
+                    <div>
+                        <h2 id="detail-title" class="font-display text-2xl md:text-3xl font-extrabold text-mutuk-navy"></h2>
+                        <span id="detail-category-badge" class="inline-block mt-2 text-[10px] md:text-xs font-bold uppercase px-3 py-1 bg-yellow-50 text-mutuk-gold rounded-lg border border-yellow-100"></span>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span id="detail-price" class="text-2xl md:text-4xl font-extrabold text-mutuk-gold block"></span>
+                        <span class="text-xs text-gray-400 font-bold uppercase">par jour</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3 mb-6 bg-background p-4 rounded-2xl border border-gray-100">
+                    <div class="text-center"><span class="material-symbols-outlined text-mutuk-gold text-2xl mb-1">event_seat</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Places</span><span id="detail-seats" class="font-extrabold text-gray-900 text-sm"></span></div>
+                    <div class="text-center border-x border-gray-200"><span class="material-symbols-outlined text-mutuk-gold text-2xl mb-1">settings</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Boîte</span><span id="detail-boite" class="font-extrabold text-gray-900 text-sm"></span></div>
+                    <div class="text-center"><span class="material-symbols-outlined text-mutuk-gold text-2xl mb-1">local_gas_station</span><span class="block text-[10px] font-bold text-gray-400 uppercase">Carburant</span><span id="detail-fuel" class="font-extrabold text-gray-900 text-sm"></span></div>
+                </div>
+                <p id="detail-desc" class="text-gray-600 text-sm leading-relaxed mb-6"></p>
+                <button onclick="openServiceBooking()" class="w-full bg-mutuk-navy text-mutuk-gold font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-900 transition shadow-lg">
+                        <span class="material-symbols-outlined">event_available</span> Réserver ce véhicule
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RÉSERVATION MARIAGE -->
+    <div id="booking-modal" class="hidden fixed inset-0 bg-mutuk-navy/90 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
+            <button onclick="document.getElementById('booking-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-mutuk-navy bg-slate-100 p-2 rounded-full"><span class="material-symbols-outlined">close</span></button>
+            <span class="text-xs font-bold text-mutuk-gold uppercase tracking-widest block mb-1">Service Prestige</span>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-mutuk-navy mb-6 font-extrabold">RÉSERVATION MARIAGE</h3>
+            
+            <form onsubmit="handleMariageBooking(event)" class="flex flex-col gap-4">
+                <input type="text" id="booking-car-name" readonly class="w-full p-3 bg-yellow-50 rounded-xl font-bold text-mutuk-gold border border-yellow-200 text-sm outline-none"/>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <input required type="text" id="booking-client-name" placeholder="Votre nom" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-mutuk-gold outline-none"/>
+                    <div><input required type="tel" id="booking-client-phone" placeholder="Téléphone" class="w-full p-3 rounded-xl border border-slate-200 text-sm focus:border-mutuk-gold outline-none"/></div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <label class="text-xs font-bold uppercase text-slate-500 mb-2 block">Lieu(x) de l'événement *</label>
+                    <textarea required id="booking-lieux" rows="2" placeholder="Ex: Cérémonie à Gombe, Réception à Ma Campagne..." class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-gold"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-bold uppercase text-slate-500 mb-1 block">Date de l'événement</label>
+                        <input type="date" id="booking-date" required class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-gold"/>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold uppercase text-slate-500 mb-1 block">Forfait</label>
+                        <select id="booking-forfait" class="w-full p-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-mutuk-gold">
+                            <option value="Demi-journée (4h)">Demi-journée (4h)</option>
+                            <option value="Journée complète (8h)">Journée complète (8h)</option>
+                            <option value="Jusqu'à l'aube">Jusqu'à l'aube</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="mt-4 w-full bg-mutuk-navy text-mutuk-gold font-bold py-4 rounded-xl shadow-lg hover:bg-gray-900 transition-all">
+                    Demander un devis VIP
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/service.js"></script>
+</body>
+</html>

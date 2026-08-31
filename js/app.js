@@ -74,7 +74,7 @@ window.closeBookingModal = function() {
     document.getElementById('booking-modal').classList.add('hidden'); 
 };
 
-window.closeDetailsModal = function() { 
+window.closeDetailsModal = function() {
     document.getElementById('car-details-modal').classList.add('hidden'); 
 };
 
