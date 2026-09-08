@@ -13,14 +13,15 @@
     <meta name="theme-color" content="#ffffff">
 
     <script id="tailwind-config">
-      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8", "surface": "#ffffff", "inverse-surface": "#1a1f26" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] } } } }
+      tailwind.config = { theme: { extend: { colors: { "mutuk-blue": "#009ae0", "mutuk-dark": "#007bb5", "mutuk-navy": "#0a192f", "background": "#f0f4f8", "surface": "#ffffff", "inverse-surface": "#1a1f26" }, fontFamily: { "display": ["Metropolis", "sans-serif"], "body": ["Hanken Grotesk", "sans-serif"] }, keyframes: { bounceSlow: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(15px)' } } }, animation: { bounceSlow: 'bounceSlow 2s infinite' } } } }
     </script>
     <style>
         .material-symbols-outlined { vertical-align: middle; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,25,47,0.9), transparent); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,25,47,0.9), transparent); transition: opacity 0.3s; }
+        .cat-card:hover::after { opacity: 0.7; }
         
         /* Styles FAQ */
         details > summary { list-style: none; }
@@ -28,18 +29,14 @@
         
         /* Styles du Preloader */
         body.loading-active { overflow: hidden; }
-        @keyframes loading-bar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
+        @keyframes loading-bar { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
 </head>
-<body class="bg-background text-gray-900 font-body loading-active">
+<body class="bg-background text-gray-900 font-body loading-active relative">
 
     <!-- PRELOADER -->
     <div id="preloader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-mutuk-blue flex items-center justify-center animate-pulse bg-blue-50 shadow-xl overflow-hidden p-2">
-            <!-- Si l'image ne charge pas, on affiche le texte stylé -->
             <img src="image/logo.jpeg" alt="Mutuk Logo" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('preloader-text').style.display='block';">
             <span id="preloader-text" class="hidden font-display text-2xl font-extrabold text-mutuk-dark tracking-wider">MUTUK</span>
         </div>
@@ -49,7 +46,7 @@
         <p class="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Chargement...</p>
     </div>
 
-    <!-- HEADER (Effet de Transparence / Glassmorphism) -->
+    <!-- HEADER -->
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-lg shadow-sm transition-all duration-300 h-16 md:h-20 border-b border-gray-100/50">
         <nav class="flex justify-between items-center h-full px-4 md:px-8 max-w-[1400px] mx-auto w-full relative">
             <a href="index.html" class="flex items-center gap-2 md:gap-3 h-10 md:h-12">
@@ -68,9 +65,9 @@
             </div>
         </nav>
         <div id="mobileMenu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 flex-col z-40 lg:hidden">
-            <a href="#accueil" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Accueil</a>
-            <a href="#categories" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Catégories</a>
-            <a href="#services" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Nos Services</a>
+            <a href="#accueil" onclick="document.getElementById('mobileMenu').classList.add('hidden')" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Accueil</a>
+            <a href="#categories" onclick="document.getElementById('mobileMenu').classList.add('hidden')" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Catégories</a>
+            <a href="#services" onclick="document.getElementById('mobileMenu').classList.add('hidden')" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Nos Services</a>
             <a href="catalogue.html" class="mobile-link block px-6 py-4 border-b border-gray-50 font-bold text-gray-700">Nos Véhicules</a>
             <a href="admin.html" class="mobile-link block px-6 py-4 font-bold text-gray-500 bg-gray-50 flex items-center gap-2"><span class="material-symbols-outlined">admin_panel_settings</span> Espace Admin</a>
         </div>
@@ -78,14 +75,12 @@
 
     <main>
         <!-- HERO -->
-        <section id="accueil" class="relative min-h-screen flex flex-col justify-center pt-24 md:pt-32 pb-12">
-            <!-- Background Slider avec Voile Bleu Nuit -->
+        <section id="accueil" class="relative min-h-screen flex flex-col justify-center pt-24 md:pt-32 pb-24">
             <div class="absolute inset-0 z-0 bg-mutuk-navy overflow-hidden">
                 <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
                 <img src="https://i.pinimg.com/736x/2c/c1/b0/2cc1b04475c22d96513b5dcf0a7ab373.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                 <img src="https://i.pinimg.com/736x/f3/5c/dd/f35cddf58a6d872c42832bce1893100d.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                 
-                <!-- Overlay bleu nuit et dégradé bas -->
                 <div class="absolute inset-0 bg-mutuk-navy/70 mix-blend-multiply z-10"></div>
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-mutuk-navy/40 to-background z-10"></div>
             </div>
@@ -102,7 +97,6 @@
                         Des véhicules fiables pour vos déplacements privés, professionnels, transferts aéroport et événements à Kinshasa.
                     </p>
                     
-                    <!-- Boutons d'action -->
                     <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-8">
                         <a href="catalogue.html" class="w-full sm:w-auto bg-mutuk-blue text-white px-8 py-4 rounded-xl font-bold hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/30 text-center border border-mutuk-blue">Voir les véhicules</a>
                         <a href="https://wa.me/243997708115" target="_blank" class="w-full sm:w-auto bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition shadow-lg shadow-green-500/30 border border-[#25D366]">
@@ -110,7 +104,6 @@
                         </a>
                     </div>
                     
-                    <!-- Ligne d'info (Mise en évidence sur fond sombre) -->
                     <div class="inline-flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 text-[11px] md:text-sm font-bold text-white bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/15 shadow-xl">
                         <span>Prado • Fortuner • G-Class • Noah • Hiace</span>
                         <span class="text-mutuk-blue hidden sm:inline">•</span>
@@ -122,7 +115,7 @@
                     </div>
                 </div>
 
-                <!-- Widget de recherche stylisé -->
+                <!-- Widget de recherche -->
                 <div class="booking-widget rounded-2xl md:rounded-3xl shadow-[0_10px_40px_rgba(0,154,224,0.15)] p-4 md:p-6 border-2 border-mutuk-blue/30">
                     <div class="mb-4 text-[11px] md:text-sm font-bold text-mutuk-dark flex items-center justify-center md:justify-start gap-1 md:gap-2 border-b border-gray-100 pb-3">
                         <span class="material-symbols-outlined text-yellow-500 filled text-lg">stars</span> Service Chauffeur VIP Accrédité inclus
@@ -154,24 +147,12 @@
                     </form>
                 </div>
             </div>
+
+            
         </section>
 
-        <!-- SCRIPT DU PRELOADER & SLIDER HERO -->
+        <!-- SCRIPT DU SLIDER HERO -->
         <script>
-            // Disparition du preloader au chargement complet
-            window.addEventListener('load', () => {
-                const preloader = document.getElementById('preloader');
-                // Petit délai pour s'assurer que l'animation de base est vue
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.remove();
-                        document.body.classList.remove('loading-active');
-                    }, 700); // Temps du fadeOut
-                }, 1000);
-            });
-
-            // Gestion du slider Hero
             document.addEventListener('DOMContentLoaded', () => {
                 const slides = document.querySelectorAll('.hero-bg-slide');
                 let currentSlide = 0;
@@ -187,7 +168,7 @@
             });
         </script>
 
-        <!-- CATEGORIES (PLACÉ EN PREMIER) -->
+        <!-- CATEGORIES -->
         <section id="categories" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 scroll-mt-20 mt-12">
             <div class="text-center md:text-left mb-10">
                 <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">UN VEHICULE POUR CHAQUE BESOIN</span>
@@ -195,21 +176,44 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                <div onclick="goToCatalog('suv_prestige')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">SUV Prestige</span></div>
+                <div onclick="window.location.href='catalogue.html?categorie=suv_prestige'" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
+                    <img src="https://i.pinimg.com/736x/99/42/d2/9942d29cd8fa51b44b8add3c144846b7.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-4">
+                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">SUV Prestige</span>
+                        <span class="text-[10px] md:text-xs text-gray-200 font-bold uppercase mt-1 flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                            Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        </span>
+                    </div>
                 </div>
-                <div onclick="goToCatalog('berline-standars')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Berlines Standars</span></div>
+                
+                <div onclick="window.location.href='catalogue.html?categorie=berline'" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
+                    <img src="https://i.pinimg.com/1200x/24/42/cf/2442cf5927716d4382c16023dfc4be8a.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-4">
+                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">Berlines Standards</span>
+                        <span class="text-[10px] md:text-xs text-gray-200 font-bold uppercase mt-1 flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                            Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        </span>
+                    </div>
                 </div>
-                <div onclick="goToCatalog('luxe')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Luxe & VIP</span></div>
+                
+                <div onclick="window.location.href='mariage.html'" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
+                    <img src="https://i.pinimg.com/1200x/eb/b8/87/ebb887617ae3442dd3e7c3b2f98da237.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-4">
+                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">Luxe & VIP</span>
+                        <span class="text-[10px] md:text-xs text-gray-200 font-bold uppercase mt-1 flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                            Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        </span>
+                    </div>
                 </div>
-                <div onclick="goToCatalog('utilitaire')" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm">
-                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500">
-                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-3"><span class="text-white font-display font-extrabold">Utilitaires & Mini-Bus</span></div>
+                
+                <div onclick="window.location.href='catalogue.html?categorie=utilitaire'" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
+                    <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110">
+                    <div class="absolute inset-0 z-10 flex flex-col justify-end p-4">
+                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">Utilitaires & Bus</span>
+                        <span class="text-[10px] md:text-xs text-gray-200 font-bold uppercase mt-1 flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                            Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -229,7 +233,7 @@
             <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
         </section>
 
-        <!-- NOS SERVICES -->
+        <!-- NOS SERVICES (Avec animation Explorer) -->
         <section id="services" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
             <div class="text-center mb-12">
                 <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-3 block">PLUS QU’UNE LOCATION DE VOITURE</span>
@@ -237,35 +241,60 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                
+                <!-- Service: LLD -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='longue-duree.html'">
                     <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Location longue Durée</h3>
-                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Devis rapide</span>
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Location longue Durée</h3>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-mutuk-dark transition-colors">Devis rapide</span>
+                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Service: Mariage -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='mariage.html'">
                     <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Mariages & VIP</h3>
-                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Voir la flotte Luxe</span>
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Mariages & VIP</h3>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="bg-white text-mutuk-navy font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-gray-100 transition-colors">Voir la flotte</span>
+                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Service: Aéroport -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='aeroport.html'">
                     <img src="https://i.pinimg.com/736x/23/5b/55/235b55fc659f76dc24069bf6a991d9c6.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Aéroport</h3>
-                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Réserver Navette</span>
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Aéroport</h3>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-mutuk-dark transition-colors">Réserver Navette</span>
+                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Service: Événements & Pro -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='pro.html'">
                     <img src="https://i.pinimg.com/736x/e0/5e/0d/e05e0d330e8a237ee3b75fee2c947783.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Événements">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Événements & Pro</h3>
-                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Parcourir</span>
+                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Événements & Pro</h3>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="bg-white text-mutuk-navy font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-gray-100 transition-colors">Logistique Pro</span>
+                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,8 +337,8 @@
                     <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Questions Fréquentes</h2>
                     
                     <div class="space-y-4">
-                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition" open>
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition" open>
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
                                 Comment réserver un véhicule ?
                                 <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
                             </summary>
@@ -318,8 +347,8 @@
                             </p>
                         </details>
                         
-                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
                                 Le carburant est-il inclus ?
                                 <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
                             </summary>
@@ -328,8 +357,8 @@
                             </p>
                         </details>
                         
-                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
                                 Puis-je louer pour plusieurs jours ?
                                 <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
                             </summary>
@@ -338,8 +367,8 @@
                             </p>
                         </details>
 
-                        <details class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg">
+                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
                                 Proposez-vous des transferts aéroport ?
                                 <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
                             </summary>
@@ -410,6 +439,51 @@
         </div>
     </footer>
 
+    <!-- BOUTON FLOTTANT TUTORIEL -->
+    <button onclick="document.getElementById('tutorial-modal').classList.remove('hidden')" class="fixed bottom-6 right-6 z-40 bg-mutuk-dark text-white p-3 md:px-5 md:py-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 hover:bg-mutuk-blue hover:scale-105 transition-all border-2 border-white/20 group">
+        <span class="material-symbols-outlined text-2xl md:text-xl group-hover:animate-pulse">help</span>
+        <span class="hidden md:inline font-bold text-sm tracking-wide">Comment réserver ?</span>
+    </button>
+
+    <!-- MODAL TUTORIEL -->
+    <div id="tutorial-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[200] flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 bg-slate-100 p-2 rounded-full transition"><span class="material-symbols-outlined">close</span></button>
+            
+            <div class="text-center mb-8">
+                <span class="bg-blue-50 text-mutuk-blue p-3 rounded-full inline-block mb-4"><span class="material-symbols-outlined text-3xl">school</span></span>
+                <h3 class="font-display text-2xl font-extrabold text-mutuk-navy">Comment réserver ?</h3>
+                <p class="text-sm text-gray-500 mt-2 font-medium">Réservez votre véhicule en 3 étapes simples.</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex gap-4 items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md mt-1">1</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base">Choisissez un véhicule</h4>
+                        <p class="text-sm text-gray-600 mt-1 leading-relaxed">Parcourez nos catégories ou notre flotte et cliquez sur "Réserver" ou "Détails".</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md mt-1">2</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base">Remplissez le formulaire</h4>
+                        <p class="text-sm text-gray-600 mt-1 leading-relaxed">Entrez vos coordonnées, le lieu de départ/arrivée et la date de location désirée.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-[#25D366] text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md mt-1"><span class="material-symbols-outlined text-sm">forum</span></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-base">Confirmation WhatsApp</h4>
+                        <p class="text-sm text-gray-600 mt-1 leading-relaxed">Cliquez sur "Confirmer". Vous serez redirigé vers WhatsApp pour finaliser avec notre équipe !</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="mt-8 w-full bg-gray-100 text-mutuk-navy font-bold py-3.5 rounded-xl hover:bg-gray-200 transition-colors">J'ai compris !</button>
+        </div>
+    </div>
+
     <!-- MODAL DÉTAILS VOITURES -->
     <div id="car-details-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-3 md:p-4 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[95vh] overflow-y-auto relative border border-gray-100">
@@ -454,9 +528,11 @@
     <!-- MODAL RÉSERVATION EXPRESS -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-gray-800 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><span class="material-symbols-outlined text-xl">close</span></button>
-            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest block mb-1">Réservation Express</span>
-            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-6 font-extrabold tracking-tight">VOTRE DEMANDE</h3>
+            <button onclick="backToDetails()" class="absolute top-4 left-4 text-slate-400 hover:text-mutuk-blue transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Retour aux détails"><span class="material-symbols-outlined text-xl">arrow_back</span></button>
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Fermer"><span class="material-symbols-outlined text-xl">close</span></button>
+            
+            <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest block mb-1 mt-6 text-center">Réservation Express</span>
+            <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-6 font-extrabold tracking-tight text-center">VOTRE DEMANDE</h3>
             
             <form onsubmit="handleBookingFormSubmit(event)" class="flex flex-col gap-4">
                 <div>
@@ -515,6 +591,25 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.remove();
+                    document.body.classList.remove('loading-active');
+                }, 700); 
+            }, 1000);
+        });
+
+        window.backToDetails = function() {
+            document.getElementById('booking-modal').classList.add('hidden');
+            if (document.getElementById('booking-car-name').value !== "") {
+                document.getElementById('car-details-modal').classList.remove('hidden');
+            }
+        };
+    </script>
     <script src="js/supabase.js"></script>
     <script src="js/app.js?v=1.1"></script>
 </body>

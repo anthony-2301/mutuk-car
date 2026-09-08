@@ -125,25 +125,25 @@
                     </div>
 
                     <div>
-    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Catégorie</label>
-    <select id="car-category" class="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-mutuk-blue focus:ring-2 focus:ring-mutuk-blue/20 transition-all font-medium cursor-pointer">
-        <option value="tout">Tous</option>
-        <option value="suv_luxe">SUV de Luxe</option>
-        <option value="suv_prestige">SUV Prestige</option>
-        <option value="suv_compact">SUV Compact</option>
-        <option value="grand_suv">Grand Suv</option>
-        <option value="berline">Berlines</option>
-        <option value="luxe">Luxe & VIP</option>
-        <option value="pickup">Pick-up</option>
-        <option value="economique">Économique</option>
-        <option value="hybride">Hybride</option>
-        <option value="utilitaire">Utilitaires & Mini-Bus</option>
-        <option value="Mini_premium">Van & Mini-premium</option>
-        <option value="Mini_standars">Van & Mini-standars</option>
-        <option value="Véhicule_speciale">Véhicule Speciale</option>
-        <option value="Véhicule_base">Véhicule Base</option>
-    </select>
-</div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Catégorie</label>
+                        <!-- CORRECTION : J'ai supprimé la balise "Tous" qui servait de filtre sur la page client mais qui n'est pas une catégorie pour un véhicule. -->
+                        <select id="car-category" class="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-mutuk-blue focus:ring-2 focus:ring-mutuk-blue/20 transition-all font-medium cursor-pointer">
+                            <option value="suv_luxe">SUV de Luxe</option>
+                            <option value="suv_prestige">SUV Prestige</option>
+                            <option value="suv_compact">SUV Compact</option>
+                            <option value="grand_suv">Grand Suv</option>
+                            <option value="berline">Berlines</option>
+                            <option value="luxe">Luxe & VIP</option>
+                            <option value="pickup">Pick-up</option>
+                            <option value="economique">Économique</option>
+                            <option value="hybride">Hybride</option>
+                            <option value="utilitaire">Utilitaires & Mini-Bus</option>
+                            <option value="Mini_premium">Van & Mini-premium</option>
+                            <option value="Mini_standars">Van & Mini-standars</option>
+                            <option value="Véhicule_speciale">Véhicule Speciale</option>
+                            <option value="Véhicule_base">Véhicule Base</option>
+                        </select>
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
                         <div>
@@ -183,7 +183,6 @@
         </main>
     </div>
 
-    <!-- APPEL PROPRE AUX FICHIERS JS -->
     <script src="js/supabase.js"></script>
     <script src="js/admin.js"></script>
 </body>
