@@ -14,6 +14,9 @@
     </script>
     <style>
         .material-symbols-outlined { vertical-align: middle; }
+        /* Style pour retirer les puces des balises <details> (accordéon) */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body class="bg-background font-body min-h-screen">
@@ -50,7 +53,7 @@
 
     <!-- DASHBOARD -->
     <div id="dashboard-screen" class="hidden min-h-screen flex flex-col">
-        <!-- HEADER ADMIN (Glassmorphism) -->
+        <!-- HEADER ADMIN -->
         <header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-gray-200 h-16 md:h-20 flex items-center px-6 justify-between shadow-sm transition-all">
             <div class="flex items-center gap-3">
                 <img src="image/logo.jpeg" class="h-10 md:h-12 rounded-full border border-gray-200" onerror="this.src='https://placehold.co/100x100?text=MR'">
@@ -68,10 +71,54 @@
         <main class="flex-1 p-4 md:p-8 max-w-[1400px] mx-auto w-full">
             <!-- VUE LISTE -->
             <div id="list-view" class="animate-[fadeInUp_0.3s_ease-out]">
+                
+                <!-- TUTORIEL ADMIN (Accordéon) -->
+                <details class="bg-blue-50 border border-blue-200 rounded-2xl mb-8 group overflow-hidden transition-all shadow-sm">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer outline-none">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-mutuk-blue text-2xl">menu_book</span>
+                            <div>
+                                <h3 class="font-bold text-mutuk-dark text-base">Tutoriel : Comment gérer la flotte de vehicule ?</h3>
+                                <p class="text-xs text-mutuk-blue/80 font-medium mt-0.5">Cliquez ici pour afficher les instructions détaillées</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-mutuk-blue transition-transform group-open:rotate-180">expand_more</span>
+                    </summary>
+                    <div class="p-6 bg-white border-t border-blue-100 text-sm text-gray-700 leading-relaxed space-y-6">
+                        <div>
+                            <h4 class="font-bold text-gray-900 flex items-center gap-1.5 mb-2"><span class="material-symbols-outlined text-mutuk-blue text-lg">add_circle</span> Ajouter un véhicule</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                <li>Cliquez sur le bouton bleu <strong>"Ajouter un véhicule"</strong> (en haut à droite).</li>
+                                <li>Remplissez les informations essentielles : Marque, Modèle, Catégorie, etc.</li>
+                                <li><strong>Attention aux prix :</strong> Saisissez les prix avec ou sans le symbole "$". Le système s'adaptera. (ex: <kbd>150</kbd> ou <kbd>150$</kbd>).</li>
+                                <li>Si vous cochez <strong>"À la une (Accueil)"</strong>, la voiture s'affichera dans le grand carrousel "Véhicules en vedette" sur la page d'accueil du site.</li>
+                                <li><strong>Photos :</strong> Vous pouvez sélectionner jusqu'à 10 photos en même temps depuis votre ordinateur ou téléphone. La première image sélectionnée sera la couverture (image principale).</li>
+                                <li>Cliquez sur <strong>"Enregistrer le véhicule"</strong> et patientez jusqu'à l'apparition du message de succès.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 flex items-center gap-1.5 mb-2"><span class="material-symbols-outlined text-yellow-500 text-lg">edit</span> Modifier un véhicule existant</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                <li>Dans le tableau ci-dessous, repérez la voiture que vous souhaitez changer.</li>
+                                <li>Cliquez sur l'icône de crayon <span class="material-symbols-outlined text-[14px] align-middle">edit</span> dans la colonne "Actions".</li>
+                                <li>Le formulaire va s'ouvrir avec les données actuelles de la voiture.</li>
+                                <li>Faites vos modifications. <strong>Note concernant les photos :</strong> Si vous ne touchez pas au bouton "Photos", le système conservera les anciennes images. Si vous choisissez de nouvelles photos, elles <strong>remplaceront</strong> toutes les anciennes.</li>
+                                <li>Cliquez sur "Enregistrer le véhicule".</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 flex items-center gap-1.5 mb-2"><span class="material-symbols-outlined text-red-500 text-lg">delete</span> Supprimer un véhicule</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                <li>Cliquez sur l'icône rouge de poubelle <span class="material-symbols-outlined text-[14px] align-middle">delete</span> dans la colonne "Actions".</li>
+                                <li>Une fenêtre d'avertissement vous demandera confirmation. Si vous confirmez, le véhicule sera définitivement effacé du catalogue public et de cette liste.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                     <div>
-                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-gray-900 tracking-tight">Gestion de la Flotte</h2>
-                        <p class="text-mutuk-blue font-bold text-sm mt-1">Gérez vos véhicules et photos</p>
+                        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-gray-900 tracking-tight">Liste de la Flotte</h2>
                     </div>
                     <button type="button" onclick="showForm()" class="bg-mutuk-blue text-white px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-mutuk-dark transition-all shadow-md w-full md:w-auto">
                         <span class="material-symbols-outlined">add</span> Ajouter un véhicule
@@ -126,7 +173,6 @@
 
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Catégorie</label>
-                        <!-- CORRECTION : J'ai supprimé la balise "Tous" qui servait de filtre sur la page client mais qui n'est pas une catégorie pour un véhicule. -->
                         <select id="car-category" class="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-mutuk-blue focus:ring-2 focus:ring-mutuk-blue/20 transition-all font-medium cursor-pointer">
                             <option value="suv_luxe">SUV de Luxe</option>
                             <option value="suv_prestige">SUV Prestige</option>

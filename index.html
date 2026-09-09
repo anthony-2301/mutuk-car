@@ -19,9 +19,11 @@
         .material-symbols-outlined { vertical-align: middle; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .booking-widget { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); }
+        
+        /* Assombrissement progressif (dégradé) pour mieux lire les textes des cartes */
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,25,47,0.95) 0%, rgba(10,25,47,0.2) 100%); transition: background 0.3s ease; }
+        .cat-card:hover::after { background: linear-gradient(to top, rgba(10,25,47,0.95) 0%, rgba(10,25,47,0.5) 100%); }
         .cat-card:hover .cat-bg { transform: scale(1.1); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,25,47,0.9), transparent); transition: opacity 0.3s; }
-        .cat-card:hover::after { opacity: 0.7; }
         
         /* Styles FAQ */
         details > summary { list-style: none; }
@@ -32,7 +34,7 @@
         @keyframes loading-bar { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
 </head>
-<body class="bg-background text-gray-900 font-body loading-active relative">
+<body class="bg-background text-gray-900 font-body loading-active">
 
     <!-- PRELOADER -->
     <div id="preloader" class="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center transition-opacity duration-700">
@@ -44,6 +46,20 @@
             <div class="h-full bg-mutuk-blue w-0 animate-[loading-bar_2s_ease-in-out_forwards]"></div>
         </div>
         <p class="mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Chargement...</p>
+    </div>
+
+    <!-- ANNONCE BIENVENUE (Toast Notification) -->
+    <div id="welcome-toast" class="fixed top-24 right-4 md:right-8 z-40 bg-white/95 backdrop-blur-xl border border-blue-100 shadow-[0_10px_40px_rgba(0,154,224,0.2)] rounded-2xl p-4 flex items-start gap-4 transform translate-x-[120%] transition-transform duration-700 ease-out max-w-sm">
+        <div class="bg-blue-50 text-mutuk-blue p-2.5 rounded-xl flex-shrink-0 shadow-inner">
+            <span class="material-symbols-outlined text-2xl">waving_hand</span>
+        </div>
+        <div class="flex-1 pt-0.5">
+            <h4 class="font-display font-extrabold text-mutuk-navy text-sm md:text-base">Bienvenue sur Mutuk Rentals !</h4>
+            <p class="text-xs md:text-sm text-gray-600 mt-1 leading-relaxed">Votre plateforme de location de véhicules de référence à Kinshasa. Profitez d'un service VIP.</p>
+        </div>
+        <button onclick="closeWelcomeToast()" class="text-gray-400 hover:text-mutuk-blue transition-colors p-1" title="Fermer">
+            <span class="material-symbols-outlined text-lg">close</span>
+        </button>
     </div>
 
     <!-- HEADER -->
@@ -76,6 +92,7 @@
     <main>
         <!-- HERO -->
         <section id="accueil" class="relative min-h-screen flex flex-col justify-center pt-24 md:pt-32 pb-24">
+            <!-- Background Slider -->
             <div class="absolute inset-0 z-0 bg-mutuk-navy overflow-hidden">
                 <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
                 <img src="https://i.pinimg.com/736x/2c/c1/b0/2cc1b04475c22d96513b5dcf0a7ab373.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
@@ -151,24 +168,7 @@
             
         </section>
 
-        <!-- SCRIPT DU SLIDER HERO -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const slides = document.querySelectorAll('.hero-bg-slide');
-                let currentSlide = 0;
-                if(slides.length > 1) {
-                    setInterval(() => {
-                        slides[currentSlide].classList.remove('opacity-100');
-                        slides[currentSlide].classList.add('opacity-0');
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        slides[currentSlide].classList.remove('opacity-0');
-                        slides[currentSlide].classList.add('opacity-100');
-                    }, 5000); 
-                }
-            });
-        </script>
-
-        <!-- CATEGORIES -->
+        <!-- CATEGORIES (Placé en premier juste après le Hero) -->
         <section id="categories" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 scroll-mt-20 mt-12">
             <div class="text-center md:text-left mb-10">
                 <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">UN VEHICULE POUR CHAQUE BESOIN</span>
@@ -209,7 +209,7 @@
                 <div onclick="window.location.href='catalogue.html?categorie=utilitaire'" class="cat-card group relative h-32 md:h-48 rounded-xl overflow-hidden cursor-pointer shadow-sm border border-gray-100">
                     <img src="https://i.pinimg.com/1200x/fa/c1/32/fac1321568ae0bd269ad97b1c0a85d43.jpg" class="cat-bg absolute inset-0 w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110">
                     <div class="absolute inset-0 z-10 flex flex-col justify-end p-4">
-                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">Utilitaires & Bus</span>
+                        <span class="text-white font-display text-lg md:text-xl font-extrabold group-hover:text-mutuk-blue transition-colors">Utilitaires & Mini-Bus</span>
                         <span class="text-[10px] md:text-xs text-gray-200 font-bold uppercase mt-1 flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
                             Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                         </span>
@@ -233,7 +233,7 @@
             <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
         </section>
 
-        <!-- NOS SERVICES (Avec animation Explorer) -->
+        <!-- NOS SERVICES -->
         <section id="services" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
             <div class="text-center mb-12">
                 <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-3 block">PLUS QU’UNE LOCATION DE VOITURE</span>
@@ -242,59 +242,47 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 
-                <!-- Service: LLD -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='longue-duree.html'">
                     <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Entreprise">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Location longue Durée</h3>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-mutuk-dark transition-colors">Devis rapide</span>
-                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
-                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </span>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Location longue Durée</h3>
+                            <span class="material-symbols-outlined text-white text-3xl md:text-4xl opacity-50 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 group-hover:-translate-y-1">north_east</span>
                         </div>
+                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Devis rapide</span>
                     </div>
                 </div>
 
-                <!-- Service: Mariage -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='mariage.html'">
                     <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Mariage">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Mariages & VIP</h3>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="bg-white text-mutuk-navy font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-gray-100 transition-colors">Voir la flotte</span>
-                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
-                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </span>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Mariages & VIP</h3>
+                            <span class="material-symbols-outlined text-white text-3xl md:text-4xl opacity-50 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 group-hover:-translate-y-1">north_east</span>
                         </div>
+                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Voir la flotte Luxe</span>
                     </div>
                 </div>
 
-                <!-- Service: Aéroport -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='aeroport.html'">
                     <img src="https://i.pinimg.com/736x/23/5b/55/235b55fc659f76dc24069bf6a991d9c6.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Aéroport">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Aéroport</h3>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-mutuk-dark transition-colors">Réserver Navette</span>
-                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
-                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </span>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Aéroport</h3>
+                            <span class="material-symbols-outlined text-white text-3xl md:text-4xl opacity-50 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 group-hover:-translate-y-1">north_east</span>
                         </div>
+                        <span class="bg-mutuk-blue text-white font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Réserver Navette</span>
                     </div>
                 </div>
 
-                <!-- Service: Événements & Pro -->
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden group h-[250px] md:h-[320px] shadow-lg cursor-pointer border border-gray-100" onclick="window.location.href='pro.html'">
                     <img src="https://i.pinimg.com/736x/e0/5e/0d/e05e0d330e8a237ee3b75fee2c947783.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Événements">
                     <div class="absolute inset-0 bg-gradient-to-t from-mutuk-navy/95 via-mutuk-navy/50 to-transparent flex flex-col justify-end p-5 md:p-8">
-                        <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-4">Événements & Pro</h3>
-                        <div class="flex items-center justify-between mt-auto">
-                            <span class="bg-white text-mutuk-navy font-bold px-4 py-2 md:px-5 md:py-2.5 rounded-lg text-xs md:text-sm shadow-md group-hover:bg-gray-100 transition-colors">Logistique Pro</span>
-                            <span class="text-[10px] md:text-xs text-white font-bold uppercase flex items-center gap-1 transition-transform transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
-                                Explorer <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </span>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl md:text-3xl font-display font-extrabold text-white mb-2 md:mb-3">Événements & Pro</h3>
+                            <span class="material-symbols-outlined text-white text-3xl md:text-4xl opacity-50 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 group-hover:-translate-y-1">north_east</span>
                         </div>
+                        <span class="bg-white text-gray-900 font-bold px-4 py-2 md:px-6 md:py-3 rounded-lg text-xs md:text-base w-fit shadow-md">Parcourir</span>
                     </div>
                 </div>
             </div>
@@ -528,8 +516,14 @@
     <!-- MODAL RÉSERVATION EXPRESS -->
     <div id="booking-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[150] flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl border border-slate-100 max-h-[95vh] overflow-y-auto">
-            <button onclick="backToDetails()" class="absolute top-4 left-4 text-slate-400 hover:text-mutuk-blue transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Retour aux détails"><span class="material-symbols-outlined text-xl">arrow_back</span></button>
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Fermer"><span class="material-symbols-outlined text-xl">close</span></button>
+            <!-- Bouton RETOUR (Pour repasser à la modale détails sans doublon) -->
+            <button onclick="backToDetails()" class="absolute top-4 left-4 text-slate-400 hover:text-mutuk-blue transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Retour aux détails">
+                <span class="material-symbols-outlined text-xl">arrow_back</span>
+            </button>
+            <!-- Bouton FERMER (Ferme tout) -->
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center" title="Fermer">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
             
             <span class="text-xs font-bold text-mutuk-blue uppercase tracking-widest block mb-1 mt-6 text-center">Réservation Express</span>
             <h3 class="font-display text-xl md:text-2xl uppercase text-gray-900 mb-6 font-extrabold tracking-tight text-center">VOTRE DEMANDE</h3>
@@ -590,7 +584,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPT GESTION DES MODALES (Aller/Retour) -->
     <script>
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
@@ -599,9 +593,23 @@
                 setTimeout(() => {
                     preloader.remove();
                     document.body.classList.remove('loading-active');
+                    
+                    // Lancement du toast de bienvenue 1s après le chargement
+                    setTimeout(() => {
+                        const welcomeToast = document.getElementById('welcome-toast');
+                        if (welcomeToast) {
+                            welcomeToast.classList.remove('translate-x-[120%]');
+                            setTimeout(window.closeWelcomeToast, 8000);
+                        }
+                    }, 1000);
                 }, 700); 
             }, 1000);
         });
+
+        window.closeWelcomeToast = function() {
+            const welcomeToast = document.getElementById('welcome-toast');
+            if (welcomeToast) { welcomeToast.classList.add('translate-x-[120%]'); }
+        };
 
         window.backToDetails = function() {
             document.getElementById('booking-modal').classList.add('hidden');
@@ -610,6 +618,8 @@
             }
         };
     </script>
+
+    <!-- SCRIPTS -->
     <script src="js/supabase.js"></script>
     <script src="js/app.js?v=1.1"></script>
 </body>
