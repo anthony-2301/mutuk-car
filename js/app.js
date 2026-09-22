@@ -181,26 +181,81 @@ function initIndexPage() {
         const originalIndex = carDatabase.findIndex(c => c.id === car.id);
         const price = car.prix_jour ? (car.prix_jour.includes('$') ? car.prix_jour : `${car.prix_jour}$`) : 'Sur devis';
         const coverImg = (car.images && car.images.length > 0) ? car.images[0] : (car.image_url || 'https://placehold.co/600x400');
-        grid.innerHTML += `
-        <div class="min-w-[280px] md:min-w-[340px] snap-start bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-md transition">
-            <div class="h-48 relative bg-gray-100 cursor-pointer" onclick="openCarDetailsModal(${originalIndex})">
-                <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover">
-                <span class="absolute top-2 left-2 bg-gray-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase backdrop-blur-sm">${car.categorie.replace('_',' ')}</span>
+    
+grid.innerHTML += `
+<div class="min-w-[85vw] sm:min-w-[320px] md:min-w-[360px] snap-center bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300">
+    <div class="h-52 sm:h-56 md:h-60 relative bg-gray-900 cursor-pointer overflow-hidden group" onclick="openCarDetailsModal(${originalIndex})">
+        <!-- Image adaptée : object-cover avec centrage optimisé -->
+        <img src="${coverImg}" alt="${car.marque}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+        <!-- Dégradé sombre en bas de l'image pour faire ressortir le visuel -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
+        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-gray-900 text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">${car.categorie.replace('_',' ')}</span>
+    </div>
+    <div class="p-4 md:p-5 flex-1 flex flex-col justify-between">
+        <div>
+            <h3 class="font-display text-base md:text-xl font-bold text-gray-900 cursor-pointer hover:text-mutuk-blue transition-colors" onclick="openCarDetailsModal(${originalIndex})">${car.marque} ${car.modele}</h3>
+            <div class="flex items-center gap-4 text-xs font-semibold text-gray-500 my-3">
+                <span class="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5} places</span>
+                <span class="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${car.boite || 'Auto'}</span>
             </div>
-            <div class="p-4 flex-1 flex flex-col">
-                <h3 class="font-display text-lg font-bold text-gray-900 cursor-pointer" onclick="openCarDetailsModal(${originalIndex})">${car.marque} ${car.modele}</h3>
-                <div class="flex items-center gap-3 text-xs font-bold text-gray-500 my-3">
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">event_seat</span> ${car.places || 5}</span>
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-mutuk-blue">settings</span> ${car.boite || 'Auto'}</span>
-                </div>
-                <div class="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
-                    <div><span class="block text-xl font-extrabold text-mutuk-blue">${price}</span></div>
-                    <button onclick="openCarDetailsModal(${originalIndex})" class="bg-gray-100 text-mutuk-blue font-bold px-4 py-2 rounded-lg text-sm hover:bg-mutuk-blue hover:text-white transition-colors">Réserver</button>
-                </div>
+        </div>
+        <div class="flex justify-between items-center pt-3 border-t border-gray-100 mt-2">
+            <div>
+                <span class="block text-[10px] text-gray-400 font-bold uppercase tracking-wider">À partir de</span>
+                <span class="block text-lg md:text-2xl font-black text-mutuk-blue">${price}</span>
             </div>
-        </div>`;
+            <button onclick="openCarDetailsModal(${originalIndex})" class="bg-mutuk-blue text-white font-bold px-4 py-2 rounded-xl text-xs md:text-sm hover:bg-mutuk-dark transition-colors shadow-sm">Réserver</button>
+        </div>
+    </div>
+</div>`;
     });
     grid.classList.remove('hidden');
+    initDiaphragmControls();
+}
+
+// --- SYSTÈME DE DÉPLACEMENT DU DIAPHRAGME (CARROUSEL) ---
+window.scrollDiaphragm = function(direction) {
+    const container = document.getElementById('carousel-grid');
+    if (!container) return;
+    const scrollAmount = container.clientWidth * 0.75;
+    container.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+    });
+};
+
+function initDiaphragmControls() {
+    const container = document.getElementById('carousel-grid');
+    if (!container) return;
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        container.classList.add('cursor-grabbing');
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        isDown = false;
+        container.classList.remove('cursor-grabbing');
+    });
+
+    container.addEventListener('mouseup', () => {
+        isDown = false;
+        container.classList.remove('cursor-grabbing');
+    });
+
+    container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        container.scrollLeft = scrollLeft - walk;
+    });
 }
 
 window.goToCatalog = function(cat) { 
@@ -446,4 +501,32 @@ if (installToast && installBtn && closeBtn) {
         installToast.classList.add('hidden');
         deferredPrompt = null;
     });
+
+
+}
+
+    // --- CARROUSEL HERO AUTOMATIQUE ---
+document.addEventListener('DOMContentLoaded', () => {
+    initHeroAutoSlider();
+});
+
+function initHeroAutoSlider() {
+    const slides = document.querySelectorAll('.hero-bg-slide');
+    if (slides.length <= 1) return;
+
+    let currentSlide = 0;
+    const intervalTime = 4000; // Temps d'affichage par photo : 4 secondes
+
+    setInterval(() => {
+        // Cache l'image actuelle
+        slides[currentSlide].classList.remove('opacity-100');
+        slides[currentSlide].classList.add('opacity-0');
+
+        // Passe à l'image suivante (boucle indéfiniment)
+        currentSlide = (currentSlide + 1) % slides.length;
+
+        // Affiche la nouvelle image
+        slides[currentSlide].classList.remove('opacity-0');
+        slides[currentSlide].classList.add('opacity-100');
+    }, intervalTime);
 }

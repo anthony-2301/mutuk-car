@@ -93,14 +93,16 @@
         <!-- HERO -->
         <section id="accueil" class="relative min-h-screen flex flex-col justify-center pt-24 md:pt-32 pb-24">
             <!-- Background Slider -->
-            <div class="absolute inset-0 z-0 bg-mutuk-navy overflow-hidden">
-                <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
-                <img src="https://i.pinimg.com/736x/2c/c1/b0/2cc1b04475c22d96513b5dcf0a7ab373.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
-                <img src="https://i.pinimg.com/736x/f3/5c/dd/f35cddf58a6d872c42832bce1893100d.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
-                
-                <div class="absolute inset-0 bg-mutuk-navy/70 mix-blend-multiply z-10"></div>
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-mutuk-navy/40 to-background z-10"></div>
-            </div>
+           <div class="absolute inset-0 z-0 bg-mutuk-navy overflow-hidden">
+    <!-- Images avec cadrage dynamique (object-cover + object-center) -->
+    <img src="https://i.pinimg.com/736x/07/ec/d9/07ecd9f929cd5910d28e4c9cf24eb86a.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-100">
+    <img src="https://i.pinimg.com/736x/2c/c1/b0/2cc1b04475c22d96513b5dcf0a7ab373.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0">
+    <img src="https://i.pinimg.com/736x/f3/5c/dd/f35cddf58a6d872c42832bce1893100d.jpg" class="hero-bg-slide absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 opacity-0">
+    
+    <!-- Superposition assombrie réduite (passée de 70% à 30-40% sans mix-blend agressif) pour maximiser la visibilité -->
+    <div class="absolute inset-0 bg-black/30 md:bg-black/20 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-background z-10"></div>
+</div>
 
             <div class="relative z-20 w-full px-4 md:px-8 max-w-[1200px] mx-auto flex flex-col h-full mt-auto">
                 <div class="text-white mb-10 text-center md:text-left pt-8 md:pt-0">
@@ -219,19 +221,30 @@
         </section>
 
         <!-- FLOTTE (A LA UNE) -->
-        <section id="flotte" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-gray-200 pb-6 gap-4">
-                <div>
-                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">VÉHICULES EN VEDETTE</span>
-                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Quelques choix populaires</h2>
-                </div>
-                <a href="catalogue.html" class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-xl text-sm md:text-base hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/25 flex items-center justify-center gap-2 w-full md:w-auto">
-                    Tout le catalogue <span class="material-symbols-outlined text-base">arrow_forward</span>
-                </a>
+<section id="flotte" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto overflow-hidden">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-gray-200 pb-6 gap-4">
+        <div>
+            <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">VÉHICULES EN VEDETTE</span>
+            <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Quelques choix populaires</h2>
+        </div>
+        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+            <!-- Boutons de contrôle du diaphragme -->
+            <div class="flex items-center gap-2">
+                <button onclick="scrollDiaphragm('left')" class="p-3 bg-white border border-gray-200 hover:border-mutuk-blue hover:text-mutuk-blue rounded-full shadow-sm transition flex items-center justify-center text-gray-700" title="Précédent">
+                    <span class="material-symbols-outlined text-xl">chevron_left</span>
+                </button>
+                <button onclick="scrollDiaphragm('right')" class="p-3 bg-white border border-gray-200 hover:border-mutuk-blue hover:text-mutuk-blue rounded-full shadow-sm transition flex items-center justify-center text-gray-700" title="Suivant">
+                    <span class="material-symbols-outlined text-xl">chevron_right</span>
+                </button>
             </div>
-            <div id="carousel-spinner" class="text-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-mutuk-blue mx-auto"></div></div>
-            <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory pb-4 md:pb-8"></div>
-        </section>
+            <a href="catalogue.html" class="bg-mutuk-blue text-white font-bold px-6 py-3 rounded-xl text-sm md:text-base hover:bg-mutuk-dark transition shadow-lg shadow-mutuk-blue/25 flex items-center justify-center gap-2">
+                Tout le catalogue <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+    <div id="carousel-spinner" class="text-center py-10"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-mutuk-blue mx-auto"></div></div>
+    <div id="carousel-grid" class="hidden flex overflow-x-auto hide-scrollbar gap-4 md:gap-6 snap-x snap-mandatory py-4 px-2 select-none touch-pan-x"></div>
+</section>
 
         <!-- NOS SERVICES -->
         <section id="services" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto scroll-mt-20">
@@ -288,87 +301,169 @@
             </div>
         </section>
 
-        <!-- FAQ ET TÉMOIGNAGES -->
-        <section id="faq-testimonials" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
-                
-                <!-- Colonne Gauche : Témoignages -->
+       <!-- FAQ ET TÉMOIGNAGES -->
+<section id="faq-testimonials" class="py-16 md:py-20 px-4 md:px-8 max-w-[1400px] mx-auto bg-white rounded-3xl shadow-sm border border-gray-100">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
+        
+        <!-- Colonne Gauche : Témoignages -->
+        <div class="flex flex-col">
+            <div class="flex justify-between items-end mb-8">
                 <div>
                     <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Ils nous font confiance</span>
-                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Avis Clients</h2>
-                    
-                    <div class="bg-background p-8 md:p-10 rounded-3xl relative overflow-hidden">
-                        <span class="material-symbols-outlined absolute top-4 right-6 text-8xl text-mutuk-blue opacity-10">format_quote</span>
-                        <div class="flex gap-1 mb-5 text-yellow-500">
-                            <span class="material-symbols-outlined filled text-xl">star</span>
-                            <span class="material-symbols-outlined filled text-xl">star</span>
-                            <span class="material-symbols-outlined filled text-xl">star</span>
-                            <span class="material-symbols-outlined filled text-xl">star</span>
-                            <span class="material-symbols-outlined filled text-xl">star</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Avis Clients</h2>
+                </div>
+                <!-- Indicateur de défilement (optionnel) -->
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest hidden sm:inline-block">Glisser &rarr;</span>
+            </div>
+            
+            <!-- Conteneur Carrousel Snap (2 par 2 sur mobile, scroll horizontal) -->
+            <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-none -mx-2 px-2">
+                
+                <!-- Témoignage 1 -->
+                <div class="min-w-[calc(50%-0.5rem)] sm:min-w-[280px] md:min-w-[320px] snap-start flex-1 bg-background p-5 md:p-6 rounded-3xl relative flex flex-col justify-between border border-gray-100">
+                    <div>
+                        <div class="flex gap-0.5 mb-3 text-yellow-500">
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
                         </div>
-                        <p class="text-lg md:text-xl text-gray-700 italic mb-8 relative z-10 font-medium leading-relaxed">
-                            “Service rapide, chauffeur professionnel et véhicule propre. Une excellente expérience pour nos déplacements professionnels à Kinshasa.”
+                        <p class="text-sm md:text-base text-gray-700 italic mb-6 font-medium leading-relaxed">
+                            “Chauffeur très ponctuel à l'aéroport de N'djili. Véhicule climatisé et propre, parfait pour nos réunions à Gombe.”
                         </p>
-                        <div class="flex items-center gap-4 border-t border-gray-200 pt-6">
-                            <div class="w-12 h-12 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-xl shadow-md">M</div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 text-lg">Marc D.</h4>
-                                <span class="text-sm font-bold text-gray-500">Client Entreprise</span>
-                            </div>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-gray-200/60 pt-4">
+                        <div class="w-10 h-10 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-base shadow-sm shrink-0">M</div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-gray-900 text-sm truncate">Marc D.</h4>
+                            <span class="text-xs text-gray-500 block truncate">Client Entreprise</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Colonne Droite : FAQ -->
-                <div>
-                    <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Informations utiles</span>
-                    <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Questions Fréquentes</h2>
-                    
-                    <div class="space-y-4">
-                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition" open>
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
-                                Comment réserver un véhicule ?
-                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
-                            </summary>
-                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
-                                Vous pouvez réserver directement sur ce site via le bouton "Réserver", ou nous contacter sur WhatsApp au 0997 708 115 pour une prise en charge immédiate.
-                            </p>
-                        </details>
-                        
-                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
-                                Le carburant est-il inclus ?
-                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
-                            </summary>
-                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
-                                Non, le carburant est à la charge du client. Le véhicule est fourni avec un niveau de carburant défini qui doit être restitué à l'identique.
-                            </p>
-                        </details>
-                        
-                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
-                                Puis-je louer pour plusieurs jours ?
-                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
-                            </summary>
-                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
-                                Absolument. Nous proposons des tarifs dégressifs et des forfaits pour la location longue durée adaptés aux particuliers et entreprises.
-                            </p>
-                        </details>
+                <!-- Témoignage 2 -->
+                <div class="min-w-[calc(50%-0.5rem)] sm:min-w-[280px] md:min-w-[320px] snap-start flex-1 bg-background p-5 md:p-6 rounded-3xl relative flex flex-col justify-between border border-gray-100">
+                    <div>
+                        <div class="flex gap-0.5 mb-3 text-yellow-500">
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-700 italic mb-6 font-medium leading-relaxed">
+                            “Réservation rapide via WhatsApp. Le Prado était en parfait état pour notre séjour en famille à Kinshasa.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-gray-200/60 pt-4">
+                        <div class="w-10 h-10 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-base shadow-sm shrink-0">S</div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-gray-900 text-sm truncate">Sarah K.</h4>
+                            <span class="text-xs text-gray-500 block truncate">Particulier</span>
+                        </div>
+                    </div>
+                </div>
 
-                        <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
-                            <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
-                                Proposez-vous des transferts aéroport ?
-                                <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
-                            </summary>
-                            <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
-                                Oui, nous disposons d'un service navette VIP spécifique pour vos arrivées et départs à l'aéroport de N'djili, avec un temps d'attente inclus.
-                            </p>
-                        </details>
+                <!-- Témoignage 3 -->
+                <div class="min-w-[calc(50%-0.5rem)] sm:min-w-[280px] md:min-w-[320px] snap-start flex-1 bg-background p-5 md:p-6 rounded-3xl relative flex flex-col justify-between border border-gray-100">
+                    <div>
+                        <div class="flex gap-0.5 mb-3 text-yellow-500">
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-700 italic mb-6 font-medium leading-relaxed">
+                            “Service réactif et flexible. Nous avons pu prolonger la location de 2 jours sans aucune difficulté.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-gray-200/60 pt-4">
+                        <div class="w-10 h-10 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-base shadow-sm shrink-0">J</div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-gray-900 text-sm truncate">Jean-Luc M.</h4>
+                            <span class="text-xs text-gray-500 block truncate">ONG / Humanitaire</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Témoignage 4 -->
+                <div class="min-w-[calc(50%-0.5rem)] sm:min-w-[280px] md:min-w-[320px] snap-start flex-1 bg-background p-5 md:p-6 rounded-3xl relative flex flex-col justify-between border border-gray-100">
+                    <div>
+                        <div class="flex gap-0.5 mb-3 text-yellow-500">
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                            <span class="material-symbols-outlined filled text-lg">star</span>
+                        </div>
+                        <p class="text-sm md:text-base text-gray-700 italic mb-6 font-medium leading-relaxed">
+                            “Rapport qualité-prix imbattable sur Kinshasa pour des véhicules 4x4 aussi bien entretenus. Je recommande.”
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-gray-200/60 pt-4">
+                        <div class="w-10 h-10 bg-mutuk-blue text-white rounded-full flex items-center justify-center font-bold text-base shadow-sm shrink-0">P</div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-gray-900 text-sm truncate">Patrick B.</h4>
+                            <span class="text-xs text-gray-500 block truncate">Consultant</span>
+                        </div>
                     </div>
                 </div>
 
             </div>
-        </section>
+        </div>
+
+        <!-- Colonne Droite : FAQ -->
+        <div>
+            <span class="text-mutuk-blue font-bold tracking-[0.2em] uppercase text-sm md:text-base mb-2 block">Informations utiles</span>
+            <h2 class="font-display text-3xl md:text-4xl font-extrabold text-gray-900 mb-8 tracking-tight">Questions Fréquentes</h2>
+            
+            <div class="space-y-4">
+                <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition" open>
+                    <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
+                        Comment réserver un véhicule ?
+                        <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                    </summary>
+                    <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                        Vous pouvez réserver directement sur ce site via le bouton "Réserver", ou nous contacter sur WhatsApp au 0997 708 115 pour une prise en charge immédiate.
+                    </p>
+                </details>
+                
+                <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                    <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
+                        Le carburant est-il inclus ?
+                        <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                    </summary>
+                    <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                        Non, le carburant est à la charge du client. Le véhicule est fourni avec un niveau de carburant défini qui doit être restitué à l'identique.
+                    </p>
+                </details>
+                
+                <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                    <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
+                        Puis-je louer pour plusieurs jours ?
+                        <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                    </summary>
+                    <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                        Absolument. Nous proposons des tarifs dégressifs et des forfaits pour la location longue durée adaptés aux particuliers et entreprises.
+                    </p>
+                </details>
+
+                <details name="faq" class="group bg-background rounded-2xl p-5 cursor-pointer border border-transparent hover:border-mutuk-blue/30 transition">
+                    <summary class="flex justify-between items-center font-bold text-gray-900 md:text-lg outline-none">
+                        Proposez-vous des transferts aéroport ?
+                        <span class="transition group-open:rotate-45 material-symbols-outlined text-mutuk-blue bg-white rounded-full p-1 shadow-sm">add</span>
+                    </summary>
+                    <p class="text-gray-600 text-sm md:text-base mt-4 leading-relaxed border-t border-gray-200 pt-4">
+                        Oui, nous disposons d'un service navette VIP spécifique pour vos arrivées et départs à l'aéroport de N'djili, avec un temps d'attente inclus.
+                    </p>
+                </details>
+            </div>
+        </div>
+
+    </div>
+</section>
 
         <!-- SECTION CONTACT / ADRESSE -->
         <section id="contact" class="py-16 md:py-24 px-4 md:px-8 max-w-[1400px] mx-auto">
