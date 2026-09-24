@@ -1,4 +1,3 @@
-// js/app.js
 
 // --- VARIABLES GLOBALES ---
 let carDatabase = [];
@@ -81,7 +80,7 @@ window.closeDetailsModal = function() {
 // Fonction pour envoyer l'email via FormSubmit
 window.sendBookingToEmail = async function(data, subject) {
     try {
-        await fetch("https://formsubmit.co/ajax/Contact@mutukrentals.com", {
+        await fetch("https://formsubmit.co/ajax/calebmupenda30@gmail.com", {
             method: "POST",
             headers: { 
                 'Content-Type': 'application/json',
