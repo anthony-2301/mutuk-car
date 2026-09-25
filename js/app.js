@@ -80,7 +80,7 @@ window.closeDetailsModal = function() {
 // Fonction pour envoyer l'email via FormSubmit
 window.sendBookingToEmail = async function(data, subject) {
     try {
-        await fetch("https://formsubmit.co/ajax/calebmupenda30@gmail.com", {
+        await fetch("https://formsubmit.co/ajax/contact@mutukrentals.com", {
             method: "POST",
             headers: { 
                 'Content-Type': 'application/json',
@@ -96,40 +96,6 @@ window.sendBookingToEmail = async function(data, subject) {
     }
 };
 
-// Fonction utilitaire pour jouer la sonnerie d'appel
-function playRingtone() {
-    const ringtone = document.getElementById('ringtone');
-    if (ringtone) {
-        ringtone.loop = true; // Répète le son comme un vrai appel
-        ringtone.play().catch(err => console.log("Lecture audio bloquée par le navigateur :", err));
-    }
-}
-
-// Exemple pour la réservation classique (à adapter dans handleBookingFormSubmit et handleAirportBooking)
-window.handleBookingFormSubmit = async function(e) {
-    e.preventDefault();
-    try {
-        const carName = document.getElementById('booking-car-name').value;
-        const clientName = document.getElementById('booking-client-name').value;
-        // ... (récupération des autres champs)
-
-        // 🔊 Déclenchement immédiat du son "façon appel"
-        playRingtone();
-
-        // 1. Envoi par e-mail via FormSubmit
-        await sendBookingToEmail({
-            Vehicule: carName, Nom: clientName, /* ... */
-        }, `Réservation Express - ${carName}`);
-
-        // 2. Message WhatsApp
-        const message = `RÉSERVATION EXPRESS\n\n[Véhicule] ${carName}...`;
-        sendWhatsAppMessage(message);
-        window.closeBookingModal();
-
-    } catch (err) { 
-        alert("Erreur lors de la réservation."); 
-    }
-};
 
 // --- MODAL DÉTAILS COMMUN ---
 window.openCarDetailsModal = function(index) {
